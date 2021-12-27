@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Windows.Automation;
     using Catel;
 
     
@@ -41,12 +42,12 @@
             PrepareSearch<T>(by);
 
             var result = by.One();
-            if (result is null)
+            if (result is not null)
             {
-                return default;
+                return (T)AutomationHelper.WrapAutomationObject(typeof(T), result);
             }
 
-            return (T) AutomationHelper.WrapAutomationObject(typeof(T), result);
+            return default;
         }
 
         public static List<T> Many<T>(this By by)

@@ -30,12 +30,13 @@
         {
         }
 
-        public bool AddAutomationMethod(Type automationMethodType)
+        public bool AddAutomationMethod<TMethodType>()
+            where TMethodType : IAutomationMethodRun
         {
-            return (bool) Access.Execute(nameof(RunMethodAutomationPeerBase.AddAutomationMethod), automationMethodType);
+            return (bool) Access.Execute(nameof(RunMethodAutomationPeerBase.AddAutomationMethod), typeof(TMethodType));
         }
 
-        public object ExecuteAutomationMethod(string methodName, params object[] parameters)
+        public object Execute(string methodName, params object[] parameters)
         {
             return Access.Execute(methodName, parameters);
         }

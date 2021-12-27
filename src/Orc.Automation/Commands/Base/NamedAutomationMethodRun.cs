@@ -4,7 +4,7 @@
 
     public abstract class NamedAutomationMethodRun : IAutomationMethodRun
     {
-        public abstract string Name { get; }
+        public virtual string Name => GetType().Name;
 
         public virtual bool IsMatch(FrameworkElement owner, AutomationMethod method)
         {

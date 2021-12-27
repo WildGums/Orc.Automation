@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Reflection;
     using System.Windows;
     using Catel;
 
@@ -19,7 +20,7 @@
 
         public override string Name { get; }
 
-        public override bool TryInvoke(FrameworkElement owner, AutomationMethod automationMethod, out AutomationValue result)
+        public override bool TryInvoke(FrameworkElement target, AutomationMethod automationMethod, out AutomationValue result)
         {
             var type = _peer.GetType();
 
@@ -36,11 +37,27 @@
                     .ToArray() 
                 ?? Array.Empty<object>();
 
+            var targetParameter = method.GetParameters().FirstOrDefault(x => x.GetCustomAttribute(typeof(TargetAttribute)) is not null);
+            if (targetParameter is not null)
+            {
+                automationInputParameters = AttachTargetToParameters(target, automationMethod, automationInputParameters);
+            }
+
             var methodResult = method.Invoke(_peer, automationInputParameters);
 
             result = AutomationValue.FromValue(methodResult);
 
             return true;
+        }
+
+        private static object[] AttachTargetToParameters(FrameworkElement target, AutomationMethod automationMethod, object[] automationInputParameters)
+        {
+            var tempParameters = automationInputParameters.ToList();
+
+            tempParameters.Insert(0, target);
+
+            automationInputParameters = tempParameters.ToArray();
+            return automationInputParameters;
         }
     }
 }

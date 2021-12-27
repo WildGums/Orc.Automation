@@ -5,7 +5,7 @@
     using System.Reflection;
     using System.Windows.Automation;
 
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public class TargetAttribute : AutomationAttribute
     {
         public static object GetTarget(object source)

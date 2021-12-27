@@ -38,6 +38,8 @@
         [NonSerialized]
         public static readonly AutomationMethod Empty = new ();
 
+        public string Handle { get; set; }
+
         public static AutomationMethod FromStr(string methodText)
         {
             if (string.IsNullOrWhiteSpace(methodText))

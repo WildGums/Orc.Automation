@@ -1,5 +1,7 @@
 ﻿namespace Orc.Automation.Tests.StyleAsserters
 {
+    using System.Windows.Automation;
+    using System.Windows.Controls;
     using System.Windows.Media;
     using Controls;
     using NUnit.Framework;

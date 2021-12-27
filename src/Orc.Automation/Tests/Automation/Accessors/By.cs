@@ -16,6 +16,8 @@
 
         private int? _tabIndex;
 
+        public AutomationElement Element => _element;
+
         public By(AutomationElement element, Tab tab)
             : this(element)
         {
@@ -72,7 +74,7 @@
 
             return this;
         }
-        
+
         public virtual AutomationElement One()
         {
             if (_tabIndex is not null && _tab is not null)

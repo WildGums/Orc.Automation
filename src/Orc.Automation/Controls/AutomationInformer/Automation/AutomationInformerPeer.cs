@@ -1,9 +1,5 @@
 ﻿namespace Orc.Automation
 {
-    using System.Windows;
-    using System.Windows.Automation;
-    using Catel.Windows;
-
     public class AutomationInformerPeer : ControlRunMethodAutomationPeerBase<AutomationInformer>
     {
         public AutomationInformerPeer(AutomationInformer owner)
@@ -11,33 +7,21 @@
         {
         }
 
-        [AutomationMethod]
-        public object GetTargetPropertyValue(string propertyName, string targetId)
-        {
-            var targetControl = Control.FindVisualDescendant(x => Equals((x as FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
-            if (targetControl is null)
-            {
-                return AutomationValue.NotSetValue;
-            }
+        //[AutomationMethod]
+        //public void SetAutomationId(string parentId, string partName, string id)
+        //{
+        //    MessageBox.Show($"{parentId}---{partName}---{id}");
 
-            if (DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(targetControl, propertyName, out var propertyValue))
-            {
-                return propertyValue;
-            }
+        //    var targetControl = Control.FindVisualDescendant(x => Equals((x as FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), parentId));
 
-            return AutomationValue.NotSetValue;
-        }
+        //    MessageBox.Show($"targetControl = {targetControl}");
 
-        [AutomationMethod]
-        public void SetTargetPropertyValue(string propertyName, string targetId, object value)
-        {
-            var targetControl = Control.FindVisualDescendant(x => Equals((x as FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
-            if (targetControl is null)
-            {
-                return;
-            }
+        //    var part = targetControl.GetChildren().FirstOrDefault(); //targetControl?.FindVisualDescendantByType<Border>();
+        //    MessageBox.Show($"part = {part}");
 
-            DependencyPropertyAutomationHelper.SetDependencyPropertyValue(targetControl, propertyName, value);
-        }
+        //    part?.SetCurrentValue(AutomationProperties.AutomationIdProperty, id);
+        //    part?.SetCurrentValue(AutomationProperties.NameProperty, id);
+        //    MessageBox.Show($"{part?.GetValue(AutomationProperties.AutomationIdProperty) ?? "null"}");
+        //}
     }
 }

@@ -1,13 +1,24 @@
 ﻿namespace Orc.Automation
 {
     using System.Linq;
+    using System.Windows;
+    using System.Windows.Automation;
     using Catel;
     using Catel.IoC;
-    using Controls;
+    using Catel.Windows;
     using Microsoft.Xaml.Behaviors;
+    using FrameworkElement = Controls.FrameworkElement;
 
     public static class FrameworkElementExtensions
     {
+        public static DependencyObject FindVisualDescendantWithAutomationId(this System.Windows.FrameworkElement frameworkElement, string targetId)
+        {
+            Argument.IsNotNull(() => frameworkElement);
+
+            return frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
+        }
+
+
         public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
             where TBehavior : Behavior
         {

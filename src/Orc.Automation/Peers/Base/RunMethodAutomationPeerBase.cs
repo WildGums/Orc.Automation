@@ -47,17 +47,24 @@
                 .Select(x => (IAutomationMethodRun) new ReflectionAutomationMethodRun(this, x.Name))
                 .ToList();
 
-            calls.Add(new GetDependencyPropertyMethodRun());
-            calls.Add(new SetDependencyPropertyMethodRun());
             calls.Add(new AttachBehaviorMethodRun());
 
             return calls;
         }
 
+
         [AutomationMethod]
-        public string AddSomething(string a)
+        public object GetPropertyValue([Target] FrameworkElement target, string propertyName)
         {
-            return "some" + a;
+            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(target, propertyName, out var propertyValue) 
+                ? propertyValue
+                : AutomationValue.NotSetValue;
+        }
+
+        [AutomationMethod]
+        public void SetPropertyValue([Target] FrameworkElement target, string propertyName, object value)
+        {
+            DependencyPropertyAutomationHelper.SetDependencyPropertyValue(target, propertyName, value);
         }
 
         [AutomationMethod]
@@ -142,7 +149,9 @@
                 return;
             }
 
-            var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(_owner, method));
+            var currentTarget = string.IsNullOrWhiteSpace(method.Handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(method.Handle) as FrameworkElement;
+
+            var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(currentTarget, method));
             if (methodRun is null)
             {
                 _result.LastInvokedMethodResult = null;
@@ -150,7 +159,7 @@
                 return;
             }
 
-            if (!methodRun.TryInvoke(_owner, method, out var methodResult))
+            if (!methodRun.TryInvoke(currentTarget, method, out var methodResult))
             {
                 _result.LastInvokedMethodResult = null;
 

@@ -32,7 +32,6 @@
             }
 
             _invokePattern = _accessElement?.TryGetPattern<InvokePattern>();
-
             if (_invokePattern is not null && _valuePattern is not null)
             {
                 System.Windows.Automation.Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, _accessElement, TreeScope.Element, OnEventInvoke);
@@ -70,14 +69,7 @@
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
 
-            if (!Equals(_accessElement, _element))
-            {
-                var id = _element.Current.AutomationId;
-
-                return Execute(nameof(AutomationInformerPeer.GetTargetPropertyValue), propertyName, id);
-            }
-
-            var result = Execute(GetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), null, 20);
+            var result = Execute(nameof(RunMethodAutomationPeerBase.GetPropertyValue), propertyName);
             return result;
         }
 
@@ -86,17 +78,7 @@
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
 
-            if (!Equals(_accessElement, _element))
-            {
-                var id = _element.Current.AutomationId;
-
-                Execute(nameof(AutomationInformerPeer.SetTargetPropertyValue), propertyName, id, value);
-
-                return;
-            }
-
-            var automationValues = AutomationValueList.Create(value);
-            var result = Execute(SetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), automationValues, 20);
+            var result = Execute(nameof(RunMethodAutomationPeerBase.SetPropertyValue), propertyName, value);
         }
 
         public object TryFindResource(string resourceKey)
@@ -133,7 +115,17 @@
         {
             EnsureAccessElement();
 
-            var methodStr = method?.ToString();
+            if (method is null)
+            {
+                return null;
+            }
+
+            if (!Equals(_accessElement, _element))
+            {
+                method.Handle = _element.Current.AutomationId;
+            }
+
+            var methodStr = method.ToString();
             if (string.IsNullOrWhiteSpace(methodStr))
             {
                 return null;
