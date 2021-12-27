@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Windows;
@@ -11,7 +10,6 @@
     using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using Catel.Logging;
-    using Theming;
 
     [TemplatePart(Name = "PART_HostGrid", Type = typeof(Grid))]
     public class TestHost : Control
@@ -69,16 +67,7 @@
 
                 return false;
             }
-
-            try
-            {
-                StyleHelper.CreateStyleForwardersForDefaultStyles();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
+            
             return true;
         }
 

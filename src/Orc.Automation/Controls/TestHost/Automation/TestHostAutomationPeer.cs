@@ -1,5 +1,10 @@
 ﻿namespace Orc.Automation
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using Catel.Reflection;
+
     public class TestHostAutomationPeer : RunMethodAutomationPeerBase
     {
         private readonly TestHost _testHost;
@@ -40,6 +45,27 @@
         public object GetResource(string name)
         {
             return _testHost.TryFindResource(name);
+        }
+
+        [AutomationMethod]
+        public object RunMethod(Type type, string methodName)
+        {
+            var method = type.GetMethods().FirstOrDefault(x => x.Name == methodName);
+            if (method is null)
+            {
+                return $"There is no such method with name '{methodName}' in type '{type.FullName}'";
+            }
+
+            try
+            {
+                method.Invoke(null, new object[]{"Default"});
+            }
+            catch (Exception ex)
+            {
+                return $"Fail {ex.Message}";
+            }
+
+            return "Success";
         }
     }
 }

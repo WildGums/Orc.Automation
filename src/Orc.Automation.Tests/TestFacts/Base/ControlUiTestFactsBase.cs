@@ -9,7 +9,7 @@
     public abstract class ControlUiTestFactsBase<TControl> : UiTestFactsBase
         where TControl : System.Windows.FrameworkElement
     {
-        protected override string ExecutablePath => @"C:\Source\Orc.Controls\output\Debug\Orc.Automation.Host\net6.0-windows\Orc.Automation.Host.exe";
+        protected override string ExecutablePath => @"C:\Source\Orc.Automation\output\Debug\Orc.Automation.Host\net6.0-windows\Orc.Automation.Host.exe";
         protected override string MainWindowAutomationId => "AutomationHost";
 
         [SetUp]
@@ -42,7 +42,9 @@
 
         protected virtual bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
         {
-            return testHost.TryLoadControl(typeof(TControl), out testedControlAutomationId);
+            var controlType = typeof(TControl);
+
+            return testHost.TryLoadControl(controlType, out testedControlAutomationId,  $"pack://application:,,,/{controlType.Assembly.GetName().Name};component/Themes/Generic.xaml");
         }
 
         protected virtual void BeforeLoadingControl(TestHostAutomationControl testHost)

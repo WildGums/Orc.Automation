@@ -19,7 +19,7 @@
 
             var dataSourceXml = XmlSerializerHelper.SerializeValue(value);
 
-            return new AutomationValue(valueType ?? value.GetType())
+            return new AutomationValue(valueType ??  value.GetType())
             {
                 Data = dataSourceXml
             };

@@ -18,10 +18,10 @@
             var value = method.Parameters[0].ExtractValue() as Type;
 
             //TODO:Vladimir: just create non generic method in orc.theming
-            var methodInfo = typeof(Orc.Theming.FrameworkElementExtensions).GetMethod("AttachBehavior");
+            var methodInfo = typeof(FrameworkElementExtensions).GetMethod("AttachBehavior");
 
             var genericMethod = methodInfo.MakeGenericMethod(value);
-            genericMethod.Invoke(null, new []{ owner }); // No target, no arguments
+            genericMethod.Invoke(null, new[] { owner }); // No target, no arguments
 
             result = null;
 

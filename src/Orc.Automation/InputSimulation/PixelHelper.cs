@@ -1,9 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Drawing;
     using System.Runtime.InteropServices;
-    using ControlzEx.Standard;
     using Color = System.Windows.Media.Color;
 
     public class PixelHelper

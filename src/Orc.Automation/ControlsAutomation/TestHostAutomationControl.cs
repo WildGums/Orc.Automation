@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation.Controls
 {
     using System;
-    using System.Linq;
     using System.Windows.Automation;
 
     public class TestHostAutomationControl : AutomationControl
@@ -11,28 +10,11 @@
         {
         }
 
-        public string TryLoadControl(string fullName, string assemblyLocation, params string[] resources)
+        public object RunMethod(Type type, string methodName, params object[] parameters)
         {
-            if (!TryLoadAssembly(assemblyLocation))
-            {
-                return $"Error! Can't load control assembly from: {assemblyLocation}";
-            }
+            TryLoadAssembly(type.Assembly.Location);
 
-            foreach (var resource in resources ?? Enumerable.Empty<string>())
-            {
-                if (!Access.Execute<bool>(nameof(TestHostAutomationPeer.LoadResources), resource))
-                {
-                    return $"Error! Can't load control resource: {resource}";
-                }
-            }
-
-            var testedControlAutomationId = Access.Execute<string>(nameof(TestHostAutomationPeer.PutControl), fullName);
-            if (string.IsNullOrWhiteSpace(testedControlAutomationId) || testedControlAutomationId.StartsWith("Error"))
-            {
-                return $"Error! Can't put control inside test host control: {fullName}";
-            }
-
-            return testedControlAutomationId;
+            return Access.Execute<string>(nameof(TestHostAutomationPeer.RunMethod), type, methodName);
         }
 
         public string PutControl(string controlFullName)
@@ -40,9 +22,9 @@
             return Access.Execute<string>(nameof(TestHostAutomationPeer.PutControl), controlFullName);
         }
 
-        public bool TryLoadResources(string assemblyLocation)
+        public bool TryLoadResources(string resourceName)
         {
-            return Access.Execute<bool>(nameof(TestHostAutomationPeer.LoadResources), assemblyLocation);
+            return Access.Execute<bool>(nameof(TestHostAutomationPeer.LoadResources), resourceName);
         }
 
         public bool TryLoadAssembly(string assemblyLocation)

@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Windows.Automation;
     using Catel;
 
@@ -27,6 +28,16 @@
 
         protected virtual void OnEvent(object sender, AutomationEventArgs args)
         {
+        }
+
+        public bool AddAutomationMethod(Type automationMethodType)
+        {
+            return (bool) Access.Execute(nameof(RunMethodAutomationPeerBase.AddAutomationMethod), automationMethodType);
+        }
+
+        public object ExecuteAutomationMethod(string methodName, params object[] parameters)
+        {
+            return Access.Execute(methodName, parameters);
         }
     }
 }

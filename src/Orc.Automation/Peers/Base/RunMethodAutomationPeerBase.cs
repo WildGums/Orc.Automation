@@ -7,6 +7,7 @@
     using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
     using Catel;
+    using Catel.IoC;
     using Catel.Reflection;
 
     public abstract class RunMethodAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
@@ -51,6 +52,29 @@
             calls.Add(new AttachBehaviorMethodRun());
 
             return calls;
+        }
+
+        [AutomationMethod]
+        public string AddSomething(string a)
+        {
+            return "some" + a;
+        }
+
+        [AutomationMethod]
+        public bool AddAutomationMethod(Type automationMethodType)
+        {
+            if (_automationMethods.Any(x => x.GetType() == automationMethodType))
+            {
+                return false;
+            }
+
+            if (this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(automationMethodType) is not IAutomationMethodRun automationMethod)
+            {
+                return false;
+            }
+
+            _automationMethods.Add(automationMethod);
+            return true;
         }
 
         protected override string GetClassNameCore()
