@@ -1,10 +1,34 @@
 ﻿namespace Orc.Automation.Tests.StyleAsserters
 {
+    using System.Linq;
     using System.Windows.Automation;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using Catel.Windows;
     using Controls;
     using NUnit.Framework;
+
+    public class ChromeFinder : IPartFinder
+    {
+        public static readonly ChromeFinder Instance = new();
+
+        public System.Windows.FrameworkElement Find(System.Windows.FrameworkElement element)
+        {
+            return element.GetChildren().FirstOrDefault() as Border;
+        }
+    }
+
+    public class ButtonThemeMap : AutomationControl
+    {
+        public ButtonThemeMap(AutomationElement element)
+            : base(element)
+        {
+
+        }
+
+        public FrameworkElement Chrome => Part<FrameworkElement>(ChromeFinder.Instance);
+    }
+
 
     public class ThemeAssert
     {
@@ -29,9 +53,10 @@
             var rect = element.Element.Current.BoundingRectangle;
             MouseInput.MoveTo(rect.GetClickablePoint());
 
-            var mouseOverBackgroundColor = element.Background.Color;
+            var selectionButtonMap = element.Map<ButtonThemeMap>();
+            var chrome = selectionButtonMap.Chrome;
 
-            Assert.That(mouseOverBackgroundColor, Is.EqualTo(controlDefaultMouseOverBrush?.Color));
+            Assert.That(chrome.Background.Color, Is.EqualTo(controlDefaultMouseOverBrush?.Color));
         }
 
         public static void Background(FrameworkElement element)

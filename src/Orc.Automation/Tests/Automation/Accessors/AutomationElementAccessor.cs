@@ -7,6 +7,8 @@
 
     public class AutomationElementAccessor
     {
+        private readonly IPartFinder _finder;
+
         private AutomationElement _accessElement;
         private AutomationElement _element;
         private InvokePattern _invokePattern;
@@ -17,6 +19,19 @@
             Argument.IsNotNull(() => element);
 
             InitializeAccessElement(element);
+        }
+
+        private AutomationElementAccessor(AutomationElement element, IPartFinder partFinder)
+            : this(element)
+        {
+            _finder = partFinder;
+        }
+
+        public AutomationElementAccessor Part(IPartFinder partFinder)
+        {
+            Argument.IsNotNull(() => partFinder);
+
+            return new AutomationElementAccessor(_element, partFinder);
         }
 
         private void InitializeAccessElement(AutomationElement element)
@@ -124,6 +139,8 @@
             {
                 method.Handle = _element.Current.AutomationId;
             }
+
+            method.Finder = _finder;
 
             var methodStr = method.ToString();
             if (string.IsNullOrWhiteSpace(methodStr))

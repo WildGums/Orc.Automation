@@ -39,6 +39,7 @@
         public static readonly AutomationMethod Empty = new ();
 
         public string Handle { get; set; }
+        public IPartFinder Finder { get; set; }
 
         public static AutomationMethod FromStr(string methodText)
         {

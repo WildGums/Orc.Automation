@@ -149,7 +149,14 @@
                 return;
             }
 
-            var currentTarget = string.IsNullOrWhiteSpace(method.Handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(method.Handle) as FrameworkElement;
+            var handle = method.Handle;
+            var currentTarget = string.IsNullOrWhiteSpace(handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
+
+            var finder = method.Finder;
+            if (finder is not null)
+            {
+                currentTarget = finder.Find(currentTarget);
+            }
 
             var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(currentTarget, method));
             if (methodRun is null)
