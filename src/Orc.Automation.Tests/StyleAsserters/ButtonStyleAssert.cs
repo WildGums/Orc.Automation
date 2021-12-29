@@ -26,6 +26,12 @@
 
     public class FrameworkElementAssert : ThemeAssert
     {
+        public virtual void Theme(FrameworkElement element)
+        {
+            BorderColor(element);
+            Background(element);
+        }
+
         public static void BorderColor(FrameworkElement element)
         {
             var controlDefaultBorderBrush = element.TryFindResource(ControlDefaultBorderBrushResourceName) as SolidColorBrush;
@@ -41,9 +47,23 @@
         }
     }
 
-    public class ButtonThemeAssert : FrameworkElementAssert
+    public class FrameworkElementAssert<TAssert, TElement> : FrameworkElementAssert
+        where TAssert : FrameworkElementAssert, new()
+        where TElement : FrameworkElement
     {
-        public static void MouseOverBackground(FrameworkElement element)
+        public static void VerifyTheme(TElement element) => new TAssert().Theme(element);
+    }
+
+    public class ButtonThemeAssert : FrameworkElementAssert<ButtonThemeAssert, Button>
+    {
+        public override void Theme(FrameworkElement element)
+        {
+            base.Theme(element);
+
+            MouseOverBackground(element);
+        }
+
+        private static void MouseOverBackground(FrameworkElement element)
         {
             var controlDefaultMouseOverBrush = element.TryFindResource(ControlDefaultMouseOverBrushResourceName) as SolidColorBrush;
             

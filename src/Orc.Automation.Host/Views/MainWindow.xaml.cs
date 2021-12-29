@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Windows;
+    using System.Xml.Linq;
 
     public partial class MainWindow
     {
@@ -70,11 +71,20 @@
 
        //     testHostPeer.RunMethod(styleHelper, "CreateStyleForwardersForDefaultStyles");
 
-            testHostPeer.SetValue(File.ReadAllText("C:\\Temp\\TestMus.txt"));
+            var document = XDocument.Load(@"C:\Temps\AutomationSendData.txt");
 
-            testHostPeer.Invoke();
+            var elements = document.Root?.Elements().Where(x => x.Name == "AutomationMethod").ToList();
 
-            var value = testHostPeer.Value;
+            foreach (var element in elements ?? Enumerable.Empty<XElement>())
+            {
+                var elementStr = element.ToString();
+
+                testHostPeer.SetValue(elementStr);
+                testHostPeer.Invoke();
+                var value = testHostPeer.Value;
+            }
+
+
 
             //Do some temporary test stuff here
         }

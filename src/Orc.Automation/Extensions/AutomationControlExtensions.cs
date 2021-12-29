@@ -1,13 +1,16 @@
 ﻿namespace Orc.Automation
 {
-    using System;
     using System.Windows.Automation;
     using System.Windows.Input;
     using Catel;
-    using Catel.IoC;
 
     public static class AutomationControlExtensions
     {
+        public static void MouseHover(this AutomationControl control)
+        {
+            control.Element.MouseHover();
+        }
+
         public static void MouseClick(this AutomationControl control, MouseButton mouseButton = MouseButton.Left)
         {
             control.Element.MouseClick(mouseButton);

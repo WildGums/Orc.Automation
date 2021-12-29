@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.IO;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
@@ -148,6 +149,9 @@
             method.Finder = _finder;
 
             var methodStr = method.ToString();
+
+            OutPutSend.Write(methodStr);
+
             if (string.IsNullOrWhiteSpace(methodStr))
             {
                 return null;
@@ -175,5 +179,20 @@
         }
 
         public event EventHandler<AutomationEventArgs> AutomationEvent;
+    }
+
+    public static class OutPutSend
+    {
+        private const string SendDataFilePath = "C:\\Temps\\AutomationSendData.txt";
+        
+        static OutPutSend()
+        {
+            File.Delete(SendDataFilePath);
+        }
+
+        public static void Write(string query)
+        {
+            File.AppendAllText(SendDataFilePath, query);
+        }
     }
 }
