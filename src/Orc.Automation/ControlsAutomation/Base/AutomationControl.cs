@@ -4,6 +4,9 @@
     using System.Windows.Automation;
     using Catel;
     using Catel.IoC;
+    using Catel.Windows.Interactivity;
+    using Controls;
+
 
     public class AutomationControl : AutomationBase
     {
@@ -30,10 +33,28 @@
             Access.AutomationEvent += OnEvent;
         }
 
-        protected virtual T Part<T>(IPartFinder finder)
+        #region Automation Properties
+        public AutomationElement.AutomationElementInformation AutomationProperties => Element.Current;
+        #endregion
+
+
+
+        public void AttachBehavior<TBehavior>()
+            where TBehavior : IBehavior
+        {
+            Access.AttachBehavior(typeof(TBehavior));
+        }
+
+        public bool IsEnabled => AutomationProperties.IsEnabled;
+        public void SetFocus()
+        {
+            Element?.SetFocus();
+        }
+
+        public T Part<T>(IPartFinder finder)
             where T : AutomationControl
         {
-            var control = this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<T>(Element);
+            var control = Factory.Create<T>(Element);
             if (control is null)
             {
                 return default;
@@ -41,7 +62,14 @@
 
             control.Access = Access.Part(finder);
 
+            Wait.UntilResponsive();
+
             return control;
+        }
+
+        public object TryFindResource(string resourceKey)
+        {
+            return Access.Execute(nameof(TryFindResource), resourceKey);
         }
 
         protected AutomationElementAccessor Access { get; private set; }

@@ -85,6 +85,15 @@
             return _element.Find(_searchContext);
         }
 
+        public T Part<T>()
+            where T : AutomationControl
+        {
+            var finder = SearchContextFinder.Create(_searchContext);
+            var tempFrameworkElement = new FrameworkElement(_element);
+
+            return tempFrameworkElement.Part<T>(finder);
+        }
+
         public virtual IList<AutomationElement> Many()
         {
             if (_tabIndex is not null && _tab is not null)

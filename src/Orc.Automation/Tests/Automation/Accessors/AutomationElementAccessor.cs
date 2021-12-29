@@ -14,6 +14,11 @@
         private InvokePattern _invokePattern;
         private ValuePattern _valuePattern;
 
+        public static AutomationElementAccessor PartAccessor(AutomationElement element, IPartFinder partFinder)
+        {
+            return new AutomationElementAccessor(element, partFinder);
+        }
+
         public AutomationElementAccessor(AutomationElement element)
         {
             Argument.IsNotNull(() => element);

@@ -4,8 +4,7 @@
     using System.Reflection;
     using System.Windows.Automation;
     using Catel;
-
-    
+    using Catel.IoC;
 
     public static class ByExtensions
     {
@@ -36,6 +35,7 @@
         }
 
         public static T One<T>(this By by)
+            where T : AutomationControl
         {
             Argument.IsNotNull(() => by);
 
@@ -47,7 +47,7 @@
                 return (T)AutomationHelper.WrapAutomationObject(typeof(T), result);
             }
 
-            return default;
+            return by.Part<T>();
         }
 
         public static List<T> Many<T>(this By by)

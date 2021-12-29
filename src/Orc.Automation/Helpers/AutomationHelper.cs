@@ -79,6 +79,11 @@
         {
             Argument.IsNotNull(() => value);
 
+            if (value.GetType() == type)
+            {
+                return value;
+            }
+
             var typeFactory = value.GetTypeFactory();
 
             if (typeof(AutomationBase).IsAssignableFrom(type))

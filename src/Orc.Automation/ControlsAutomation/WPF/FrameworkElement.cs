@@ -16,18 +16,6 @@
         {
         }
 
-        #region Automation Properties
-        public AutomationElement.AutomationElementInformation AutomationProperties => Element.Current;
-        #endregion
-
-        public void AttachBehavior<TBehavior>()
-            where TBehavior : IBehavior
-        {
-            Access.AttachBehavior(typeof(TBehavior));
-        }
-
-        public bool IsEnabled => AutomationProperties.IsEnabled;
-
         public SolidColorBrush Background
         {
             get => Access.GetValue<SolidColorBrush>();
@@ -40,11 +28,11 @@
             set => Access.SetValue(value);
         }
 
-        public SolidColorBrush Foreground
-        {
-            get => Access.GetValue<SolidColorBrush>();
-            set => Access.SetValue(value);
-        }
+        //public SolidColorBrush Foreground
+        //{
+        //    get => Access.GetValue<SolidColorBrush>();
+        //    set => Access.SetValue(value);
+        //}
 
         public double ActualWidth
         {
@@ -62,14 +50,6 @@
             set => Access.SetValue(value);
         }
 
-        public void SetFocus()
-        {
-            Element?.SetFocus();
-        }
 
-        public object TryFindResource(string resourceKey)
-        {
-            return Access.Execute(nameof(TryFindResource), resourceKey);
-        }
     }
 }

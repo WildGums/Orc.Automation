@@ -2,33 +2,20 @@
 {
     using System.Linq;
     using System.Windows.Automation;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using Catel.Windows;
     using Controls;
     using NUnit.Framework;
 
-    public class ChromeFinder : IPartFinder
+    public class ButtonThemeMap : AutomationBase
     {
-        public static readonly ChromeFinder Instance = new();
-
-        public System.Windows.FrameworkElement Find(System.Windows.FrameworkElement element)
+        public ButtonThemeMap(AutomationElement button)
+            : base(button)
         {
-            return element.GetChildren().FirstOrDefault() as Border;
-        }
-    }
-
-    public class ButtonThemeMap : AutomationControl
-    {
-        public ButtonThemeMap(AutomationElement element)
-            : base(element)
-        {
-
         }
 
-        public FrameworkElement Chrome => Part<FrameworkElement>(ChromeFinder.Instance);
+        public FrameworkElement Chrome => By.Name().Part<Border>();
     }
-
 
     public class ThemeAssert
     {
@@ -46,19 +33,6 @@
             Assert.That(element.BorderBrush.Color, Is.EqualTo(controlDefaultBorderBrush?.Color));
         }
 
-        public static void MouseOverBackground(FrameworkElement element)
-        {
-            var controlDefaultMouseOverBrush = element.TryFindResource(ControlDefaultMouseOverBrushResourceName) as SolidColorBrush;
-
-            var rect = element.Element.Current.BoundingRectangle;
-            MouseInput.MoveTo(rect.GetClickablePoint());
-
-            var selectionButtonMap = element.Map<ButtonThemeMap>();
-            var chrome = selectionButtonMap.Chrome;
-
-            Assert.That(chrome.Background.Color, Is.EqualTo(controlDefaultMouseOverBrush?.Color));
-        }
-
         public static void Background(FrameworkElement element)
         {
             var controlDefaultBackground = element.TryFindResource(ControlDefaultBackgroundBrushResourceName) as SolidColorBrush;
@@ -69,6 +43,17 @@
 
     public class ButtonThemeAssert : FrameworkElementAssert
     {
+        public static void MouseOverBackground(FrameworkElement element)
+        {
+            var controlDefaultMouseOverBrush = element.TryFindResource(ControlDefaultMouseOverBrushResourceName) as SolidColorBrush;
+            
+            element.MouseHover();
 
+            var selectionButtonMap = element.Map<ButtonThemeMap>();
+
+            var chrome = selectionButtonMap.Chrome;
+
+            Assert.That(chrome.Background.Color, Is.EqualTo(controlDefaultMouseOverBrush?.Color));
+        }
     }
 }
