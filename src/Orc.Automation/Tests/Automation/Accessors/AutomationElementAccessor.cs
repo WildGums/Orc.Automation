@@ -1,7 +1,9 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.Serialization;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
@@ -150,7 +152,7 @@
 
             var methodStr = method.ToString();
 
-            OutPutSend.Write(methodStr);
+            AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
             {
@@ -181,18 +183,27 @@
         public event EventHandler<AutomationEventArgs> AutomationEvent;
     }
 
-    public static class OutPutSend
+    [KnownType(typeof(SearchContextFinder))]
+    public class AML
     {
-        private const string SendDataFilePath = "C:\\Temps\\AutomationSendData.txt";
-        
-        static OutPutSend()
+        public List<AutomationMethod> Methods { get; set; } = new();
+    }
+
+    public static class AutomationMethodsList
+    {
+        public static AML Instance { get; private set; } = new();
+
+        public static void Save()
         {
-            File.Delete(SendDataFilePath);
+            var automationMethodsXml = XmlSerializerHelper.SerializeValue(Instance);
+            File.WriteAllText("C:\\Temps\\AMs.xml", automationMethodsXml);
         }
 
-        public static void Write(string query)
+        public static void Load()
         {
-            File.AppendAllText(SendDataFilePath, query);
+            var automationMethodsXml = File.ReadAllText("C:\\Temps\\AMs.xml");
+
+            Instance = XmlSerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
         }
     }
 }

@@ -1,8 +1,12 @@
 ﻿namespace Orc.Automation
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
     using System.Windows.Automation;
+    using System.Windows.Controls;
+    using System.Windows.Media;
     using Catel;
     using Catel.IoC;
     using Catel.Windows;
@@ -14,10 +18,11 @@
         public static DependencyObject FindVisualDescendantWithAutomationId(this System.Windows.FrameworkElement frameworkElement, string targetId)
         {
             Argument.IsNotNull(() => frameworkElement);
+            
+            var result = frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
 
-            return frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
+            return result;
         }
-
 
         public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
             where TBehavior : Behavior

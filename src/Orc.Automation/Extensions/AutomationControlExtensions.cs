@@ -11,6 +11,11 @@
             control.Element.MouseHover();
         }
 
+        public static void MouseOut(this AutomationControl control)
+        {
+            control.Element.MouseOut();
+        }
+
         public static void MouseClick(this AutomationControl control, MouseButton mouseButton = MouseButton.Left)
         {
             control.Element.MouseClick(mouseButton);

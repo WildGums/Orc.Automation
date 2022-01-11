@@ -22,5 +22,14 @@
 
             MouseInput.MoveTo(rect.GetClickablePoint());
         }
+
+        public static void MouseOut(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            var rect = element.Current.BoundingRectangle;
+
+            MouseInput.MoveTo(rect.GetPointOut());
+        }
     }
 }

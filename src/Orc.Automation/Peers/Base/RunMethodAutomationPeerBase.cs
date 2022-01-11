@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Windows;
     using System.Windows.Automation.Peers;
@@ -133,47 +134,56 @@
         #region InvokeProvider
         public virtual void Invoke()
         {
-            var commandStr = _currentCommand;
-            if (string.IsNullOrWhiteSpace(commandStr))
+            try
             {
-                return;
+                var commandStr = _currentCommand;
+                if (string.IsNullOrWhiteSpace(commandStr))
+                {
+                    return;
+                }
+
+                _currentCommand = string.Empty;
+
+                var method = AutomationMethod.FromStr(commandStr);
+                if (method is null)
+                {
+                    _result.LastInvokedMethodResult = null;
+
+                    return;
+                }
+
+                var handle = method.Handle;
+                var currentTarget = string.IsNullOrWhiteSpace(handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
+
+                var finder = method.Finder;
+                if (finder is not null)
+                {
+                    currentTarget = finder.Find(currentTarget);
+                }
+
+                var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(currentTarget, method));
+                if (methodRun is null)
+                {
+                    _result.LastInvokedMethodResult = null;
+
+                    return;
+                }
+
+                if (!methodRun.TryInvoke(currentTarget, method, out var methodResult))
+                {
+                    _result.LastInvokedMethodResult = null;
+
+                    return;
+                }
+
+                _result.LastInvokedMethodResult = methodResult;
             }
-
-            _currentCommand = string.Empty;
-
-            var method = AutomationMethod.FromStr(commandStr);
-            if (method is null)
+            catch (Exception ex)
             {
-                _result.LastInvokedMethodResult = null;
-
-                return;
+                File.AppendAllText("C:\\Temps\\Exception.txt", ex.Message);
+                File.AppendAllText("C:\\Temps\\Exception.txt", "\r\n");
+                File.AppendAllText("C:\\Temps\\Exception.txt", ex.StackTrace);
             }
-
-            var handle = method.Handle;
-            var currentTarget = string.IsNullOrWhiteSpace(handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
-
-            var finder = method.Finder;
-            if (finder is not null)
-            {
-                currentTarget = finder.Find(currentTarget);
-            }
-
-            var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(currentTarget, method));
-            if (methodRun is null)
-            {
-                _result.LastInvokedMethodResult = null;
-
-                return;
-            }
-
-            if (!methodRun.TryInvoke(currentTarget, method, out var methodResult))
-            {
-                _result.LastInvokedMethodResult = null;
-
-                return;
-            }
-
-            _result.LastInvokedMethodResult = methodResult;
         }
 
         protected void RaiseEvent(string eventName, object args)

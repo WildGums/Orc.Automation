@@ -15,6 +15,8 @@
             CanCloseUsingEscape = false;
         }
 
+        private static int _countClick = 0;
+
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             //TestHost.LoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\DiffEngine.dll");
@@ -59,6 +61,18 @@
             //    Console.WriteLine(exception);
             //}
 
+            _countClick++;
+
+
+
+            //try
+            //{
+            //    var selectButton = TestHost.FindVisualDescendantWithAutomationId("SelectButton");
+            //}
+            //catch
+            //{
+            //    Console.Write("ss");
+            //}
 
 
            // var type = TypeHelper.GetTypeByName("Orc.Controls.Tests.CreateStyleForwardersMethodRun");
@@ -71,19 +85,35 @@
 
        //     testHostPeer.RunMethod(styleHelper, "CreateStyleForwardersForDefaultStyles");
 
-            var document = XDocument.Load(@"C:\Temps\AutomationSendData.txt");
+            AutomationMethodsList.Load();
+            var methods = AutomationMethodsList.Instance;
 
-            var elements = document.Root?.Elements().Where(x => x.Name == "AutomationMethod").ToList();
+            var i = 0;
 
-            foreach (var element in elements ?? Enumerable.Empty<XElement>())
+            foreach (var automationMethod in methods.Methods)
             {
-                var elementStr = element.ToString();
+                i++;
 
-                testHostPeer.SetValue(elementStr);
-                testHostPeer.Invoke();
-                var value = testHostPeer.Value;
+                if (_countClick == 1)
+                {
+                    var elementStr = automationMethod.ToString();
+
+                    testHostPeer.SetValue(elementStr);
+                    testHostPeer.Invoke();
+                    var value = testHostPeer.Value;
+                }
+                else
+                {
+                    if (i == 14)
+                    {
+                        var elementStr = automationMethod.ToString();
+
+                        testHostPeer.SetValue(elementStr);
+                        testHostPeer.Invoke();
+                        var value = testHostPeer.Value;
+                    }
+                }
             }
-
 
 
             //Do some temporary test stuff here

@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Windows;
@@ -43,10 +44,22 @@
                 automationInputParameters = AttachTargetToParameters(target, automationMethod, automationInputParameters);
             }
 
-            var methodResult = method.Invoke(_peer, automationInputParameters);
+            try
+            {
+                var methodResult = method.Invoke(_peer, automationInputParameters);
+                result = AutomationValue.FromValue(methodResult);
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.Message);
+                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
+                File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.StackTrace);
+                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
+                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
+                File.AppendAllText("C:\\Temps\\ExceptionData.txt", automationMethod.ToString());
 
-            result = AutomationValue.FromValue(methodResult);
-
+                throw;
+            }
             return true;
         }
 
