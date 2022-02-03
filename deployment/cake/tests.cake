@@ -55,7 +55,7 @@ public class TestProcessor : ProcessorBase
                 PlatformTarget = PlatformTarget.MSIL
             };
 
-            ConfigureMsBuild(BuildContext, msBuildSettings, testProject);
+            ConfigureMsBuild(BuildContext, msBuildSettings, testProject, "build");
 
             // Always disable SourceLink
             msBuildSettings.WithProperty("EnableSourceLink", "false");
@@ -72,7 +72,7 @@ public class TestProcessor : ProcessorBase
             msBuildSettings.WithProperty("OverridableOutputPath", outputDirectory);
             msBuildSettings.WithProperty("PackageOutputPath", BuildContext.General.OutputRootDirectory);
 
-            RunMsBuild(BuildContext, testProject, projectFileName, msBuildSettings);
+            RunMsBuild(BuildContext, testProject, projectFileName, msBuildSettings, "build");
         }
     }
 
@@ -146,7 +146,7 @@ private static void RunUnitTests(BuildContext buildContext, string projectName)
 
             var projectFileName = GetProjectFileName(buildContext, projectName);
 
-            var dotNetCoreTestSettings = new DotNetCoreTestSettings
+            var dotNetTestSettings = new DotNetTestSettings
             {
                 Configuration = buildContext.General.Solution.ConfigurationName,
                 NoBuild = true,
@@ -159,10 +159,10 @@ private static void RunUnitTests(BuildContext buildContext, string projectName)
             var processBit = buildContext.Tests.ProcessBit.ToLower();
             if (!string.IsNullOrWhiteSpace(processBit))
             {
-                dotNetCoreTestSettings.Runtime = $"win-{processBit}";
+                dotNetTestSettings.Runtime = $"win-{processBit}";
             }
 
-            buildContext.CakeContext.DotNetCoreTest(projectFileName, dotNetCoreTestSettings);
+            buildContext.CakeContext.DotNetTest(projectFileName, dotNetTestSettings);
 
             ranTests = true;
         }
