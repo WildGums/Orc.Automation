@@ -25,4 +25,27 @@
             return _availableCultures.TryGetValue(value.CultureName, out var cultureInfo) ? cultureInfo : null;
         }
     }
+
+    public class SerializableCultureInfoList
+    {
+        public List<SerializableCultureInfo> Cultures { get; set; }
+    }
+
+    public class CultureInfoListSerializationConverter : SerializationValueConverterBase<List<CultureInfo>, SerializableCultureInfoList>
+    {
+        private readonly CultureInfoSerializationConverter _cultureInfoConverter = new CultureInfoSerializationConverter();
+
+        public override object ConvertFrom(List<CultureInfo> value)
+        {
+            return new SerializableCultureInfoList
+            {
+                Cultures = value?.Select(x => (SerializableCultureInfo)_cultureInfoConverter.ConvertFrom(x)).ToList()
+            };
+        }
+
+        public override object ConvertTo(SerializableCultureInfoList value)
+        {
+            return value?.Cultures?.Select(x => (CultureInfo)_cultureInfoConverter.ConvertTo(x)).ToList();
+        }
+    }
 }

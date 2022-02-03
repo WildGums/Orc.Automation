@@ -42,12 +42,6 @@
         }
 
         [AutomationMethod]
-        public object GetResource(string name)
-        {
-            return _testHost.TryFindResource(name);
-        }
-
-        [AutomationMethod]
         public object RunMethod(Type type, string methodName)
         {
             var method = type.GetMethods().FirstOrDefault(x => x.Name == methodName);

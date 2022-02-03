@@ -60,7 +60,8 @@
                 return converter;
             }
 
-            var converterType = type.FindGenericTypeImplementation<ISerializationValueConverter>(Assembly.GetExecutingAssembly());
+            var converterType = type.FindGenericTypeImplementation<ISerializationValueConverter>(Assembly.GetExecutingAssembly())
+                                ?? type.FindGenericTypeImplementation<ISerializationValueConverter>(type.Assembly);
             if (converterType is null)
             {
                 return converter;

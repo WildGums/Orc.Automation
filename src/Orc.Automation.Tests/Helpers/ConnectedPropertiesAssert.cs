@@ -6,17 +6,17 @@
 
     public static class ConnectedPropertiesAssert
     {
-        public static void VerifyIdenticalConnectedProperties(object firstObject, string firstObjectProperty, object secondObject, string secondObjectPropertyName, params object[] values)
+        public static void VerifyIdenticalConnectedProperties(object firstObject, string firstObjectProperty, object secondObject, string secondObjectPropertyName, bool returnToInitialState, params object[] values)
         {
-            VerifyConnectedProperties(firstObject, firstObjectProperty, secondObject, secondObjectPropertyName, values?.Select(x => new ValueTuple<object, object>(x, x)).ToArray());
+            VerifyConnectedProperties(firstObject, firstObjectProperty, secondObject, secondObjectPropertyName, returnToInitialState, values?.Select(x => new ValueTuple<object, object>(x, x)).ToArray());
         }
 
-        public static void VerifyIdenticalConnectedProperties(object firstObject, object secondObject, string propertiesName, params object[] values)
+        public static void VerifyIdenticalConnectedProperties(object firstObject, object secondObject, string propertiesName, bool returnToInitialState, params object[] values)
         {
-            VerifyConnectedProperties(firstObject, propertiesName, secondObject, propertiesName, values?.Select(x => new ValueTuple<object, object>(x, x)).ToArray());
+            VerifyConnectedProperties(firstObject, propertiesName, secondObject, propertiesName, returnToInitialState, values?.Select(x => new ValueTuple<object, object>(x, x)).ToArray());
         }
 
-        public static void VerifyConnectedProperties(object firstObject, string firstObjectPropertyName, object secondObject, string secondObjectPropertyName, params (object FirstObjectPropertyValue, object SecondObjectPropertyValue)[] testValues)
+        public static void VerifyConnectedProperties(object firstObject, string firstObjectPropertyName, object secondObject, string secondObjectPropertyName, bool returnToInitialState, params (object FirstObjectPropertyValue, object SecondObjectPropertyValue)[] testValues)
         {
             var firstObjectProperty = firstObject.GetType().GetProperty(firstObjectPropertyName);
             Assert.That(firstObjectProperty, Is.Not.Null, $"Can't find property '{firstObjectPropertyName}' in '{firstObject}'");
@@ -30,10 +30,14 @@
             var testedValuesList = testValues.ToList();
 
             //Add initial values to test; to return to previous state
-            var firstPropertyInitialValue = firstObjectProperty.GetValue(firstObject);
-            var secondPropertyInitialValue = secondObjectProperty.GetValue(secondObject);
 
-            testedValuesList.Add(new ValueTuple<object, object>(firstPropertyInitialValue, secondPropertyInitialValue));
+            if (returnToInitialState)
+            {
+                var firstPropertyInitialValue = firstObjectProperty.GetValue(firstObject);
+                var secondPropertyInitialValue = secondObjectProperty.GetValue(secondObject);
+
+                testedValuesList.Add(new ValueTuple<object, object>(firstPropertyInitialValue, secondPropertyInitialValue));
+            }
 
             foreach (var (firstObjectPropertyValue, secondObjectPropertyValue) in testedValuesList)
             {

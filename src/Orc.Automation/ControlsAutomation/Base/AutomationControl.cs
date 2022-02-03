@@ -1,12 +1,8 @@
 ﻿namespace Orc.Automation
 {
-    using System;
     using System.Windows.Automation;
     using Catel;
-    using Catel.IoC;
     using Catel.Windows.Interactivity;
-    using Controls;
-
 
     public class AutomationControl : AutomationBase
     {
@@ -69,7 +65,7 @@
 
         public object TryFindResource(string resourceKey)
         {
-            return Access.Execute(nameof(TryFindResource), resourceKey);
+            return Access.Execute(nameof(TestHostAutomationPeer.GetResource), resourceKey);
         }
 
         protected AutomationElementAccessor Access { get; private set; }

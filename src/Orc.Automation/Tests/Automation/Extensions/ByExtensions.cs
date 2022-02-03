@@ -5,6 +5,7 @@
     using System.Windows.Automation;
     using Catel;
     using Catel.IoC;
+    using Catel.Reflection;
 
     public static class ByExtensions
     {
@@ -41,10 +42,18 @@
 
             PrepareSearch<T>(by);
 
+            var type = typeof(T);
+            var isRawControl = type.IsDecoratedWithAttribute<RawAttribute>();
+
+            if (isRawControl)
+            {
+                return by.Part<T>();
+            }
+            
             var result = by.One();
             if (result is not null)
             {
-                return (T)AutomationHelper.WrapAutomationObject(typeof(T), result);
+                return (T)AutomationHelper.WrapAutomationObject(type, result);
             }
 
             return by.Part<T>();

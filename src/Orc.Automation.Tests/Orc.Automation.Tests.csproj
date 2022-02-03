@@ -42,9 +42,14 @@
   <!-- Theming -->
   <ItemGroup>
     <Page Remove="**/*.Template.xaml" />
+    <Page Remove="StyleAsserters\**" />
     <EmbeddedResource Include="**/*.Template.xaml" />
+    <Compile Remove="StyleAsserters\**" />
+    <EmbeddedResource Remove="StyleAsserters\**" />
 
     <None Remove="**/GeneratorParameters.json" />
+
+    <None Remove="StyleAsserters\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
   <ItemGroup>
@@ -58,10 +63,6 @@
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="StyleAsserters\" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />

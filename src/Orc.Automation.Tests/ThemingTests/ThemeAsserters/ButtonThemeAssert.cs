@@ -1,15 +1,31 @@
-﻿namespace Orc.Automation.Tests.StyleAsserters;
+﻿namespace Orc.Automation.Tests;
 
+using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using Controls;
-using NUnit.Framework;
 
-public class ButtonThemeAssert : FrameworkElementAssert<ButtonThemeAssert, Button>
+public class ButtonThemeAssert : MappedThemeAssertBase<ButtonThemeAssert, Button, ButtonThemeMap>
 {
-    public override void Theme(Button element)
+    protected override IList<IThemingControlState<Button>> ThemingStates { get; } = new List<IThemingControlState<Button>>()
     {
-        base.Theme(element);
+        States.Default,
+        States.MouseOver
+    };
 
-        ButtonThemeColorAssert.VerifyThemeColors(element);
+    protected override IList<ColorType> ColorTypes => new[]
+    {
+        ColorType.Border,
+        ColorType.Background
+    };
+
+    protected override Color? GetColor(Button element, ColorType colorType)
+    {
+        return colorType switch
+        {
+            ColorType.Border => _map.Chrome.BorderBrush.Color,
+            ColorType.Background => _map.Chrome.Background.Color,
+            _ => throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null)
+        };
     }
 }

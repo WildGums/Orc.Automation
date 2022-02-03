@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Xml.Linq;
 
     public partial class MainWindow
@@ -104,14 +105,38 @@
                 }
                 else
                 {
-                    if (i == 14)
-                    {
-                        var elementStr = automationMethod.ToString();
+                    var finder = new ClassFinder();
+                    finder.ClassName = "Orc.Controls.NumericUpDown";
 
-                        testHostPeer.SetValue(elementStr);
-                        testHostPeer.Invoke();
-                        var value = testHostPeer.Value;
-                    }
+                    var culturePicker = finder.Find(TestHost);
+
+                    testHostPeer.LoadAssembly("");
+
+
+                    var culturePickerPeerType = TypeHelper.GetTypeByName("Orc.Automation.NumericUpDownAutomationPeer");
+                    var automationPeer = Activator.CreateInstance(culturePickerPeerType, culturePicker); //new FrameworkElementAutomationPeer(culturePicker);
+
+                    dynamic automationPeerDyn = automationPeer;
+
+                    automationPeerDyn.SetValue(File.ReadAllText("C:\\Temp\\Num.txt"));
+                    automationPeerDyn.Invoke();
+
+
+
+                    //automationPeer
+
+                    // testHostPeer.SetValue(File.ReadAllText("C:\\Temp\\TestBeh.txt"));
+
+                    // testHostPeer.Invoke();
+
+                    //if (i == 14)
+                    //{
+                    //    var elementStr = automationMethod.ToString();
+
+                    //    testHostPeer.SetValue(elementStr);
+                    //    testHostPeer.Invoke();
+                    //    var value = testHostPeer.Value;
+                    //}
                 }
             }
 

@@ -81,6 +81,11 @@
 
         public TResult InvokeInExpandState<TResult>(Func<TResult> func)
         {
+            if (IsExpanded)
+            {
+                return func.Invoke();
+            }
+
             using (new DisposableToken<ComboBox>(this, 
                 x =>
                 {

@@ -1,12 +1,10 @@
-﻿namespace Orc.Automation.Tests.StyleAsserters;
+﻿namespace Orc.Automation.Tests;
 
 using System.Windows.Automation;
 using Controls;
 
 public class ButtonThemeMap : AutomationBase
 {
-   // private Border _chrome;
-
     public ButtonThemeMap(AutomationElement button)
         : base(button)
     {

@@ -1,8 +1,8 @@
 ﻿namespace Orc.Automation.Controls
 {
+    using System.Windows;
     using System.Windows.Automation;
     using System.Windows.Media;
-    using Catel.Windows.Interactivity;
 
     public class FrameworkElement : AutomationControl
     {
@@ -16,6 +16,18 @@
         {
         }
 
+        public double Height
+        {
+            get => Access.GetValue<double>();
+            set => Access.SetValue(value);
+        }
+
+        public double Width
+        {
+            get => Access.GetValue<double>();
+            set => Access.SetValue(value);
+        }
+
         public SolidColorBrush Background
         {
             get => Access.GetValue<SolidColorBrush>();
@@ -25,6 +37,18 @@
         public SolidColorBrush BorderBrush
         {
             get => Access.GetValue<SolidColorBrush>();
+            set => Access.SetValue(value);
+        }
+
+        public HorizontalAlignment HorizontalAlignment
+        {
+            get => Access.GetValue<HorizontalAlignment>();
+            set => Access.SetValue(value);
+        }
+
+        public VerticalAlignment VerticalAlignment
+        {
+            get => Access.GetValue<VerticalAlignment>();
             set => Access.SetValue(value);
         }
 

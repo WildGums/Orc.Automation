@@ -85,6 +85,12 @@
             return true;
         }
 
+        [AutomationMethod]
+        public object GetResource(string name)
+        {
+            return _owner.TryFindResource(name);
+        }
+
         protected override string GetClassNameCore()
         {
             return _owner.GetType().FullName;

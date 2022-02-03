@@ -38,6 +38,8 @@
                 return false;
             }
 
+            testHostAutomationId = testedControlAutomationId;
+
             return true;
         }
     }
