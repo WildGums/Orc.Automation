@@ -13,7 +13,7 @@
 
         public string Content => Element.Current.Name;
 
-        public bool TryInvoke()
+        public bool Click()
         {
             return Element.TryInvoke();
         }

@@ -56,7 +56,7 @@
                 return (T)AutomationHelper.WrapAutomationObject(type, result);
             }
 
-            return by.Part<T>();
+            return null; //by.Part<T>();
         }
 
         public static List<T> Many<T>(this By by)
