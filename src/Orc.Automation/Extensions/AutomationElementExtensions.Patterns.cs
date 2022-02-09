@@ -402,6 +402,37 @@
         }
         #endregion
 
+        #region MultipleViewPattern
+        public static void SelectView(this AutomationElement element, int viewIndex)
+        {
+            Argument.IsNotNull(() => element);
+
+            element.TryRunPatternFunc<MultipleViewPattern>(x =>
+            {
+                var supportedViews = x.Current.GetSupportedViews();
+                if (supportedViews.Length >= viewIndex)
+                {
+                    x.SetCurrentView(supportedViews[viewIndex]);
+                }
+            });
+        }
+
+        //TODO:Vladimir:maybe use IDisposable to return in previous view...but for now lets leave that way
+        public static TResult InvokeInView<TResult>(this AutomationElement element, int viewIndex, Func<TResult> func)
+        {
+            Argument.IsNotNull(() => element);
+
+            if (func is null)
+            {
+                return default;
+            }
+
+            element.SelectView(viewIndex);
+
+            return func.Invoke();
+        }
+        #endregion
+
         #region Window
         public static void CloseWindow(this AutomationElement element)
         {

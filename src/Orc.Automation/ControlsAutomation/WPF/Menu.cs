@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation.Controls
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Automation;
 
     [AutomatedControl(ControlTypeName = nameof(ControlType.Menu))]
@@ -12,9 +11,6 @@
         {
         }
 
-        public IList<MenuItem> Items => Element.GetChildElements()
-            .ToList()
-            .Select(x => x.As<MenuItem>())
-            .ToList();
+        public IList<MenuItem> Items => By.Many<MenuItem>();
     }
 }

@@ -2,6 +2,11 @@
 {
     using System;
 
+    public class AutomationAccessType : AutomationAttribute
+    {
+
+    }
+
     [AttributeUsage(AttributeTargets.Property)]
     public class ApiPropertyAttribute : AutomationAttribute
     {

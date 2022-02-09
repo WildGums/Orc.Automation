@@ -10,7 +10,7 @@
         {
         }
 
-        public void Select()
+        public void Click()
         {
             Element.TryClick();
         }

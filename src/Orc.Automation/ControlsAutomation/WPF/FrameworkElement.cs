@@ -3,6 +3,43 @@
     using System.Windows;
     using System.Windows.Automation;
     using System.Windows.Media;
+    using Catel.IoC;
+
+    public class FrameworkElement<TControlModel, TMap> : FrameworkElement<TControlModel>
+        where TControlModel : ControlModel
+        where TMap : AutomationBase
+    {
+        private TMap _map;
+        public FrameworkElement(AutomationElement element, ControlType controlType) 
+            : base(element, controlType)
+        {
+        }
+
+        public FrameworkElement(AutomationElement element) 
+            : base(element)
+        {
+        }
+
+        protected TMap Map => _map ??= Factory.Create<TMap>(this);
+    }
+
+    public class FrameworkElement<TControlModel> : FrameworkElement
+        where TControlModel : ControlModel
+    {
+        private TControlModel _current;
+
+        public FrameworkElement(AutomationElement element, ControlType controlType) 
+            : base(element, controlType)
+        {
+        }
+
+        public FrameworkElement(AutomationElement element) 
+            : base(element)
+        {
+        }
+
+        public TControlModel Current => _current ??= this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access);
+    }
 
     public class FrameworkElement : AutomationControl
     {
@@ -73,7 +110,5 @@
             get => Access.GetValue<bool>();
             set => Access.SetValue(value);
         }
-
-
     }
 }
