@@ -9,9 +9,17 @@
     using Automation;
     using Catel;
     using Catel.Linq;
+    using Controls;
 
     public static partial class AutomationElementExtensions
     {
+        public static Window GetHostWindow(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.Find<Window>(controlType: ControlType.Window, scope: TreeScope.Ancestors);
+        }
+
         public static TAutomationElementOrElementCollection FindOneOrMany<TAutomationElementOrElementCollection>(this AutomationElement element, SearchContext searchContext)
         {
             Argument.IsNotNull(() => element);

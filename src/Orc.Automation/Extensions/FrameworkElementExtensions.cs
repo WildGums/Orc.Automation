@@ -17,6 +17,11 @@
             
             var result = frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
 
+            if (result is null)
+            {
+                return frameworkElement.FindVisualDescendantByName(targetId);
+            }
+
             return result;
         }
 

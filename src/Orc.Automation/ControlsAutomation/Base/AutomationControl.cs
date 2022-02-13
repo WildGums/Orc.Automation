@@ -148,13 +148,7 @@
         public object Execute<TMethodType>(params object[] parameters)
             where TMethodType : IAutomationMethodRun
         {
-            var result = (bool)Access.Execute(nameof(RunMethodAutomationPeerBase.AddAutomationMethod), typeof(TMethodType));
-            if (!result)
-            {
-                return AutomationValue.NotSetValue;
-            }
-
-            return Execute(typeof(TMethodType).Name, parameters);
+            return Access.Execute<TMethodType>(parameters);
         }
 
         public object Execute(string methodName, params object[] parameters)

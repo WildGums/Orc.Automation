@@ -50,5 +50,17 @@
 
             return (T)automationElementAccessor.Execute(methodName, parameters);
         }
+
+        public static object Execute<TMethodType>(this AutomationElementAccessor automationElementAccessor, params object[] parameters)
+            where TMethodType : IAutomationMethodRun
+        {
+            var result = (bool)automationElementAccessor.Execute(nameof(RunMethodAutomationPeerBase.AddAutomationMethod), typeof(TMethodType));
+            if (!result)
+            {
+                return AutomationValue.NotSetValue;
+            }
+
+            return automationElementAccessor.Execute(typeof(TMethodType).Name, parameters);
+        }
     }
 }

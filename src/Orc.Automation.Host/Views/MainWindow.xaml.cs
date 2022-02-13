@@ -6,6 +6,7 @@
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Xml.Linq;
+    using Catel.Windows;
 
     public partial class MainWindow
     {
@@ -101,33 +102,31 @@
 
                     testHostPeer.SetValue(elementStr);
                     testHostPeer.Invoke();
+
                     var value = testHostPeer.Value;
                 }
                 else
                 {
-                    var finder = new ClassFinder();
-                    finder.ClassName = "Orc.Controls.NumericUpDown";
+                    var numericTextBox = TestHost.GetChildren().ElementAt(0).GetChildren().ElementAt(0);
+                        
 
-                    var culturePicker = finder.Find(TestHost);
-
-                    testHostPeer.LoadAssembly("");
-
-
-                    var culturePickerPeerType = TypeHelper.GetTypeByName("Orc.Automation.NumericUpDownAutomationPeer");
-                    var automationPeer = Activator.CreateInstance(culturePickerPeerType, culturePicker); //new FrameworkElementAutomationPeer(culturePicker);
+                    var culturePickerPeerType = TypeHelper.GetTypeByName("Orc.Controls.Automation.NumericTextBoxAutomationPeer");
+                    var automationPeer = Activator.CreateInstance(culturePickerPeerType, numericTextBox); //new FrameworkElementAutomationPeer(culturePicker);
 
                     dynamic automationPeerDyn = automationPeer;
 
-                    automationPeerDyn.SetValue(File.ReadAllText("C:\\Temp\\Num.txt"));
+                    automationPeerDyn.SetValue(File.ReadAllText("C:\\Temp\\Value.txt"));
                     automationPeerDyn.Invoke();
+
+                    break;
 
 
 
                     //automationPeer
 
-                    // testHostPeer.SetValue(File.ReadAllText("C:\\Temp\\TestBeh.txt"));
+                    //testHostPeer.SetValue(File.ReadAllText("C:\\Temp\\TestBeh.txt"));
 
-                    // testHostPeer.Invoke();
+                    //testHostPeer.Invoke();
 
                     //if (i == 14)
                     //{

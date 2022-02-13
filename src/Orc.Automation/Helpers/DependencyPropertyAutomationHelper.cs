@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Threading;
     using Catel;
 
     public static class DependencyPropertyAutomationHelper
@@ -55,6 +56,9 @@
             }
 
             element.SetCurrentValue(dependencyProperty, value);
+
+            //Do events
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
 
             return true;
         }
