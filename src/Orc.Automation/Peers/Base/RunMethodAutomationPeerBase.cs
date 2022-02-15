@@ -16,8 +16,7 @@
         #region Fields
         private readonly FrameworkElement _owner;
 
-        private string _currentCommand;
-        private readonly AutomationResultContainer _result = new ();
+        private AutomationResultContainer _result = new ();
 
         private IList<IAutomationMethodRun> _automationMethods;
         #endregion
@@ -127,14 +126,50 @@
         }
         #endregion
 
+        private AutomationMethod _pendingMethod;
+
         #region IValueProvider
         public virtual void SetValue(string value)
         {
-            _currentCommand = value;
+            _pendingMethod = AutomationMethod.FromStr(value);
+
+            if (Equals(_pendingMethod, AutomationMethod.Empty))
+            {
+                _result = null;
+
+                SetValuePatternInvoke(value);
+
+                return;
+            }
         }
 
         public virtual bool IsReadOnly => false;
-        public virtual string Value => _result?.ToString();
+
+        public virtual string Value
+        {
+            get
+            {
+                if (_result is null)
+                {
+                    return GetValueFromPattern();
+                }
+
+                var result = _result;
+                _result = null;
+
+                return result.ToString();
+            }
+        }
+
+        protected virtual void SetValuePatternInvoke(string value)
+        {
+
+        }
+
+        protected virtual string GetValueFromPattern()
+        {
+            return null;
+        }
         #endregion
 
         #region InvokeProvider
@@ -142,22 +177,18 @@
         {
             try
             {
-                var commandStr = _currentCommand;
-                if (string.IsNullOrWhiteSpace(commandStr))
-                {
-                    return;
-                }
-
-                _currentCommand = string.Empty;
-
-                var method = AutomationMethod.FromStr(commandStr);
+                var method = _pendingMethod;
                 if (method is null)
                 {
-                    _result.LastInvokedMethodResult = null;
+                    InvokePatternInvoke();
 
                     return;
                 }
 
+                _pendingMethod = null;
+
+                _result ??= new AutomationResultContainer();
+                
                 var handle = method.Handle;
                 var currentTarget = string.IsNullOrWhiteSpace(handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
 
@@ -192,12 +223,19 @@
             }
         }
 
+        protected virtual void InvokePatternInvoke()
+        {
+
+        }
+
         protected void RaiseEvent(string eventName, object args)
         {
             if (string.IsNullOrWhiteSpace(eventName))
             {
                 return;
             }
+
+            _result ??= new AutomationResultContainer();
 
             _result.LastEventName = eventName;
             _result.LastEventArgs = AutomationValue.FromValue(args);

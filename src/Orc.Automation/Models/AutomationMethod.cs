@@ -48,7 +48,14 @@
                 return Empty;
             }
 
-            return XmlSerializerHelper.DeserializeValue(methodText, typeof(AutomationMethod)) as AutomationMethod ?? Empty;
+            try
+            {
+                return XmlSerializerHelper.DeserializeValue(methodText, typeof(AutomationMethod)) as AutomationMethod ?? Empty;
+            }
+            catch (Exception)
+            {
+                return Empty;
+            }
         }
 
         public string Name { get; set; }

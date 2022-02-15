@@ -322,6 +322,11 @@
     public static class KeyboardInput
     {
         #region Public Members
+        public static void PressRelease(Key key)
+        {
+            Press(key);
+            Release(key);
+        }
 
         /// <summary>
         /// Presses down a key.
