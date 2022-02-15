@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation.Peers;
     using System.Windows.Controls;

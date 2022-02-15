@@ -12,8 +12,7 @@
     public static class AutomationHelper
     {
         private const int MaxStackTraceLookUp = 5;
-
-
+        
         public static ControlType GetControlType(Type type)
         {
             var controlType = GetControlType(type.Name);

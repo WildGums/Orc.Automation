@@ -4,10 +4,11 @@
               xmlns:catel="http://schemas.catelproject.com"
               xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
               xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
+              xmlns:controls="clr-namespace:Orc.Automation.Controls;assembly=Orc.Automation"
               Height="900" Width="1000"
               AutomationProperties.AutomationId="AutomationHost">
 
-    <orcautomation:AutomationInformer>
+    <controls:AutomationInformer>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -23,6 +24,6 @@
                                     Grid.Row="2"
                                     AutomationProperties.AutomationId="TestHostId"/>
         </Grid>
-    </orcautomation:AutomationInformer>
+    </controls:AutomationInformer>
 
 </catel:Window>

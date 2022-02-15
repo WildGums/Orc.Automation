@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28621.142
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{197B99D4-F329-4377-A097-0B40424D8D05}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Automation", "Orc.Autom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Automation.Tests", "Orc.Automation.Tests\Orc.Automation.Tests.csproj", "{8EBD8595-0992-4FFA-BCA2-EE7BF507B507}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Automation.Recorder", "Orc.Automation.Recorder\Orc.Automation.Recorder.csproj", "{BB61C3F3-3060-4333-9E25-12F36C8C2C27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{8EBD8595-0992-4FFA-BCA2-EE7BF507B507}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EBD8595-0992-4FFA-BCA2-EE7BF507B507}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EBD8595-0992-4FFA-BCA2-EE7BF507B507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{3085752A-3A0B-4BA2-A21B-6120DBC60845} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 		{8946028D-A6F7-4A64-98CC-71F1669E1D8E} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 		{8EBD8595-0992-4FFA-BCA2-EE7BF507B507} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
+		{BB61C3F3-3060-4333-9E25-12F36C8C2C27} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E0FE4DD-B99D-4AF7-9702-C059F18239A7}
