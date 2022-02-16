@@ -27,7 +27,7 @@
         {
             Argument.IsNotNull(() => element);
 
-            var rawTreeWalker =TreeWalker.RawViewWalker;
+            var rawTreeWalker = TreeWalker.RawViewWalker;
             var rawElement = rawTreeWalker.GetFirstChild(element);
 
             return rawElement?.Current.Name;

@@ -3,9 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using System.Windows;
     using System.Windows.Automation;
-    using System.Windows.Media;
     using Catel;
     using Catel.Data;
     using Catel.Reflection;
@@ -142,7 +140,7 @@
 
         protected virtual void OnEvent(object sender, AutomationEventArgs args)
         {
-            RaiseEvent(args.EventName, args);
+            EventHelper.RaiseEvent(this, args.EventName, args);
         }
         
         public object Execute<TMethodType>(params object[] parameters)
@@ -154,23 +152,6 @@
         public object Execute(string methodName, params object[] parameters)
         {
             return Access.Execute(methodName, parameters);
-        }
-
-        protected void RaiseEvent(string eventName, EventArgs eventArgs)
-        {
-            var eventDelegate = (MulticastDelegate)GetType()
-                .GetField(eventName, BindingFlags.Instance | BindingFlags.NonPublic)
-                ?.GetValue(this);
-
-            if (eventDelegate is null)
-            {
-                return;
-            }
-
-            foreach (var handler in eventDelegate.GetInvocationList())
-            {
-                handler.Method.Invoke(handler.Target, new object[] { this, eventArgs });
-            }
         }
     }
 }

@@ -43,7 +43,7 @@
         public static bool SetDependencyPropertyValue(DependencyObject element, string propertyName, object value)
         {
             Argument.IsNotNull(() => element);
-
+            
             if (string.IsNullOrWhiteSpace(propertyName))
             {
                 return false;

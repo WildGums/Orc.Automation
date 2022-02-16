@@ -1,6 +1,8 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Linq;
+    using System.Windows;
 
     [Serializable]
     public class AutomationValue
@@ -42,7 +44,12 @@
 
         public object ExtractValue()
         {
-            var type = _dataType ?? Catel.Reflection.TypeCache.GetType(DataTypeFullName);
+            var dataTypeFullName = DataTypeFullName;
+
+            var type = _dataType
+                       ?? Catel.Reflection.TypeCache.GetType(dataTypeFullName)
+                       ?? TypeHelper.GetTypeByName(dataTypeFullName);
+
             return XmlSerializerHelper.DeserializeValue(Data, type);
         }
     }

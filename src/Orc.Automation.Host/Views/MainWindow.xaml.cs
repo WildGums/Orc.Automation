@@ -107,15 +107,15 @@
                 }
                 else
                 {
-                    var numericTextBox = TestHost.GetChildren().ElementAt(0).GetChildren().ElementAt(0);
+                    var filterBox = TestHost.GetChildren().ElementAt(0).GetChildren().ElementAt(0);
                         
 
-                    var culturePickerPeerType = TypeHelper.GetTypeByName("Orc.Controls.Automation.NumericTextBoxAutomationPeer");
-                    var automationPeer = Activator.CreateInstance(culturePickerPeerType, numericTextBox); //new FrameworkElementAutomationPeer(culturePicker);
+                    var filterBoxPeerType = TypeHelper.GetTypeByName("Orc.Controls.Automation.FilterBoxAutomationPeer");
+                    var automationPeer = Activator.CreateInstance(filterBoxPeerType, filterBox); //new FrameworkElementAutomationPeer(culturePicker);
 
                     dynamic automationPeerDyn = automationPeer;
 
-                    automationPeerDyn.SetValue(File.ReadAllText("C:\\Temp\\Value.txt"));
+                    automationPeerDyn.SetValue(File.ReadAllText("C:\\Temp\\Temp.txt"));
                     automationPeerDyn.Invoke();
 
                     break;

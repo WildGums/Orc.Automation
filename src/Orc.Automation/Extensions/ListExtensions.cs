@@ -6,6 +6,12 @@
 
     public static class ListExtensions
     {
+        /// <summary>
+        /// Get virtualized item...
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="itemIndex"></param>
+        /// <returns></returns>
         public static ListItem TryGetVirtualizedItem(this List list, int itemIndex)
         {
             Argument.IsNotNull(() => list);

@@ -14,7 +14,7 @@
         {
         }
 
-        public IReadOnlyList<ListItem> Items => By.ControlType(ControlType.ListItem).Many<ListItem>();
+        public IReadOnlyList<ListItem> Items => By.Many<ListItem>();
 
         public IReadOnlyList<TItem> GetItemsOfType<TItem>() => By.Many<TItem>();
 

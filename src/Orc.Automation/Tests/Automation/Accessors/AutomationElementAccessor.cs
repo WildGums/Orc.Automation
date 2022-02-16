@@ -5,6 +5,7 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
+    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 
@@ -151,7 +152,7 @@
             method.Finder = _finder;
 
             var methodStr = method.ToString();
-
+            
             AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
