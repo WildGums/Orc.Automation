@@ -14,6 +14,12 @@
         {
         }
 
+        public string Text
+        {
+            get => Element.GetValue<string>();
+            set => Element.SetValue(value);
+        }
+
         public int SelectedIndex
         {
             get

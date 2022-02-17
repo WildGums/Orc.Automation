@@ -27,24 +27,6 @@
             return true;
         }
 
-        private static Delegate Create(EventInfo evt, Action action)
-        {
-            var handlerType = evt.EventHandlerType;
-            var eventParams = handlerType.GetMethod("Invoke").GetParameters();
-
-            //lambda: (object x0, EventArgs x1) => d()
-            var parameters = eventParams.Select(p => Expression.Parameter(p.ParameterType, "x"));
-            var body = Expression.Call(Expression.Constant(action), action.GetType().GetMethod("Invoke"));
-            var lambda = Expression.Lambda(body, parameters.ToArray());
-
-            return Delegate.CreateDelegate(handlerType, lambda.Compile(), "Invoke", false);
-        }
-
-        public static void OnEvent(object sender, EventArgs args)
-        {
-
-        }
-
         public static void RaiseEvent(object target, string eventName, EventArgs eventArgs)
         {
             Argument.IsNotNull(() => target);
@@ -63,6 +45,19 @@
             {
                 handler.Method.Invoke(handler.Target, new[] { target, eventArgs });
             }
+        }
+
+        private static Delegate Create(EventInfo evt, Action action)
+        {
+            var handlerType = evt.EventHandlerType;
+            var eventParams = handlerType.GetMethod("Invoke").GetParameters();
+
+            //lambda: (object x0, EventArgs x1) => d()
+            var parameters = eventParams.Select(p => Expression.Parameter(p.ParameterType, "x"));
+            var body = Expression.Call(Expression.Constant(action), action.GetType().GetMethod("Invoke"));
+            var lambda = Expression.Lambda(body, parameters.ToArray());
+
+            return Delegate.CreateDelegate(handlerType, lambda.Compile(), "Invoke", false);
         }
     }
 }

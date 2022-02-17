@@ -58,6 +58,22 @@
             return condition is null ? TreeWalker.ControlViewWalker.GetParent(element) : new TreeWalker(condition).GetParent(element);
         }
 
+        public static AutomationElement GetRawChild(this AutomationElement containerElement, int index)
+        {
+            Argument.IsNotNull(() => containerElement);
+
+            var item = TreeWalker.RawViewWalker.GetFirstChild(containerElement);
+            var currentIndex = 0;
+
+            while (!Equals(index, currentIndex) && item is not null)
+            {
+                item = TreeWalker.RawViewWalker.GetNextSibling(item);
+                currentIndex++;
+            }
+
+            return item;
+        }
+
         public static AutomationElement GetChild(this AutomationElement containerElement, int index)
         {
             Argument.IsNotNull(() => containerElement);
