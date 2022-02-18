@@ -31,6 +31,7 @@
 
         public string ControlType { get; set; }
         public bool IsTransient { get; set; }
+        public bool IsRaw { get; set; }
 
         public SearchContext GetSearchContext()
         {
@@ -40,7 +41,7 @@
                 controlType = typeof(ControlType).GetField(ControlType)?.GetValue(null) as ControlType;
             }
 
-            return new SearchContext(AutomationId, Name, ClassName, controlType);
+            return new SearchContext(AutomationId, Name, ClassName, controlType, IsRaw);
         }
     }
 }

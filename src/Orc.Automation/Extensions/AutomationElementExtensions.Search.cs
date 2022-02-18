@@ -44,15 +44,15 @@
         }
 
 
-        public static TElement Find<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static TElement Find<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
             where TElement : AutomationControl
         {
-            return Find<TElement>(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+            return Find<TElement>(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
-        public static AutomationElement Find(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static AutomationElement Find(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
-            return Find(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+            return Find(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
         public static TElement Find<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
@@ -90,6 +90,7 @@
             var name = searchContext.Name;
             var controlType = searchContext.ControlType;
             var className = searchContext.ClassName;
+            var isRaw = searchContext.IsRaw;
 
             var conditions = new List<Condition>();
             if (!string.IsNullOrWhiteSpace(id))
@@ -112,6 +113,11 @@
                 conditions.Add(new PropertyCondition(AutomationElement.ControlTypeProperty, controlType));
             }
 
+            //if (isRaw)
+            //{
+            //    conditions.Add(System.Windows.Automation.Automation.RawViewCondition);
+            //}
+
             if (!conditions.Any())
             {
                 return null;
@@ -121,10 +127,10 @@
                 ? conditions[0]
                 : new AndCondition(conditions.ToArray());
 
-            return Find(element, resultCondition, scope, numberOfWaits);
+            return Find(element, resultCondition, scope, isRaw, numberOfWaits);
         }
 
-        public static AutomationElement Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        private static AutomationElement Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Subtree, bool isRaw = false, int numberOfWaits = 10)
         {
             Argument.IsNotNull(() => element);
 
@@ -133,7 +139,7 @@
             AutomationElement foundElement;
             do
             {
-                foundElement = TryFindElementByCondition(element, scope, condition);
+                foundElement = TryFindElementByCondition(element, scope, condition, isRaw); 
 
                 ++numWaits;
                 Thread.Sleep(200);
@@ -143,25 +149,31 @@
             return foundElement;
         }
 
-        private static AutomationElement TryFindElementByCondition(this AutomationElement element, TreeScope scope, Condition condition)
+        private static AutomationElement TryFindElementByCondition(this AutomationElement element, TreeScope scope, Condition condition, bool isRaw)
         {
             if (scope is TreeScope.Parent or TreeScope.Ancestors)
             {
                 return element.GetParent(condition);
             }
 
+            if (isRaw)
+            {
+                var andCondition = new AndCondition(condition, System.Windows.Automation.Automation.RawViewCondition);
+                return new TreeWalker(andCondition).GetFirstChild(element);
+            }
+
             return element.FindFirst(scope, condition);
         }
 
-        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
             where TElement : AutomationControl
         {
-            return FindAll<TElement>(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+            return FindAll<TElement>(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
-        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
-            return FindAll(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+            return FindAll(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
         public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
@@ -187,6 +199,7 @@
             var name = searchContext.Name;
             var controlType = searchContext.ControlType;
             var className = searchContext.ClassName;
+            var isRaw = searchContext.IsRaw;
 
             var conditions = new List<Condition>();
             if (!string.IsNullOrWhiteSpace(id))
@@ -207,6 +220,11 @@
             if (controlType is not null)
             {
                 conditions.Add(new PropertyCondition(AutomationElement.ControlTypeProperty, controlType));
+            }
+
+            if (isRaw)
+            {
+                conditions.Add(System.Windows.Automation.Automation.RawViewCondition);
             }
 
             if (!conditions.Any())

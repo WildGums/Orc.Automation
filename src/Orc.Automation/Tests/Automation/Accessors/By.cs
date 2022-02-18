@@ -33,6 +33,13 @@
             _element = element;
         }
 
+        public By Raw()
+        {
+            _searchContext.IsRaw = true;
+
+            return this;
+        }
+
         public By Id(string id)
         {
             _searchContext.Id = id;

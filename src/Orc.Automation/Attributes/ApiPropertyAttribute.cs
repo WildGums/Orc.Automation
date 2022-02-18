@@ -2,6 +2,12 @@
 {
     using System;
 
+    [AttributeUsage(AttributeTargets.Property)]
+    public class SerializationAutomationConverter : AutomationAttribute
+    {
+        public Type ConverterType { get; set; }
+    }
+
     public class AutomationAccessType : AutomationAttribute
     {
 

@@ -59,9 +59,30 @@
             {
                 return converter;
             }
-
+            
             var converterType = type.FindGenericTypeImplementation<ISerializationValueConverter>(Assembly.GetExecutingAssembly())
                                 ?? type.FindGenericTypeImplementation<ISerializationValueConverter>(type.Assembly);
+
+            //TODO:Find a better way
+            if (converterType is null)
+            {
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    try
+                    {
+                        converterType = type.FindGenericTypeImplementation<ISerializationValueConverter>(assembly);
+                        if (converterType is not null)
+                        {
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        //Do nothing
+                    }
+                }
+            }
+
             if (converterType is null)
             {
                 return converter;

@@ -14,10 +14,16 @@
 
         }
 
+        public string Content => Element.TryGetDisplayText();
+
         /// <summary>
         /// Get Is button is toggled
         /// </summary>
-        public bool IsToggled => Element.GetToggleState() == true;
+        public bool IsToggled
+        {
+            get => Element.GetToggleState() == true;
+            set => Element.TrySetToggleState(value);
+        }
 
         /// <summary>
         /// Toggles button
