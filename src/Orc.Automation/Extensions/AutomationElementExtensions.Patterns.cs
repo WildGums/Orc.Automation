@@ -1,8 +1,10 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
+    using System.Windows.Automation.Text;
     using Catel;
 
     public static partial class AutomationElementExtensions
@@ -71,6 +73,15 @@
             Argument.IsNotNull(() => element);
 
             return element.TryRunPatternFunc<ValuePattern>(x => x.SetValue(value));
+        }
+        #endregion
+
+        #region Text
+        public static IReadOnlyList<string> GetSelectedTextRanges(this AutomationElement element)
+        {
+            var textRanges = element.RunPatternFunc<TextPattern, TextPatternRange[]>(x => x.GetSelection());
+
+            return (IReadOnlyList<string>) textRanges?.Select(x => x.GetText(-1)).ToList() ?? Array.Empty<string>();
         }
         #endregion
 
@@ -533,7 +544,7 @@
 
             return true;
         }
-
+        
         public static TPattern TryGetPattern<TPattern>(this AutomationElement element)
             where TPattern : BasePattern
         {

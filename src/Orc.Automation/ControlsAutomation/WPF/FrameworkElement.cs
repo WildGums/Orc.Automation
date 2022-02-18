@@ -3,13 +3,11 @@
     using System.Windows;
     using System.Windows.Automation;
     using System.Windows.Media;
-    using Catel.IoC;
 
     public class FrameworkElement<TControlModel, TMap> : FrameworkElement<TControlModel>
         where TControlModel : ControlModel
         where TMap : AutomationBase
     {
-        private TMap _map;
         public FrameworkElement(AutomationElement element, ControlType controlType) 
             : base(element, controlType)
         {
@@ -20,14 +18,12 @@
         {
         }
 
-        protected TMap Map => _map ??= Factory.Create<TMap>(this);
+        protected TMap Map => Map<TMap>();
     }
 
     public class FrameworkElement<TControlModel> : FrameworkElement
         where TControlModel : ControlModel
     {
-        private TControlModel _current;
-
         public FrameworkElement(AutomationElement element, ControlType controlType) 
             : base(element, controlType)
         {
@@ -38,7 +34,7 @@
         {
         }
 
-        public TControlModel Current => _current ??= this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access);
+        public TControlModel Current => Model<TControlModel>();
     }
 
     public class FrameworkElement : AutomationControl

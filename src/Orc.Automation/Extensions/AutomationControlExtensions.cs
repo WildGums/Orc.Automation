@@ -3,9 +3,17 @@
     using System.Windows.Automation;
     using System.Windows.Input;
     using Catel;
+    using Catel.IoC;
 
     public static class AutomationControlExtensions
     {
+        public static TAutomationControl As<TAutomationControl>(this AutomationControl control)
+        {
+            Argument.IsNotNull(() => control);
+
+            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TAutomationControl>(control.Element);
+        }
+
         public static void MouseHover(this AutomationControl control)
         {
             control.Element.MouseHover();

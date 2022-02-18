@@ -22,6 +22,12 @@
         }
 
         [AutomationMethod]
+        public void ClearControls()
+        {
+            _testHost.ClearControls();
+        }
+
+        [AutomationMethod]
         public bool LoadResources(string uri)
         {
             return _testHost.LoadResources(uri);

@@ -5,7 +5,9 @@
     using System.Reflection;
     using System.Windows.Automation;
     using Catel;
+    using Catel.Caching;
     using Catel.Data;
+    using Catel.IoC;
     using Catel.Reflection;
     using Catel.Windows.Interactivity;
 
@@ -75,6 +77,8 @@
 
     public class AutomationControl : AutomationBase
     {
+        private readonly CacheStorage<Type, ControlModel> _models = new();
+
         public AutomationControl(AutomationElement element, ControlType controlType)
             : this(element)
         {
@@ -104,7 +108,6 @@
         protected AutomationElementAccessor Access { get; private set; }
         #endregion
 
-        
         public void AttachBehavior<TBehavior>()
             where TBehavior : IBehavior
         {
@@ -152,6 +155,12 @@
         public object Execute(string methodName, params object[] parameters)
         {
             return Access.Execute(methodName, parameters);
+        }
+
+        public TControlModel Model<TControlModel>()
+            where TControlModel : ControlModel
+        {
+            return (TControlModel)_models.GetFromCacheOrFetch(typeof(TControlModel), () => this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access));
         }
     }
 }

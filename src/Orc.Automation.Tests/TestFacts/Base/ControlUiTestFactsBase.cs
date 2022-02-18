@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation.Tests
 {
-    using System.Reflection;
     using System.Threading;
     using Controls;
     using NUnit.Framework;
@@ -17,7 +16,7 @@
         {
             var window = Setup.MainWindow;
 
-            var testHost = window.Find<TestHostAutomationControl>(className: typeof(Orc.Automation.TestHost).FullName);
+            var testHost = window.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
             if (testHost is null)
             {
                 Assert.Fail("Can't find Test host");
@@ -38,6 +37,14 @@
             }
 
             target.InitializeControlMap(this);
+        }
+
+        [TearDown]
+        public virtual void TearDownTest()
+        {
+            var testHost = Setup.MainWindow.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
+
+            testHost?.ClearControls();
         }
 
         protected virtual bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)

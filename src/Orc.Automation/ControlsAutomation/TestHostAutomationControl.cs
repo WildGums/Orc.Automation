@@ -17,6 +17,11 @@
             return Access.Execute<string>(nameof(TestHostAutomationPeer.RunMethod), type, methodName);
         }
 
+        public void ClearControls()
+        {
+            Access.Execute(nameof(TestHostAutomationPeer.ClearControls));
+        }
+
         public string PutControl(string controlFullName)
         {
             return Access.Execute<string>(nameof(TestHostAutomationPeer.PutControl), controlFullName);

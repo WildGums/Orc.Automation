@@ -4,6 +4,7 @@
     using System.Windows.Automation;
     using Catel;
     using Catel.Caching;
+    using Catel.IoC;
 
     public abstract class AutomationBase
     {

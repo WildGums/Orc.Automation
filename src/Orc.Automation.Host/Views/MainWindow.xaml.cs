@@ -4,8 +4,6 @@
     using System.IO;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Xml.Linq;
     using Catel.Windows;
 
     public partial class MainWindow

@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation.Controls
 {
+    using System.Collections.Generic;
     using System.Windows.Automation;
 
     [AutomatedControl(ControlTypeName = nameof(ControlType.Edit))]
@@ -14,6 +15,11 @@
         {
             get => Element.GetValue<string>();
             set => Element.SetValue(value);
+        }
+
+        public IReadOnlyList<string> SelectedTextRanges
+        {
+            get => Element.GetSelectedTextRanges();
         }
     }
 }

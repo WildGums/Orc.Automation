@@ -32,6 +32,11 @@
             }
         }
 
+        public void ClearControls()
+        {
+            _hostGrid?.Children.Clear();
+        }
+
         public string PutControl(string fullName)
         {
             var controlType = TypeHelper.GetTypeByName(fullName);
