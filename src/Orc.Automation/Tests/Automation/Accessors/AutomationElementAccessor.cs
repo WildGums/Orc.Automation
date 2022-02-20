@@ -18,22 +18,24 @@
         private InvokePattern _invokePattern;
         private ValuePattern _valuePattern;
 
+        private bool _isInitialized;
+
         public static AutomationElementAccessor PartAccessor(AutomationElement element, IPartFinder partFinder)
         {
             return new AutomationElementAccessor(element, partFinder);
-        }
-
-        public AutomationElementAccessor(AutomationElement element)
-        {
-            Argument.IsNotNull(() => element);
-
-            InitializeAccessElement(element);
         }
 
         private AutomationElementAccessor(AutomationElement element, IPartFinder partFinder)
             : this(element)
         {
             _finder = partFinder;
+        }
+
+        public AutomationElementAccessor(AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            _element = element;
         }
 
         public AutomationElementAccessor Part(IPartFinder partFinder)
@@ -45,6 +47,11 @@
 
         private void InitializeAccessElement(AutomationElement element)
         {
+            if (_isInitialized)
+            {
+                return;
+            }
+
             _element = element;
             _accessElement = element;
 
@@ -60,10 +67,17 @@
             {
                 System.Windows.Automation.Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, _accessElement, TreeScope.Element, OnEventInvoke);
             }
+
+            _isInitialized = true;
         }
 
         private void EnsureAccessElement()
         {
+            if (!_isInitialized)
+            {
+                InitializeAccessElement(_element);
+            }
+
             if (_accessElement is null)
             {
                 throw new AutomationException("Can't access element API...this element doesn't implement Run method and there is no AutomationInformer present");
