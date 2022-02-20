@@ -11,10 +11,10 @@
     {
         private readonly AutomationElement _element;
         private readonly SearchContext _searchContext = new();
-
         private readonly Tab _tab;
 
         private int? _tabIndex;
+        private TreeScope _treeScope = TreeScope.Subtree;
 
         public AutomationElement Element => _element;
 
@@ -82,14 +82,21 @@
             return this;
         }
 
+        public By Scope(TreeScope scope)
+        {
+            _treeScope = scope;
+
+            return this;
+        }
+
         public virtual AutomationElement One()
         {
             if (_tabIndex is not null && _tab is not null)
             {
-                return _tab.InTab(_tabIndex.Value, () => _element.Find(_searchContext));
+                return _tab.InTab(_tabIndex.Value, () => _element.Find(_searchContext, _treeScope));
             }
 
-            return _element.Find(_searchContext);
+            return _element.Find(_searchContext, _treeScope);
         }
 
         public T Part<T>()
@@ -105,10 +112,10 @@
         {
             if (_tabIndex is not null && _tab is not null)
             {
-                return _tab.InTab(_tabIndex.Value, () => _element.FindAll(_searchContext)?.ToList());
+                return _tab.InTab(_tabIndex.Value, () => _element.FindAll(_searchContext, _treeScope)?.ToList());
             }
 
-            return _element.FindAll(_searchContext)?.ToList();
+            return _element.FindAll(_searchContext, _treeScope)?.ToList();
         }
     }
 }
