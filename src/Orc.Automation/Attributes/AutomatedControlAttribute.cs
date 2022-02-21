@@ -14,7 +14,6 @@
         }
 
         public ControlType ControlType => AutomationHelper.GetControlType(ControlTypeName);
-
         public Type Class { get; set; }
         public string ControlTypeName { get; set; }
     }
