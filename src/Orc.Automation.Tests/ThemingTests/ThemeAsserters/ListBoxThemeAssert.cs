@@ -21,8 +21,8 @@
         {
             return colorType switch
             {
-                ColorType.Border => element.BorderBrush?.Color,
-                ColorType.Background => element.Background?.Color,
+                ColorType.Border => element.Current.BorderBrush?.Color,
+                ColorType.Background => element.Current.Background?.Color,
                 _ => null
             };
         }

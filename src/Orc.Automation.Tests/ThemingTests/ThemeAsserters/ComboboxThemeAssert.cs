@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Windows.Media;
     using Controls;
 
@@ -24,8 +23,8 @@
         {
             return colorType switch
             {
-                ColorType.Border => _map.Chrome.BorderBrush.Color,
-                ColorType.Background => _map.Chrome.Background.Color,
+                ColorType.Border => _map.Chrome.Current.BorderBrush.Color,
+                ColorType.Background => _map.Chrome.Current.Background.Color,
                 _ => throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null)
             };
         }

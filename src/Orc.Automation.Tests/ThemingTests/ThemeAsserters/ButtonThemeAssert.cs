@@ -23,8 +23,8 @@ public class ButtonThemeAssert : MappedThemeAssertBase<ButtonThemeAssert, Button
     {
         return colorType switch
         {
-            ColorType.Border => _map.Chrome.BorderBrush.Color,
-            ColorType.Background => _map.Chrome.Background.Color,
+            ColorType.Border => _map.Chrome.Current.BorderBrush.Color,
+            ColorType.Background => _map.Chrome.Current.Background.Color,
             _ => throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null)
         };
     }

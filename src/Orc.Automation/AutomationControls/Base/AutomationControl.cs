@@ -1,83 +1,48 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Collections.Generic;
-    using System.Reflection;
     using System.Windows.Automation;
     using Catel;
     using Catel.Caching;
-    using Catel.Data;
     using Catel.IoC;
-    using Catel.Reflection;
     using Catel.Windows.Interactivity;
 
-    public class ControlModel : ModelBase
+    public class AutomationControl<TControlModel, TMap> : AutomationControl<TControlModel>
+        where TControlModel : AutomationControlModel
+        where TMap : AutomationBase
     {
-        protected readonly AutomationElementAccessor _accessor;
-
-        private readonly HashSet<string> _ignoredProperties = new()
+        public AutomationControl(AutomationElement element, ControlType controlType)
+            : base(element, controlType)
         {
-            nameof(ModelBase.IsReadOnly),
-            nameof(ModelBase.IsDirty)
-        };
-
-        public ControlModel(AutomationElementAccessor accessor)
-        {
-            _accessor = accessor;
         }
 
-        protected override T GetValueFromPropertyBag<T>(string propertyName)
+        public AutomationControl(AutomationElement element)
+            : base(element)
         {
-            if (_accessor is null || _ignoredProperties.Contains(propertyName))
-            {
-                return base.GetValueFromPropertyBag<T>(propertyName);
-            }
-
-            var apiPropertyName = GetApiPropertyName(propertyName);
-            if (!string.IsNullOrWhiteSpace(apiPropertyName))
-            {
-                return _accessor.GetValue<T>(apiPropertyName);
-            }
-
-            return base.GetValueFromPropertyBag<T>(propertyName);
         }
 
-        protected override void SetValueToPropertyBag<TValue>(string propertyName, TValue value)
+        protected TMap Map => Map<TMap>();
+    }
+
+    public class AutomationControl<TControlModel> : AutomationControl
+        where TControlModel : AutomationControlModel
+    {
+        public AutomationControl(AutomationElement element, ControlType controlType)
+            : base(element, controlType)
         {
-            if (_accessor is null || _ignoredProperties.Contains(propertyName))
-            {
-                base.SetValueToPropertyBag(propertyName, value);
-
-                return;
-            }
-
-            var apiPropertyName = GetApiPropertyName(propertyName);
-            if (!string.IsNullOrWhiteSpace(apiPropertyName))
-            {
-                _accessor.SetValue(apiPropertyName, value);
-
-                return;
-            }
-
-            base.SetValueToPropertyBag(propertyName, value);
         }
 
-        private string GetApiPropertyName(string propertyName)
+        public AutomationControl(AutomationElement element)
+            : base(element)
         {
-            var property = PropertyHelper.GetPropertyInfo(this, propertyName);
-            var apiAttribute = property.GetAttribute<ApiPropertyAttribute>();
-            if (apiAttribute is null)
-            {
-                return GetType().IsDecoratedWithAttribute<AutomationAccessType>() ? propertyName : null;
-            }
-
-            return string.IsNullOrWhiteSpace(apiAttribute.OriginalName) ? propertyName : apiAttribute.OriginalName;
         }
+
+        public TControlModel Current => Model<TControlModel>();
     }
 
     public class AutomationControl : AutomationBase
     {
-        private readonly CacheStorage<Type, ControlModel> _models = new();
+        private readonly CacheStorage<Type, AutomationControlModel> _models = new();
 
         public AutomationControl(AutomationElement element, ControlType controlType)
             : this(element)
@@ -158,7 +123,7 @@
         }
 
         public TControlModel Model<TControlModel>()
-            where TControlModel : ControlModel
+            where TControlModel : AutomationControlModel
         {
             return (TControlModel)_models.GetFromCacheOrFetch(typeof(TControlModel), () => this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access));
         }

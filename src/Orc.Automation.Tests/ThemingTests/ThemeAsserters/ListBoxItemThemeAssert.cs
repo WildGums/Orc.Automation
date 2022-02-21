@@ -24,7 +24,7 @@ public class ListBoxItemThemeAssert : MappedThemeAssertBase<ListBoxItemThemeAsse
         switch (colorType)
         {
             case ColorType.Background:
-                return _map.Bd.Background?.Color;
+                return _map.Bd.Current.Background?.Color;
         }
 
         return null;
