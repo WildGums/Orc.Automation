@@ -80,6 +80,7 @@
         }
 
         public bool IsEnabled => AutomationProperties.IsEnabled;
+
         public void SetFocus()
         {
             Element?.SetFocus();
@@ -110,11 +111,11 @@
         {
             EventHelper.RaiseEvent(this, args.EventName, args);
         }
-        
+
         public object Execute<TMethodType>(params object[] parameters)
             where TMethodType : IAutomationMethodRun
         {
-            return Access.Execute<TMethodType>(parameters);
+            return Access.ExecuteAutomationMethod<TMethodType>(parameters);
         }
 
         public object Execute(string methodName, params object[] parameters)
@@ -127,5 +128,9 @@
         {
             return (TControlModel)_models.GetFromCacheOrFetch(typeof(TControlModel), () => this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access));
         }
+
+#pragma warning disable CS0067
+        public event EventHandler<EventArgs> AutomationMessageSent;
+#pragma warning restore CS0067
     }
 }

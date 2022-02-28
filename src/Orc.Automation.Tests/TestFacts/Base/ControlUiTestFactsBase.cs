@@ -30,13 +30,7 @@
 
             Thread.Sleep(200);
 
-            var target = testHost.Find(id: testedControlAutomationId);
-            if (target is null)
-            {
-                Assert.Fail("Can't find target control");
-            }
-
-            target.InitializeControlMap(this);
+            InitializeTarget(testedControlAutomationId);
         }
 
         [TearDown]
@@ -60,6 +54,24 @@
 
         protected virtual void AfterLoadingControl(TestHostAutomationControl testHost)
         {
+        }
+
+        protected virtual void InitializeTarget(string id)
+        {
+            var window = Setup.MainWindow;
+
+            var testHost = window.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
+            if (testHost is null)
+            {
+                return;
+            }
+
+            var target = testHost.Find(id: id);
+            if (target is null)
+            {
+                Assert.Fail("Can't find target control");
+            }
+            target.InitializeControlMap(this);
         }
     }
 }

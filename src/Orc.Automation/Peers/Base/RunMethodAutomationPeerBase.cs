@@ -10,6 +10,7 @@
     using Catel;
     using Catel.IoC;
     using Catel.Reflection;
+    using Catel.Windows;
 
     public abstract class RunMethodAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
     {
@@ -32,6 +33,11 @@
             _automationMethods = Array.Empty<IAutomationMethodRun>();
 
             Initialize();
+
+            AutomationRoutedEvents.AddAutomationMessageSentHandler(owner, (sender, args) =>
+            {
+                RaiseEvent("AutomationMessageSent", args.Message);
+            });
         }
         #endregion
 
@@ -239,6 +245,8 @@
 
             _result.LastEventName = eventName;
             _result.LastEventArgs = AutomationValue.FromValue(args);
+
+            //MessageBox.Show($"EventName = {eventName}; Args = {_result.LastEventArgs}");
 
             RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }

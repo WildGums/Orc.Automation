@@ -51,7 +51,7 @@
             return (T)automationElementAccessor.Execute(methodName, parameters);
         }
 
-        public static object Execute<TMethodType>(this AutomationElementAccessor automationElementAccessor, params object[] parameters)
+        public static object ExecuteAutomationMethod<TMethodType>(this AutomationElementAccessor automationElementAccessor, params object[] parameters)
             where TMethodType : IAutomationMethodRun
         {
             var result = (bool)automationElementAccessor.Execute(nameof(RunMethodAutomationPeerBase.AddAutomationMethod), typeof(TMethodType));

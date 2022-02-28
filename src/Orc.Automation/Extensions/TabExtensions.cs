@@ -6,7 +6,7 @@
     public static class TabExtensions
     {
         /// <summary>
-        /// Find control in tab index. Use it Instead of TabScope.Execute -> it should work faster
+        /// Find control in tab index. Use it Instead of TabScope.ExecuteAutomationMethod -> it should work faster
         /// </summary>
         /// <typeparam name="TControl"></typeparam>
         /// <param name="tab"></param>

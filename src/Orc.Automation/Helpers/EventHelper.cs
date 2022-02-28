@@ -32,9 +32,16 @@
             Argument.IsNotNull(() => target);
             Argument.IsNotNullOrWhitespace(() => eventName);
 
-            var eventDelegate = (MulticastDelegate)target.GetType()
-                .GetField(eventName, BindingFlags.Instance | BindingFlags.NonPublic)
-                ?.GetValue(target);
+            MulticastDelegate eventDelegate = null;
+            var type = target.GetType();
+
+            while (eventDelegate is null && type is not null)
+            {
+                eventDelegate = (MulticastDelegate)type.GetField(eventName, BindingFlags.Instance | BindingFlags.NonPublic)
+                    ?.GetValue(target);
+
+                type = type.BaseType;
+            }
 
             if (eventDelegate is null)
             {

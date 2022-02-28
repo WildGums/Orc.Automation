@@ -11,6 +11,8 @@ public class FrameworkElementModel : AutomationControlModel
     {
     }
 
+    public object DataContext { get; set; }
+
     public double Height { get; set; }
 
     public double Width { get; set; }
@@ -23,9 +25,9 @@ public class FrameworkElementModel : AutomationControlModel
 
     public VerticalAlignment VerticalAlignment { get; set; }
 
-    public double ActualWidth { get; }
+    public double ActualWidth => _accessor.GetValue<double>();
 
-    public double ActualHeight { get; }
+    public double ActualHeight => _accessor.GetValue<double>();
 
     public bool Focusable { get; set; }
 }
