@@ -14,6 +14,13 @@
         {
             Argument.IsNotNull(() => element);
 
+            return TryGetDependencyPropertyValue(element, element.GetType(), propertyName, out propertyValue);
+        }
+
+        public static bool TryGetDependencyPropertyValue(DependencyObject element, Type ownerType, string propertyName, out object propertyValue)
+        {
+            Argument.IsNotNull(() => element);
+
             propertyValue = null;
 
             if (string.IsNullOrWhiteSpace(propertyName))
@@ -21,7 +28,7 @@
                 return false;
             }
 
-            var dependencyProperty = GetDependencyPropertyByName(element, propertyName);
+            var dependencyProperty = GetDependencyPropertyByName(element, ownerType, propertyName);
             if (dependencyProperty is null)
             {
                 return false;
@@ -43,13 +50,20 @@
         public static bool SetDependencyPropertyValue(DependencyObject element, string propertyName, object value)
         {
             Argument.IsNotNull(() => element);
+
+            return SetDependencyPropertyValue(element, element.GetType(), propertyName, value);
+        }
+
+        public static bool SetDependencyPropertyValue(DependencyObject element, Type ownerType, string propertyName, object value)
+        {
+            Argument.IsNotNull(() => element);
             
             if (string.IsNullOrWhiteSpace(propertyName))
             {
                 return false;
             }
 
-            var dependencyProperty = GetDependencyPropertyByName(element, propertyName);
+            var dependencyProperty = GetDependencyPropertyByName(element, ownerType, propertyName);
             if (dependencyProperty is null)
             {
                 return false;
@@ -63,14 +77,14 @@
             return true;
         }
 
-        private static DependencyProperty GetDependencyPropertyByName(DependencyObject dependencyObject, string propertyName)
+        private static DependencyProperty GetDependencyPropertyByName(DependencyObject dependencyObject, Type ownerType, string propertyName)
         {
-            return GetDependencyPropertyByName(dependencyObject.GetType(), propertyName);
+            return GetDependencyPropertyByName(dependencyObject.GetType(), ownerType, propertyName);
         }
 
-        private static DependencyProperty GetDependencyPropertyByName(Type dependencyObjectType, string propertyName)
+        private static DependencyProperty GetDependencyPropertyByName(Type dependencyObjectType, Type ownerType, string propertyName)
         {
-            var dependencyProperty = DependencyPropertyDescriptor.FromName(propertyName, dependencyObjectType, dependencyObjectType)?.DependencyProperty;
+            var dependencyProperty = DependencyPropertyDescriptor.FromName(propertyName, ownerType, dependencyObjectType)?.DependencyProperty;
             return dependencyProperty;
         }
     }

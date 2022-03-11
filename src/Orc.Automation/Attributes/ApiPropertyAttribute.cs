@@ -10,7 +10,7 @@
 
     public class AutomationAccessType : AutomationAttribute
     {
-
+        public Type DefaultOwnerType { get; set; }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -27,5 +27,6 @@
         }
 
         public string OriginalName { get; set; }
+        public Type OwnerType { get; set; }
     }
 }

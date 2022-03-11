@@ -102,21 +102,25 @@
             });
         }
         
-        public object GetValue(string propertyName)
+        public void SetValue(string propertyName, object value, Type ownerType = null)
         {
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
 
-            var result = Execute(nameof(RunMethodAutomationPeerBase.GetPropertyValue), propertyName);
-            return result;
+            var result = ownerType is null
+                ? Execute(nameof(RunMethodAutomationPeerBase.SetPropertyValue), propertyName, value)
+                : Execute(nameof(RunMethodAutomationPeerBase.SetAttachedPropertyValue), ownerType, propertyName, value);
         }
 
-        public void SetValue(string propertyName, object value)
+        public object GetValue(string propertyName, Type ownerType = null)
         {
             Argument.IsNotNull(() => propertyName);
-            Argument.IsNotNullOrEmpty(() => propertyName);
 
-            var result = Execute(nameof(RunMethodAutomationPeerBase.SetPropertyValue), propertyName, value);
+            var result = ownerType is null 
+                ? Execute(nameof(RunMethodAutomationPeerBase.GetPropertyValue), propertyName)
+                : Execute(nameof(RunMethodAutomationPeerBase.GetAttachedPropertyValue), ownerType, propertyName);
+
+            return result;
         }
 
         public object TryFindResource(string resourceKey)

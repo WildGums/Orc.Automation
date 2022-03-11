@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation;
 
+using System;
 using System.Collections.Generic;
 using Catel.Data;
 using Catel.Reflection;
@@ -26,13 +27,11 @@ public class AutomationControlModel : ModelBase
             return base.GetValueFromPropertyBag<T>(propertyName);
         }
 
-        var apiPropertyName = GetApiPropertyName(propertyName);
-        if (!string.IsNullOrWhiteSpace(apiPropertyName))
-        {
-            return _accessor.GetValue<T>(apiPropertyName);
-        }
-
-        return base.GetValueFromPropertyBag<T>(propertyName);
+        var (apiPropertyName, ownerType) = GetApiPropertyDescription(propertyName);
+        
+        return !string.IsNullOrWhiteSpace(apiPropertyName) 
+            ? _accessor.GetValue<T>(apiPropertyName, ownerType)
+            : base.GetValueFromPropertyBag<T>(propertyName);
     }
 
     protected override void SetValueToPropertyBag<TValue>(string propertyName, TValue value)
@@ -44,10 +43,10 @@ public class AutomationControlModel : ModelBase
             return;
         }
 
-        var apiPropertyName = GetApiPropertyName(propertyName);
+        var (apiPropertyName, ownerType) = GetApiPropertyDescription(propertyName);
         if (!string.IsNullOrWhiteSpace(apiPropertyName))
         {
-            _accessor.SetValue(apiPropertyName, value);
+            _accessor.SetValue(apiPropertyName, value, ownerType);
 
             return;
         }
@@ -55,15 +54,21 @@ public class AutomationControlModel : ModelBase
         base.SetValueToPropertyBag(propertyName, value);
     }
 
-    private string GetApiPropertyName(string propertyName)
+    private (string propertyName, Type type) GetApiPropertyDescription(string propertyName)
     {
         var property = PropertyHelper.GetPropertyInfo(this, propertyName);
         var apiAttribute = property.GetAttribute<ApiPropertyAttribute>();
         if (apiAttribute is null)
         {
-            return GetType().IsDecoratedWithAttribute<AutomationAccessType>() ? propertyName : null;
+            var automationAccessTypeAttribute = GetType().GetAttribute<AutomationAccessType>();
+            return automationAccessTypeAttribute is not null
+                ? new ValueTuple<string, Type>(propertyName, automationAccessTypeAttribute.DefaultOwnerType)
+                : default;
         }
 
-        return string.IsNullOrWhiteSpace(apiAttribute.OriginalName) ? propertyName : apiAttribute.OriginalName;
+        propertyName = string.IsNullOrWhiteSpace(apiAttribute.OriginalName) ? propertyName : apiAttribute.OriginalName;
+        var type = apiAttribute.OwnerType;
+
+        return new ValueTuple<string, Type>(propertyName, type);
     }
 }

@@ -75,7 +75,8 @@
             //}
 
 
-           // var type = TypeHelper.GetTypeByName("Orc.Controls.Tests.CreateStyleForwardersMethodRun");
+
+            // var type = TypeHelper.GetTypeByName("Orc.Controls.Tests.CreateStyleForwardersMethodRun");
 
             var testHostPeer = new TestHostAutomationPeer(TestHost);
 

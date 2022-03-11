@@ -6,7 +6,6 @@
     using System.Windows.Controls;
     using System.Windows.Media;
     using Automation;
-    using Catel.Windows;
 
     public class FinderSearchContext
     {

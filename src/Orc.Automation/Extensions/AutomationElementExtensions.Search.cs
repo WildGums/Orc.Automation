@@ -184,13 +184,27 @@
 
         public static object FindAll(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
+            var className = AutomationHelper.GetControlClassName(wrapperType);
+            if (!string.IsNullOrWhiteSpace(className) && string.IsNullOrWhiteSpace(searchContext.ClassName))
+            {
+                searchContext.ClassName = className;
+            }
+
+            var controlType = AutomationHelper.GetControlType(wrapperType);
+            if (controlType is not null && searchContext.ControlType is null)
+            {
+                searchContext.ControlType = controlType;
+            }
+
             var foundElement = FindAll(element, searchContext, scope, numberOfWaits);
             if (foundElement is null)
             {
                 return null;
             }
 
-            return AutomationHelper.WrapAutomationObject(wrapperType, foundElement);
+            var list = typeof(List<>).MakeGenericType(wrapperType);
+
+            return AutomationHelper.WrapAutomationObject(list, foundElement);
         }
 
         public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)

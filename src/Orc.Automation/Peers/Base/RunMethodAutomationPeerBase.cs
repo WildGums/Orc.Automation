@@ -58,6 +58,19 @@
             return calls;
         }
 
+        [AutomationMethod]
+        public object GetAttachedPropertyValue([Target] FrameworkElement target, Type ownerType, string propertyName)
+        {
+            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(target, ownerType, propertyName, out var propertyValue)
+                ? propertyValue
+                : AutomationValue.NotSetValue;
+        }
+
+        [AutomationMethod]
+        public void SetAttachedPropertyValue([Target] FrameworkElement target, Type ownerType, string propertyName, object value)
+        {
+            DependencyPropertyAutomationHelper.SetDependencyPropertyValue(target, ownerType, propertyName, value);
+        }
 
         [AutomationMethod]
         public object GetPropertyValue([Target] FrameworkElement target, string propertyName)
@@ -66,7 +79,7 @@
                 ? propertyValue
                 : AutomationValue.NotSetValue;
         }
-
+        
         [AutomationMethod]
         public void SetPropertyValue([Target] FrameworkElement target, string propertyName, object value)
         {
@@ -78,7 +91,7 @@
         {
             if (_automationMethods.Any(x => x.GetType() == automationMethodType))
             {
-                return false;
+                return true;
             }
 
             if (this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(automationMethodType) is not IAutomationMethodRun automationMethod)

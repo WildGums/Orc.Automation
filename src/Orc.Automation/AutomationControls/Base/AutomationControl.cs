@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Windows;
     using System.Windows.Automation;
     using Catel;
     using Catel.Caching;
@@ -70,6 +71,8 @@
         #region Automation Properties
         public AutomationElement.AutomationElementInformation AutomationProperties => Element.Current;
 
+        public bool IsPart { get; protected set; }
+
         protected AutomationElementAccessor Access { get; private set; }
         #endregion
 
@@ -80,6 +83,7 @@
         }
 
         public bool IsEnabled => AutomationProperties.IsEnabled;
+        public virtual Rect BoundingRectangle => Element.Current.BoundingRectangle;
 
         public void SetFocus()
         {
@@ -96,6 +100,7 @@
             }
 
             control.Access = Access.Part(finder);
+            control.IsPart = true;
 
             Wait.UntilResponsive();
 

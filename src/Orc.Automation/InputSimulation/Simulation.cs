@@ -93,6 +93,29 @@
             Absolute = 0x8000,
         };
 
+        /// <summary>
+        /// Struct representing a point.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        // ReSharper disable once InconsistentNaming
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public static implicit operator Point(POINT point)
+            {
+                return new Point(point.X, point.Y);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the cursor's position, in screen coordinates.
+        /// </summary>
+        /// <see>See MSDN documentation for further information.</see>
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
         // Importing various Win32 APIs that we need for input
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         internal static extern int GetSystemMetrics(int nIndex);
@@ -163,6 +186,14 @@
             }
         }
 
+        public static void Move(double deltaX, double deltaY)
+        {
+            NativeMethods.GetCursorPos(out var point);
+            var newPoint = new Point(point.X + deltaX, point.Y + deltaY);
+
+            MoveTo(newPoint);
+        }
+
         /// <summary>
         /// Moves the mouse pointer to the specified screen coordinates.
         /// </summary>
@@ -220,7 +251,7 @@
         /// Performs a mouse-up operation for a specified mouse button.
         /// </summary>
         /// <param name="mouseButton">The mouse button to use.</param>
-        public static void Up(MouseButton mouseButton)
+        public static void Up(MouseButton mouseButton = MouseButton.Left)
         {
             switch (mouseButton)
             {
