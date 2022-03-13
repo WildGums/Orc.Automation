@@ -65,6 +65,12 @@
             : base(element)
         {
             Access = accessor ?? new AutomationElementAccessor(element);
+        }
+
+        //TODO:Vladimir: Temporary solution / should be OK if we move this subscribition to ctor; 
+        //But construction would be a little slower (but clearer)...so for now i prefer to explisitly activate
+        public void Activate()
+        {
             Access.AutomationEvent += OnEvent;
         }
 
@@ -74,6 +80,8 @@
         public bool IsPart { get; protected set; }
 
         protected AutomationElementAccessor Access { get; private set; }
+        public bool IsEnabled => AutomationProperties.IsEnabled;
+        public virtual Rect BoundingRectangle => Element.Current.BoundingRectangle;
         #endregion
 
         public void AttachBehavior<TBehavior>()
@@ -81,9 +89,6 @@
         {
             Access.AttachBehavior(typeof(TBehavior));
         }
-
-        public bool IsEnabled => AutomationProperties.IsEnabled;
-        public virtual Rect BoundingRectangle => Element.Current.BoundingRectangle;
 
         public void SetFocus()
         {

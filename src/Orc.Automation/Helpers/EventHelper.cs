@@ -20,7 +20,13 @@
             {
                 return false;
             }
-            
+
+            //TODO:Vladimir: Should be more generic/base
+            if (target is AutomationControl control)
+            {
+                control.Activate();
+            }
+
             var @delegate = Create(@event, handler);
             @event.AddEventHandler(target, @delegate);
 
@@ -38,7 +44,7 @@
             while (eventDelegate is null && type is not null)
             {
                 eventDelegate = (MulticastDelegate)type.GetField(eventName, BindingFlags.Instance | BindingFlags.NonPublic)
-                    ?.GetValue(target);
+                     ?.GetValue(target);
 
                 type = type.BaseType;
             }

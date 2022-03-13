@@ -182,9 +182,7 @@
 
         private void BringYearIntoView(int year)
         {
-            var element = Element;
-
-            element.TryRunPatternFunc<MultipleViewPattern>(x =>
+            Element.TryRunPatternFunc<MultipleViewPattern>(x =>
             {
                 var supportedViews = x.Current.GetSupportedViews();
                 if (supportedViews.Length >= 3)
@@ -222,22 +220,5 @@
                 }
             }
         }
-        
-        //}
-
-        //public void Some()
-        //{
-        //    Element.RunPatternFunc<TablePattern>(x => x.GetItem(2, 2));
-        //}
-
-        //public void Some2()
-        //{
-
-        //    var selection = Element.RunPatternFunc<SelectionPattern, AutomationElement[]>(x => x.Current.GetSelection());
-
-        //    var automationElement = Element.RunPatternFunc<TablePattern, AutomationElement>(x => x.GetItem(2, 2));
-
-        //    var automationElements = Element.RunPatternFunc<TablePattern, AutomationElement[]>(x => x.Current.GetColumnHeaders());
-        //}
     }
 }

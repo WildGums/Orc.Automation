@@ -5,7 +5,6 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
-    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 
@@ -71,7 +70,7 @@
             _isInitialized = true;
         }
 
-        private void EnsureAccessElement()
+        private void EnsureInitialized()
         {
             if (!_isInitialized)
             {
@@ -86,8 +85,6 @@
 
         private void OnEventInvoke(object sender, System.Windows.Automation.AutomationEventArgs e)
         {
-            EnsureAccessElement();
-
             var result = _valuePattern.Current.Value;
 
             var automationResult = AutomationResultContainer.FromStr(result);
@@ -95,7 +92,7 @@
             var eventName = automationResult.LastEventName;
             var eventData = automationResult.LastEventArgs?.ExtractValue();
 
-            AutomationEvent?.Invoke(this, new AutomationEventArgs
+            _automationEvent?.Invoke(this, new AutomationEventArgs
             {
                 EventName = eventName,
                 Data = eventData
@@ -155,7 +152,7 @@
 
         private AutomationValue Execute(AutomationMethod method, int delay)
         {
-            EnsureAccessElement();
+            EnsureInitialized();
 
             if (method is null)
             {
@@ -198,8 +195,21 @@
 
             return automationResultContainer.LastInvokedMethodResult;
         }
+        
+        private event EventHandler<AutomationEventArgs> _automationEvent; 
+        public event EventHandler<AutomationEventArgs> AutomationEvent
+        {
+            add
+            {
+                EnsureInitialized();
+                _automationEvent += value;
+            }
 
-        public event EventHandler<AutomationEventArgs> AutomationEvent;
+            remove
+            {
+                _automationEvent -= value;
+            }
+        }
     }
 
     [KnownType(typeof(SearchContextFinder))]

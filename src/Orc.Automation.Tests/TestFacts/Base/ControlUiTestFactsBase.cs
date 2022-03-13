@@ -71,6 +71,7 @@
             {
                 Assert.Fail("Can't find target control");
             }
+
             target.InitializeControlMap(this);
         }
     }

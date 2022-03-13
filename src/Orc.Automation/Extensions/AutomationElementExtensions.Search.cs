@@ -142,7 +142,7 @@
                 foundElement = TryFindElementByCondition(element, scope, condition, isRaw); 
 
                 ++numWaits;
-                Thread.Sleep(200);
+                Thread.Sleep(SearchParameters.WaitDelay);
             } 
             while (foundElement is null && numWaits < numberOfWaits);
 
