@@ -128,10 +128,7 @@
                         DoEvents();
                     }
                 }
-
-                
             }
-            
             //Do some temporary test stuff here
         }
 

@@ -6,7 +6,7 @@
     using Controls;
 
     [AutomatedControl(ControlTypeName = nameof(ControlType.DataGrid))]
-    public class DataGrid : FrameworkElement
+    public class DataGrid : FrameworkElement<DataGridModel>
     {
         public DataGrid(AutomationElement element) 
             : base(element)

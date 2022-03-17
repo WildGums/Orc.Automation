@@ -60,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AutomationControls\AutomationMethods\" />
     <Folder Include="Controls\AutomationInformer\Themes\" />
   </ItemGroup>
 

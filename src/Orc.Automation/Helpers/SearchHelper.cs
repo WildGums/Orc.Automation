@@ -7,7 +7,7 @@
     {
         public static UIElement GetDirectlyOver(Window window, Point point, string typeName)
         {
-            if (TryGetElementAtMousePos(window, point, typeName, out var elementFromFilter, out var elementFromResult))
+            if (TryGetElementAtPosition(window, point, typeName, out var elementFromFilter, out var elementFromResult))
             {
                 return elementFromFilter
                        ?? elementFromResult;
@@ -16,7 +16,7 @@
             return null;
         }
 
-        private static bool TryGetElementAtMousePos(Window window, Point point, string typeName, out UIElement elementFromFilter, out UIElement elementFromResult)
+        private static bool TryGetElementAtPosition(Window window, Point point, string typeName, out UIElement elementFromFilter, out UIElement elementFromResult)
         {
             elementFromFilter = null;
             elementFromResult = null;
