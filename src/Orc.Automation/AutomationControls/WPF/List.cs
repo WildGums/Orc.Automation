@@ -1,10 +1,8 @@
 ﻿namespace Orc.Automation.Controls
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
-    using System.Windows.Controls;
 
     [AutomatedControl(ControlTypeName = nameof(ControlType.List))]
     public class List : FrameworkElement

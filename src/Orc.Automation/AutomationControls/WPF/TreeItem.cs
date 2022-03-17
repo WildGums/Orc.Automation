@@ -21,6 +21,7 @@
 
         public string Header => By.Raw().One<Text>()?.Value;
 
-        public IReadOnlyList<TreeItem> ChildItems => (IReadOnlyList<TreeItem>) By.Scope(TreeScope.Children).Many<TreeItem>() ?? Array.Empty<TreeItem>();
+        public IReadOnlyList<TreeItem> ChildItems => (IReadOnlyList<TreeItem>) By.Scope(TreeScope.Children)
+            .Many<TreeItem>() ?? Array.Empty<TreeItem>();
     }
 }

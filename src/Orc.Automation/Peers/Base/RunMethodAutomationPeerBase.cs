@@ -10,7 +10,6 @@
     using Catel;
     using Catel.IoC;
     using Catel.Reflection;
-    using Catel.Windows;
 
     public abstract class RunMethodAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
     {
@@ -209,7 +208,23 @@
                 _result ??= new AutomationResultContainer();
                 
                 var handle = method.Handle;
-                var currentTarget = string.IsNullOrWhiteSpace(handle) ? _owner : _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
+                var currentTarget = _owner;
+
+                if (!string.IsNullOrWhiteSpace(handle))
+                {
+                    currentTarget = _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
+                }
+                else
+                {
+                    var searchRectangle = method.SearchRectangle;
+                    if (searchRectangle is not null)
+                    {
+                        var ownerWindow = Window.GetWindow(_owner);
+                        var hitTestPoint = ownerWindow.PointFromScreen(searchRectangle.Value.GetClickablePoint());
+
+                        currentTarget = SearchHelper.GetDirectlyOver(ownerWindow, hitTestPoint, method.SearchTypeName) as FrameworkElement;
+                    }
+                }
 
                 var finder = method.Finder;
                 if (finder is not null)

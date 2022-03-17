@@ -14,6 +14,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Button Content="Click"
                     Click="ButtonBase_OnClick"/>
@@ -23,6 +24,12 @@
             <orcautomation:TestHost x:Name="TestHost"
                                     Grid.Row="2"
                                     AutomationProperties.AutomationId="TestHostId"/>
+
+            <TextBlock Grid.Row="3">
+                <Run Text="{Binding MouseXPosition, Mode=OneWay}"/>
+                <Run Text=" - "/>
+                <Run Text="{Binding MouseYPosition, Mode=OneWay}"/>
+            </TextBlock>
         </Grid>
     </controls:AutomationInformer>
 

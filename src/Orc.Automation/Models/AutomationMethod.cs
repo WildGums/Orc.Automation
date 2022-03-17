@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Windows;
 
     public class AutomationValueList : List<AutomationValue>
     {
@@ -39,6 +40,9 @@
         public static readonly AutomationMethod Empty = new ();
 
         public string Handle { get; set; }
+        public Rect? SearchRectangle { get; set; }
+        public string SearchTypeName { get; set; }
+
         public IPartFinder Finder { get; set; }
 
         public static AutomationMethod FromStr(string methodText)

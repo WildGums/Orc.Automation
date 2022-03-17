@@ -264,6 +264,93 @@
         }
         #endregion
 
+        #region Table
+        public static AutomationElement[] GetColumnHeaders(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<TablePattern, AutomationElement[]>(x => x.Current.GetColumnHeaders());
+        }
+
+        public static AutomationElement[] GetRowHeaders(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<TablePattern, AutomationElement[]>(x => x.Current.GetRowHeaders());
+        }
+
+        public static int GetRowCount(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<TablePattern, int>(x => x.Current.RowCount);
+        }
+
+        public static int GetColumnCount(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<TablePattern, int>(x => x.Current.ColumnCount);
+        }
+
+        public static AutomationElement GetItem(this AutomationElement element, int row, int column)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<TablePattern, AutomationElement>(x => x.GetItem(row, column));
+        }
+        #endregion
+
+        //#region TableItem
+        //public static int GetColumn(this AutomationElement element, double newWidth, double newHeight)
+        //{
+        //    Argument.IsNotNull(() => element);
+
+        //    return element.RunPatternFunc<TableItemPattern, int>(x => x.Current.);
+        //}
+        //#endregion
+
+        #region Transform
+        public static void Resize(this AutomationElement element, double newWidth, double newHeight)
+        {
+            Argument.IsNotNull(() => element);
+
+            element.TryRunPatternFunc<TransformPattern>(x =>
+            {
+                if (x.Current.CanResize)
+                {
+                    x.Resize(newWidth, newHeight);
+                }
+            });
+        }
+
+        public static void Move(this AutomationElement element, double newX, double newY)
+        {
+            Argument.IsNotNull(() => element);
+
+            element.TryRunPatternFunc<TransformPattern>(x =>
+            {
+                if (x.Current.CanMove)
+                {
+                    x.Move(newX, newY);
+                }
+            });
+        }
+
+        public static void Rotate(this AutomationElement element, double degrees)
+        {
+            Argument.IsNotNull(() => element);
+
+            element.TryRunPatternFunc<TransformPattern>(x =>
+            {
+                if (x.Current.CanRotate)
+                {
+                    x.Rotate(degrees);
+                }
+            });
+        }
+        #endregion
+
         #region Toggle
         /// <summary>
         /// Toggle element if TogglePattern is available

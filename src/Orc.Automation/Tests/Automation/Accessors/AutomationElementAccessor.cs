@@ -5,6 +5,7 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
+    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 
@@ -57,7 +58,7 @@
             _valuePattern = _accessElement.TryGetPattern<ValuePattern>();
             if (_valuePattern is null)
             {
-                _accessElement = _accessElement.Find(className: typeof(AutomationInformer).FullName, scope:TreeScope.Parent);
+                _accessElement = _accessElement.Find(className: typeof(Controls.AutomationInformer).FullName, scope:TreeScope.Parent);
                 _valuePattern = _accessElement?.TryGetPattern<ValuePattern>();
             }
 
@@ -161,7 +162,11 @@
 
             if (!Equals(_accessElement, _element))
             {
-                method.Handle = _element.Current.AutomationId;
+                var current = _element.Current;
+
+                method.Handle = current.AutomationId;
+                method.SearchRectangle = current.BoundingRectangle;
+                method.SearchTypeName = current.ClassName;
             }
 
             method.Finder = _finder;
@@ -211,6 +216,15 @@
             }
         }
     }
+
+    //public class PartFinder : IPartFinder
+    //{
+    //    public FrameworkElement Find(FrameworkElement parent)
+    //    {
+            
+    //    }
+    //}
+
 
     [KnownType(typeof(SearchContextFinder))]
     public class AML

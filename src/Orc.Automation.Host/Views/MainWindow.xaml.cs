@@ -4,7 +4,10 @@
     using System.IO;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Threading;
     using Catel.Windows;
+    using ViewModels;
 
     public partial class MainWindow
     {
@@ -95,51 +98,59 @@
             {
                 i++;
 
-                if (_countClick == 1)
+                if (i == _countClick)
                 {
-                    var elementStr = automationMethod.ToString();
+                    if (_countClick == 16)
+                    {
 
-                    testHostPeer.SetValue(elementStr);
-                    testHostPeer.Invoke();
+                    }
 
-                    var value = testHostPeer.Value;
+                    if (_countClick is 15 or 16 )
+                    {
+                        var control = TestHost.GetChildren().ElementAt(0).GetChildren().ElementAt(0);
+
+                        var controlPeerType = TypeHelper.GetTypeByName("Orc.FilterBuilder.Automation.EditFilterViewPeer");
+                        var controlPeer = Activator.CreateInstance(controlPeerType, control); //new FrameworkElementAutomationPeer(culturePicker);
+
+                        dynamic controlPeerDyn = controlPeer;
+
+                        var elementStr = automationMethod.ToString();
+                        controlPeerDyn.SetValue(elementStr);
+                        controlPeerDyn.Invoke();
+                    }
+                    else
+                    {
+                        var elementStr = automationMethod.ToString();
+
+                        testHostPeer.SetValue(elementStr);
+                        testHostPeer.Invoke();
+
+                        DoEvents();
+                    }
                 }
-                else
-                {
-                    var filterBox = TestHost.GetChildren().ElementAt(0).GetChildren().ElementAt(0);
-                        
 
-                    var filterBoxPeerType = TypeHelper.GetTypeByName("Orc.Controls.Automation.FilterBoxAutomationPeer");
-                    var automationPeer = Activator.CreateInstance(filterBoxPeerType, filterBox); //new FrameworkElementAutomationPeer(culturePicker);
+                
+            }
+            
+            //Do some temporary test stuff here
+        }
 
-                    dynamic automationPeerDyn = automationPeer;
-
-                    automationPeerDyn.SetValue(File.ReadAllText("C:\\Temp\\Temp.txt"));
-                    automationPeerDyn.Invoke();
-
-                    break;
-
-
-
-                    //automationPeer
-
-                    //testHostPeer.SetValue(File.ReadAllText("C:\\Temp\\TestBeh.txt"));
-
-                    //testHostPeer.Invoke();
-
-                    //if (i == 14)
-                    //{
-                    //    var elementStr = automationMethod.ToString();
-
-                    //    testHostPeer.SetValue(elementStr);
-                    //    testHostPeer.Invoke();
-                    //    var value = testHostPeer.Value;
-                    //}
-                }
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (ViewModel is not MainViewModel vm)
+            {
+                return;
             }
 
+            var position = e.GetPosition(this);
+            vm.MouseXPosition = position.X;
+            vm.MouseYPosition = position.Y;
+        }
 
-            //Do some temporary test stuff here
+        public static void DoEvents()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Render,
+                new Action(delegate { }));
         }
     }
 }
