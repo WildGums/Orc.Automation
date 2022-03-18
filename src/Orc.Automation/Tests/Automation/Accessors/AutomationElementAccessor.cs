@@ -173,7 +173,7 @@
 
             var methodStr = method.ToString();
             
-            AutomationMethodsList.Instance.Methods.Add(method);
+            //AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
             {

@@ -272,11 +272,9 @@
 
                 _result.LastInvokedMethodResult = methodResult;
             }
-            catch (Exception ex)
+            catch
             {
-                File.AppendAllText("C:\\Temps\\Exception.txt", ex.Message);
-                File.AppendAllText("C:\\Temps\\Exception.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\Exception.txt", ex.StackTrace);
+                //TODO:Vladimir:Log
             }
         }
 

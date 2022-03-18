@@ -49,18 +49,9 @@
                 var methodResult = method.Invoke(_peer, automationInputParameters);
                 result = AutomationValue.FromValue(methodResult);
             }
-            catch (Exception e)
+            catch
             {
-                Console.Write(e);
-
-                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.Message);
-                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.StackTrace);
-                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", automationMethod.ToString());
-
-                throw;
+                //TODO:Vladimir: Log ERRORS
             }
             return true;
         }
