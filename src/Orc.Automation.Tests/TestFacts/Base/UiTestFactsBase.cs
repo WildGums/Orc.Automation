@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System.IO;
     using System.Windows.Automation;
     using Automation;
     using Automation.Services;
