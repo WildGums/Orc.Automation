@@ -9,9 +9,9 @@
 
     public class ReflectionAutomationMethodRun : NamedAutomationMethodRun
     {
-        private readonly RunMethodAutomationPeerBase _peer;
+        private readonly AutomationControlPeerBase _peer;
 
-        public ReflectionAutomationMethodRun(RunMethodAutomationPeerBase peer, string methodName)
+        public ReflectionAutomationMethodRun(AutomationControlPeerBase peer, string methodName)
         {
             Argument.IsNotNull(() => peer);
 
@@ -49,16 +49,9 @@
                 var methodResult = method.Invoke(_peer, automationInputParameters);
                 result = AutomationValue.FromValue(methodResult);
             }
-            catch (Exception ex)
+            catch
             {
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.Message);
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.StackTrace);
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", automationMethod.ToString());
-
-                throw;
+                //TODO:Vladimir: Log ERRORS
             }
             return true;
         }

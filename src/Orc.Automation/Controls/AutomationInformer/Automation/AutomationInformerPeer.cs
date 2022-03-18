@@ -3,7 +3,7 @@
     using System.Windows;
     using Recording;
 
-    public class AutomationInformerPeer : ControlRunMethodAutomationPeerBase<Controls.AutomationInformer>
+    public class AutomationInformerPeer : AutomationControlPeerBase<Controls.AutomationInformer>
     {
         public AutomationInformerPeer(Controls.AutomationInformer owner)
             : base(owner)

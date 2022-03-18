@@ -11,18 +11,43 @@
     using Catel.IoC;
     using Catel.Reflection;
 
-    public abstract class RunMethodAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
+    public abstract class AutomationControlPeerBase<TControl> : AutomationControlPeerBase
+        where TControl : FrameworkElement
+    {
+        protected AutomationControlPeerBase(TControl owner)
+            : base(owner)
+        {
+            Control = owner;
+        }
+
+        protected TControl Control { get; }
+
+        protected override string GetClassNameCore()
+        {
+            return typeof(TControl).FullName;
+        }
+
+        [AutomationMethod]
+        public object TryFindResource(string key)
+        {
+            return Control.TryFindResource(key);
+        }
+    }
+
+    public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
     {
         #region Fields
         private readonly FrameworkElement _owner;
 
-        private AutomationResultContainer _result = new ();
+        private AutomationResultContainer _result = new();
+
+        private AutomationMethod _pendingMethod;
 
         private IList<IAutomationMethodRun> _automationMethods;
         #endregion
 
         #region Constructors
-        public RunMethodAutomationPeerBase(FrameworkElement owner)
+        public AutomationControlPeerBase(FrameworkElement owner)
             : base(owner)
         {
             Argument.IsNotNull(() => owner);
@@ -49,7 +74,7 @@
         protected virtual IList<IAutomationMethodRun> GetAvailableAutomationMethods()
         {
             var calls = GetType().GetMethods().Where(x => x.IsDecoratedWithAttribute(typeof(AutomationMethodAttribute)))
-                .Select(x => (IAutomationMethodRun) new ReflectionAutomationMethodRun(this, x.Name))
+                .Select(x => (IAutomationMethodRun)new ReflectionAutomationMethodRun(this, x.Name))
                 .ToList();
 
             calls.Add(new AttachBehaviorMethodRun());
@@ -74,11 +99,11 @@
         [AutomationMethod]
         public object GetPropertyValue([Target] FrameworkElement target, string propertyName)
         {
-            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(target, propertyName, out var propertyValue) 
+            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(target, propertyName, out var propertyValue)
                 ? propertyValue
                 : AutomationValue.NotSetValue;
         }
-        
+
         [AutomationMethod]
         public void SetPropertyValue([Target] FrameworkElement target, string propertyName, object value)
         {
@@ -144,8 +169,6 @@
         }
         #endregion
 
-        private AutomationMethod _pendingMethod;
-
         #region IValueProvider
         public virtual void SetValue(string value)
         {
@@ -206,7 +229,7 @@
                 _pendingMethod = null;
 
                 _result ??= new AutomationResultContainer();
-                
+
                 var handle = method.Handle;
                 var currentTarget = _owner;
 
@@ -249,11 +272,9 @@
 
                 _result.LastInvokedMethodResult = methodResult;
             }
-            catch (Exception ex)
+            catch
             {
-                File.AppendAllText("C:\\Temps\\Exception.txt", ex.Message);
-                File.AppendAllText("C:\\Temps\\Exception.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\Exception.txt", ex.StackTrace);
+                //TODO:Vladimir:Log
             }
         }
 

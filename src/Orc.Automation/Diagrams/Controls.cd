@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Orc.Automation.Controls.Button">
+    <Position X="8.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAABAAAAQAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>AutomationControls\WPF\Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.FrameworkElement">
+    <Position X="11.75" Y="11" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>AutomationControls\WPF\FrameworkElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.AutomationControl&lt;TControlModel&gt;">
+    <Position X="11.5" Y="8.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\AutomationControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.AutomationControl">
+    <Position X="11.5" Y="3.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AoAEAAAAIAAAAERAAEEACAAAAAEAAAAAAAgAAAAAEAE=</HashCode>
+      <FileName>AutomationControls\AutomationControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.AutomationBase">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAIAAAIAgAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>AutomationControls\Base\AutomationBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Border">
+    <Position X="7" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Border.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Calendar">
+    <Position X="10.5" Y="13.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAEQCAAAAAAAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\CalendarAutomationElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.DataGrid">
+    <Position X="2.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAASAAAAAAAQAAAgAAAAAAAAAAAAgA=</HashCode>
+      <FileName>AutomationControls\WPF\DataGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.FrameworkElement&lt;TControlModel&gt;">
+    <Position X="2" Y="11.25" Width="3" />
+    <InheritanceLine Type="Orc.Automation.AutomationControl&lt;TControlModel&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="11.5" Y="9.875" />
+        <Point X="11.125" Y="9.875" />
+        <Point X="11.125" Y="11.866" />
+        <Point X="5" Y="11.866" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\FrameworkElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.CheckBox">
+    <Position X="10.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\CheckBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.ComboBox">
+    <Position X="15" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAACBAAAAAAAAAAAAAAAAAABJAASAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\ComboBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.DataGridCell">
+    <Position X="16.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\DataGridCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.DataItem">
+    <Position X="2.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\DataItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Edit">
+    <Position X="10.5" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Edit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.HeaderItem">
+    <Position X="7" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>AutomationControls\WPF\HeaderItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Hyperlink">
+    <Position X="8.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Hyperlink.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.List">
+    <Position X="18.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAABAAAAAAAABBAAQAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\List.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.ListItem">
+    <Position X="18.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\ListItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Menu">
+    <Position X="20.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.MenuItem">
+    <Position X="20.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>AutomationControls\WPF\MenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Slider">
+    <Position X="22" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAAAAAAQAAAAAAAAAAACAAAAAAgAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Slider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Tab">
+    <Position X="13.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAACAEAAAAAABAAAAAAAJAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Tab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.TabItem">
+    <Position X="13.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\TabItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Text">
+    <Position X="16.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Text.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.ToggleButton">
+    <Position X="23.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAgAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\ToggleButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Tree">
+    <Position X="5.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Tree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.TreeItem">
+    <Position X="5.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationControls\WPF\TreeItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Automation.Controls.Window">
+    <Position X="7" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAACIAAA=</HashCode>
+      <FileName>AutomationControls\WPF\Window.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

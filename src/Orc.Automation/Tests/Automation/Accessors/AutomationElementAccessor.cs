@@ -106,8 +106,8 @@
             Argument.IsNotNullOrEmpty(() => propertyName);
 
             var result = ownerType is null
-                ? Execute(nameof(RunMethodAutomationPeerBase.SetPropertyValue), propertyName, value)
-                : Execute(nameof(RunMethodAutomationPeerBase.SetAttachedPropertyValue), ownerType, propertyName, value);
+                ? Execute(nameof(AutomationControlPeerBase.SetPropertyValue), propertyName, value)
+                : Execute(nameof(AutomationControlPeerBase.SetAttachedPropertyValue), ownerType, propertyName, value);
         }
 
         public object GetValue(string propertyName, Type ownerType = null)
@@ -115,8 +115,8 @@
             Argument.IsNotNull(() => propertyName);
 
             var result = ownerType is null 
-                ? Execute(nameof(RunMethodAutomationPeerBase.GetPropertyValue), propertyName)
-                : Execute(nameof(RunMethodAutomationPeerBase.GetAttachedPropertyValue), ownerType, propertyName);
+                ? Execute(nameof(AutomationControlPeerBase.GetPropertyValue), propertyName)
+                : Execute(nameof(AutomationControlPeerBase.GetAttachedPropertyValue), ownerType, propertyName);
 
             return result;
         }
@@ -173,7 +173,7 @@
 
             var methodStr = method.ToString();
             
-            AutomationMethodsList.Instance.Methods.Add(method);
+            //AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
             {
@@ -216,15 +216,6 @@
             }
         }
     }
-
-    //public class PartFinder : IPartFinder
-    //{
-    //    public FrameworkElement Find(FrameworkElement parent)
-    //    {
-            
-    //    }
-    //}
-
 
     [KnownType(typeof(SearchContextFinder))]
     public class AML
