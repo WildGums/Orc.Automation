@@ -2,41 +2,37 @@
 {
     using System;
     using System.Linq;
-    using System.Reflection;
-    using Catel.Reflection;
 
-    public class TestHostAutomationPeer : RunMethodAutomationPeerBase
+    public class TestHostAutomationPeer : AutomationControlPeerBase<TestHost>
     {
-        private readonly TestHost _testHost;
-
         public TestHostAutomationPeer(TestHost owner) 
             : base(owner)
         {
-            _testHost = owner;
+            
         }
 
         [AutomationMethod]
         public string PutControl(string controlTypeFullName)
         {
-            return _testHost.PutControl(controlTypeFullName);
+            return Control.PutControl(controlTypeFullName);
         }
 
         [AutomationMethod]
         public void ClearControls()
         {
-            _testHost.ClearControls();
+            Control.ClearControls();
         }
 
         [AutomationMethod]
         public bool LoadResources(string uri)
         {
-            return _testHost.LoadResources(uri);
+            return Control.LoadResources(uri);
         }
 
         [AutomationMethod]
         public bool LoadAssembly(string location)
         {
-            var assembly = _testHost.LoadAssembly(location);
+            var assembly = Control.LoadAssembly(location);
 
             return assembly is not null;
         }
@@ -44,7 +40,7 @@
         [AutomationMethod]
         public void LoadUnmanaged(string location)
         {
-            _testHost.LoadUnmanaged(location);
+            Control.LoadUnmanaged(location);
         }
 
         [AutomationMethod]
