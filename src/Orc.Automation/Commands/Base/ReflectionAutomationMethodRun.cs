@@ -9,9 +9,9 @@
 
     public class ReflectionAutomationMethodRun : NamedAutomationMethodRun
     {
-        private readonly RunMethodAutomationPeerBase _peer;
+        private readonly AutomationControlPeerBase _peer;
 
-        public ReflectionAutomationMethodRun(RunMethodAutomationPeerBase peer, string methodName)
+        public ReflectionAutomationMethodRun(AutomationControlPeerBase peer, string methodName)
         {
             Argument.IsNotNull(() => peer);
 
