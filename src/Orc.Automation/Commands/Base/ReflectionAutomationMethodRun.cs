@@ -49,14 +49,16 @@
                 var methodResult = method.Invoke(_peer, automationInputParameters);
                 result = AutomationValue.FromValue(methodResult);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.Message);
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.StackTrace);
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
-                File.AppendAllText("C:\\Temps\\ExceptionData.txt", automationMethod.ToString());
+                Console.Write(e);
+
+                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.Message);
+                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
+                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", ex.StackTrace);
+                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
+                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", "\r\n");
+                //File.AppendAllText("C:\\Temps\\ExceptionData.txt", automationMethod.ToString());
 
                 throw;
             }

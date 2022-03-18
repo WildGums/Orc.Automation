@@ -218,8 +218,6 @@
         {
             try
             {
-                MessageBox.Show("1");
-
                 var method = _pendingMethod;
                 if (method is null)
                 {
@@ -227,8 +225,6 @@
 
                     return;
                 }
-
-                MessageBox.Show("2");
 
                 _pendingMethod = null;
 
@@ -239,8 +235,6 @@
 
                 if (!string.IsNullOrWhiteSpace(handle))
                 {
-                    MessageBox.Show($"handle - {handle}");
-
                     currentTarget = _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
                 }
                 else
