@@ -6,7 +6,7 @@
               xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
               xmlns:controls="clr-namespace:Orc.Automation.Controls;assembly=Orc.Automation"
               Height="900" Width="1000"
-              AutomationProperties.AutomationId="AutomationHost">
+              AutomationProperties.AutomationId="AutomationHost"> 
 
     <controls:AutomationInformer>
         <Grid>
@@ -19,7 +19,7 @@
             <Button Content="Click"
                     Click="ButtonBase_OnClick"/>
 
-            <orctheming:ThemeSwitcherView Grid.Row="1" />
+            <!--<orctheming:ThemeSwitcherView Grid.Row="1" />-->
 
             <orcautomation:TestHost x:Name="TestHost"
                                     Grid.Row="2"

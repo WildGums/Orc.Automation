@@ -1,13 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Automation.Host
+﻿namespace Orc.Automation.Host
 {
-    using System;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
@@ -19,7 +11,7 @@ namespace Orc.Automation.Host
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 

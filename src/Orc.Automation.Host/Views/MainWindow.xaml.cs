@@ -1,24 +1,26 @@
 ﻿namespace Orc.Automation.Host.Views
 {
     using System;
-    using System.IO;
     using System.Linq;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Threading;
     using Catel.Windows;
+    using Theming;
     using ViewModels;
 
     public partial class MainWindow
     {
+        private static int _countClick = 0;
+
         public MainWindow()
         {
             InitializeComponent();
 
             CanCloseUsingEscape = false;
-        }
 
-        private static int _countClick = 0;
+            ThemeManager.Current.SynchronizeTheme();
+        }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
