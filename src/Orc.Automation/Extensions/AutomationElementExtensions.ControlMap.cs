@@ -31,7 +31,6 @@
             Argument.IsNotNull(() => controlMap);
 
             TargetAttribute.ResolveTargetProperty(element, controlMap);
-            //ControlPartAttribute.ResolvePartProperties(element, controlMap);
             TargetControlMapAttribute.Initialize(element, controlMap);
         }
     }

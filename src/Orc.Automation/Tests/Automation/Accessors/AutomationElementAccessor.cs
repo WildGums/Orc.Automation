@@ -5,7 +5,6 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
-    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 
@@ -173,7 +172,7 @@
 
             var methodStr = method.ToString();
             
-            //AutomationMethodsList.Instance.Methods.Add(method);
+            AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
             {

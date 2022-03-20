@@ -57,10 +57,10 @@ public class AutomationControlModel : ModelBase
     private (string propertyName, Type type) GetApiPropertyDescription(string propertyName)
     {
         var property = PropertyHelper.GetPropertyInfo(this, propertyName);
-        var apiAttribute = property.GetAttribute<ApiPropertyAttribute>();
+        var apiAttribute = property.GetAttribute<ActiveAutomationPropertyAttribute>();
         if (apiAttribute is null)
         {
-            var automationAccessTypeAttribute = GetType().GetAttribute<AutomationAccessType>();
+            var automationAccessTypeAttribute = GetType().GetAttribute<ActiveAutomationModelAttribute>();
             return automationAccessTypeAttribute is not null
                 ? new ValueTuple<string, Type>(propertyName, automationAccessTypeAttribute.DefaultOwnerType)
                 : default;

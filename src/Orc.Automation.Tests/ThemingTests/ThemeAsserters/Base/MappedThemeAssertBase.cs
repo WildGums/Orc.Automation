@@ -1,7 +1,5 @@
 ﻿namespace Orc.Automation.Tests
 {
-    using System;
-    using System.Windows.Media;
     using Catel;
     using Controls;
 
