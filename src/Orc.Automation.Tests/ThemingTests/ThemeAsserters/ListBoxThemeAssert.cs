@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation.Tests
 {
-    using System;
     using System.Windows.Media;
     using Controls;
 

@@ -8,7 +8,6 @@
     using System.Windows.Automation;
     using Automation;
     using Catel;
-    using Catel.Linq;
     using Controls;
 
     public static partial class AutomationElementExtensions

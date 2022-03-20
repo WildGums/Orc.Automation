@@ -1,9 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
 
     public class DataGridModel : FrameworkElementModel
     {

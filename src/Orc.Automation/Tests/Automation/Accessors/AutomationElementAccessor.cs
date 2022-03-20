@@ -5,7 +5,6 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
-    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 

@@ -1,10 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System.Collections.Generic;
-    using System.Reflection;
-    using System.Windows.Automation;
     using Catel;
-    using Catel.IoC;
     using Catel.Reflection;
 
     public static class ByExtensions

@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation.Tests
 {
-    using System.IO;
     using System.Threading;
     using Controls;
     using NUnit.Framework;

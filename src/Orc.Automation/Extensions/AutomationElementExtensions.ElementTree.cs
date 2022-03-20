@@ -6,23 +6,6 @@
 
     public static partial class AutomationElementExtensions
     {
-        //public static AutomationElement GetAncestor(this AutomationElement element, Condition condition)
-        //{
-        //    Argument.IsNotNull(() => element);
-
-        //    var treeWalker = new TreeWalker(condition);
-
-        //    var isMatch = treeWalker.GetParent(element) is not null;
-        //    var parent = GetParent(element);
-        //    while (!isMatch && parent is not null)
-        //    {
-        //        isMatch = treeWalker.GetParent(parent) is not null;
-        //        parent = GetParent(parent);
-        //    }
-
-        //    return parent;
-        //}
-
         public static string TryGetDisplayText(this AutomationElement element)
         {
             Argument.IsNotNull(() => element);

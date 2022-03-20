@@ -1,8 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Linq;
-    using System.Windows;
 
     [Serializable]
     public class AutomationValue
