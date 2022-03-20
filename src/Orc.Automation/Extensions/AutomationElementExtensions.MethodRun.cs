@@ -9,13 +9,14 @@
         {
             value = default;
 
-            if (TryGetPropertyValue(element, propertyName, out var propertyValue))
+            if (!TryGetPropertyValue(element, propertyName, out var propertyValue))
             {
-                value = (TPropertyValueType)propertyValue;
-                return true;
+                return false;
             }
 
-            return false;
+            value = (TPropertyValueType)propertyValue;
+            return true;
+
         }
 
         public static bool TryGetPropertyValue(this AutomationElement element, string propertyName, out object value)

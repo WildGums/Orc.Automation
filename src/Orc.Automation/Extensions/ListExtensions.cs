@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation
 {
-    using System.Windows.Forms;
     using Catel;
     using Controls;
 
@@ -17,12 +16,7 @@
             Argument.IsNotNull(() => list);
 
             var id = list.Execute<GotoVirtualizedItemAutomationMethodRun>(itemIndex);
-            if (string.IsNullOrWhiteSpace(id?.ToString()))
-            {
-                return null;
-            }
-
-            return list.Find<ListItem>(id: id.ToString());
+            return string.IsNullOrWhiteSpace(id?.ToString()) ? null : list.Find<ListItem>(id: id.ToString());
         }
 
         public static ListItem SelectVirtualizedItem(this List list, int itemIndex)
@@ -34,7 +28,7 @@
                 return item;
             }
 
-            return item;
+            return null;
         }
     }
 }

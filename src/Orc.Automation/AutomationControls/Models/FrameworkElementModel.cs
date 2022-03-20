@@ -3,7 +3,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class FrameworkElementModel : AutomationControlModel
 {
     public FrameworkElementModel(AutomationElementAccessor accessor) 

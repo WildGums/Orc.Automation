@@ -300,16 +300,7 @@
             return element.RunPatternFunc<TablePattern, AutomationElement>(x => x.GetItem(row, column));
         }
         #endregion
-
-        //#region TableItem
-        //public static int GetColumn(this AutomationElement element, double newWidth, double newHeight)
-        //{
-        //    Argument.IsNotNull(() => element);
-
-        //    return element.RunPatternFunc<TableItemPattern, int>(x => x.Current.);
-        //}
-        //#endregion
-
+        
         #region Transform
         public static void Resize(this AutomationElement element, double newWidth, double newHeight)
         {

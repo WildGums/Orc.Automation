@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation.Tests
 {
-    using System.IO;
     using System.Threading;
     using Controls;
     using NUnit.Framework;
@@ -10,7 +9,8 @@
         where TControl : System.Windows.FrameworkElement
     {
         protected override string ExecutablePath =>
-            @$"{TestContext.CurrentContext.TestDirectory}\..\..\..\..\Tools\TestHost\Orc.Automation.Host.exe";
+            @"C:\Source\Orc.Automation\output\Debug\Orc.Automation.Host\net6.0-windows\Orc.Automation.Host.exe";
+           // @$"{TestContext.CurrentContext.TestDirectory}\..\..\..\..\Tools\TestHost\Orc.Automation.Host.exe";
 
         protected override string MainWindowAutomationId => "AutomationHost";
 

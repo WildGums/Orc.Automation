@@ -6,7 +6,7 @@
     using Catel;
     using Catel.Caching;
     using Catel.IoC;
-    using Catel.Windows.Interactivity;
+    using Microsoft.Xaml.Behaviors;
 
     public class AutomationControl<TControlModel, TMap> : AutomationControl<TControlModel>
         where TControlModel : AutomationControlModel
@@ -85,7 +85,7 @@
         #endregion
 
         public void AttachBehavior<TBehavior>()
-            where TBehavior : IBehavior
+            where TBehavior : Behavior
         {
             Access.AttachBehavior(typeof(TBehavior));
         }

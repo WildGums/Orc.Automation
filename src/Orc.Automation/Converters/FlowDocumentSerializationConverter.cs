@@ -1,10 +1,6 @@
 ﻿namespace Orc.Automation.Converters
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Text;
-    using System.Windows;
     using System.Windows.Documents;
     using System.Windows.Markup;
     using System.Xml;

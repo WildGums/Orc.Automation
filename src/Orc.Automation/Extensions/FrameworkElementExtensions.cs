@@ -7,7 +7,6 @@
     using Catel.IoC;
     using Catel.Windows;
     using Microsoft.Xaml.Behaviors;
-    using FrameworkElement = Controls.FrameworkElement;
 
     public static class FrameworkElementExtensions
     {
@@ -17,12 +16,7 @@
             
             var result = frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
 
-            if (result is null)
-            {
-                return frameworkElement.FindVisualDescendantByName(targetId);
-            }
-
-            return result;
+            return result ?? frameworkElement.FindVisualDescendantByName(targetId);
         }
 
         public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)

@@ -2,7 +2,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Automation;component/Themes/Styles.xaml" />
-
         <ResourceDictionary Source="/Orc.Automation;component/Controls/TestHost/Themes/TestHost.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
    
