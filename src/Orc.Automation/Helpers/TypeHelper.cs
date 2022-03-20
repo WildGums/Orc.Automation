@@ -24,13 +24,7 @@
                 }
                 catch
                 {
-                    //var assembly2 = Assembly.LoadFile(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\ControlzEx.dll");
-                    //AppDomain.CurrentDomain.Load(assembly2.GetName());
-
-                    //var types = assembly.GetTypes();
-                    //var type = types.FirstOrDefault(x => string.Equals(x.FullName, fullName));
-
-                    continue;
+                    //Do nothing
                 }
             }
 
