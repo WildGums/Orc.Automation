@@ -262,7 +262,7 @@
 
                     return;
                 }
-
+                
                 if (!methodRun.TryInvoke(currentTarget, method, out var methodResult))
                 {
                     _result.LastInvokedMethodResult = null;

@@ -115,8 +115,10 @@
                 {
                     LoadAssembly(referencedAssembly, rootDirectory);
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Console.WriteLine(ex);
+
                     //TODO
                     try
                     {
