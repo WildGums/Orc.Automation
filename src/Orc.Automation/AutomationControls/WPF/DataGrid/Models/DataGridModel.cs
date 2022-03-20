@@ -12,7 +12,7 @@
         {
         }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public double ColumnHeaderHeight { get; set; }
 
         //TODO:

@@ -2,7 +2,7 @@
 
 using System;
 
-public class AutomationAccessType : AutomationAttribute
+public class ActiveAutomationModelAttribute : AutomationAttribute
 {
     public Type DefaultOwnerType { get; set; }
 }

@@ -3,14 +3,14 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class ApiPropertyAttribute : AutomationAttribute
+    public class ActiveAutomationPropertyAttribute : AutomationAttribute
     {
-        public ApiPropertyAttribute()
+        public ActiveAutomationPropertyAttribute()
         {
             
         }
 
-        public ApiPropertyAttribute(string originalName)
+        public ActiveAutomationPropertyAttribute(string originalName)
         {
             OriginalName = originalName;
         }
