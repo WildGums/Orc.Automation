@@ -36,7 +36,8 @@
                 0 => FontStyles.Italic,
                 1 => FontStyles.Normal,
                 2 => FontStyles.Oblique,
-                _ => FontStyles.Italic
+
+                _ => FontStyles.Normal
             };
         }
     }
