@@ -1,9 +1,8 @@
 ﻿namespace Orc.Automation.Tests;
 
-using Controls;
 
 public class SelectionActiveThemingControlState<TElement> : ThemingControlStateBase<TElement>
-    where TElement : FrameworkElement
+    where TElement : AutomationControl
 {
     public override void SetControlInState(TElement element)
     {

@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation.Converters
 {
     using System.Collections.Generic;
     using System.Globalization;

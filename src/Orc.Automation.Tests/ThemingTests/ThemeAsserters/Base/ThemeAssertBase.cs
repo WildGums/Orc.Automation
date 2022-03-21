@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 public abstract class ThemeAssertBase<TAssert, TElement> 
     where TAssert : ThemeAssertBase<TAssert, TElement>, new()
-    where TElement : FrameworkElement
+    where TElement : AutomationControl
 {
     public static ThemeControlStates<TElement> States => new();
 

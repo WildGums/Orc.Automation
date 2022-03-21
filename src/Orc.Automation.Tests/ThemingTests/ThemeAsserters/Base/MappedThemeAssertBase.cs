@@ -1,11 +1,10 @@
 ﻿namespace Orc.Automation.Tests
 {
     using Catel;
-    using Controls;
 
     public abstract class MappedThemeAssertBase<TAssert, TElement, TMap> : ThemeAssertBase<TAssert, TElement>
         where TAssert : ThemeAssertBase<TAssert, TElement>, new()
-        where TElement : FrameworkElement
+        where TElement : AutomationControl
         where TMap : AutomationBase
     {
         protected TMap _map;
