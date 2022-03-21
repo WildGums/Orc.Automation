@@ -4,7 +4,7 @@
     using Controls;
 
     public abstract class ThemingControlStateBase<TElement> : ControlStateBase<TElement>, IThemingControlState<TElement>
-        where TElement : FrameworkElement
+        where TElement : AutomationControl
     {
         private string _stateName;
 

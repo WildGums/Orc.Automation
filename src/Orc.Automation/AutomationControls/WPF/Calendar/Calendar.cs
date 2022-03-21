@@ -5,14 +5,11 @@ using System.Globalization;
 using System.Windows.Automation;
 
 [AutomatedControl(ControlTypeName = nameof(ControlType.Calendar))]
-public class Calendar : FrameworkElement
+public class Calendar : FrameworkElement<CalendarModel, CalendarMap>
 {
-    private readonly CalendarMap _map;
-
     public Calendar(AutomationElement element) 
         : base(element, ControlType.Calendar)
     {
-        _map = new CalendarMap(element);
     }
 
     public DateTime? SelectedDate
@@ -61,15 +58,17 @@ public class Calendar : FrameworkElement
 
         Wait.UntilResponsive();
 
-        _map.YearPart.SelectYear(dateValue.Year);
+        var map = Map;
+
+        map.YearPart.SelectYear(dateValue.Year);
 
         Wait.UntilResponsive();
 
-        _map.MonthPart.SelectMonth(dateValue.Month);
+        map.MonthPart.SelectMonth(dateValue.Month);
 
         Wait.UntilResponsive();
 
-        _map.DaysPart.SelectDay(dateValue.Day);
+        map.DaysPart.SelectDay(dateValue.Day);
     }
 
     private void BringYearIntoView(int year)
@@ -83,7 +82,9 @@ public class Calendar : FrameworkElement
             }
         });
 
-        var headerButton = _map.HeaderButton;
+        var map = Map;
+
+        var headerButton = map.HeaderButton;
         var content = headerButton.Content;
 
         var items = content.Split('-');
@@ -99,14 +100,14 @@ public class Calendar : FrameworkElement
 
         if (year < minYear)
         {
-            for (var child = _map.PreviousButton; year < minYear && child.Click(); minYear = int.Parse(headerButton.Content.Split('-')[0]))
+            for (var child = map.PreviousButton; year < minYear && child.Click(); minYear = int.Parse(headerButton.Content.Split('-')[0]))
             {
 
             }
         }
         else if (year > maxYear)
         {
-            for (var child = _map.NextButton; year > maxYear && child.Click(); maxYear = int.Parse(headerButton.Content.Split('-')[1]))
+            for (var child = map.NextButton; year > maxYear && child.Click(); maxYear = int.Parse(headerButton.Content.Split('-')[1]))
             {
 
             }
