@@ -98,15 +98,25 @@
         [AutomationMethod]
         public object GetPropertyValue([Target] FrameworkElement target, string propertyName)
         {
-            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(target, propertyName, out var propertyValue)
-                ? propertyValue
-                : AutomationValue.NotSetValue;
+            if(DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(target, propertyName, out var propertyValue))
+            {
+                return propertyValue;
+            }
+
+            var propertyInfo = target.GetType().GetProperty(propertyName);
+            return propertyInfo is not null ? propertyInfo.GetValue(target) : AutomationValue.NotSetValue;
         }
 
         [AutomationMethod]
         public void SetPropertyValue([Target] FrameworkElement target, string propertyName, object value)
         {
-            DependencyPropertyAutomationHelper.SetDependencyPropertyValue(target, propertyName, value);
+            if (DependencyPropertyAutomationHelper.SetDependencyPropertyValue(target, propertyName, value))
+            {
+                return;
+            }
+
+            var propertyInfo = target.GetType().GetProperty(propertyName);
+            propertyInfo?.SetValue(target, value);
         }
 
         [AutomationMethod]

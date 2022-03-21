@@ -3,7 +3,7 @@
 using Controls;
 
 public class DefaultThemingControlState<TElement> : ThemingControlStateBase<TElement>
-    where TElement : FrameworkElement
+    where TElement : AutomationControl
 {
     public override void SetControlInState(TElement element)
     {
