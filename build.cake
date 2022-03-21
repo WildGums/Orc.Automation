@@ -25,8 +25,7 @@ Parameters["UseVisualStudioPrerelease"] = "false";
 //=======================================================
 
 Components.Add("Orc.Automation");
-
-TestProjects.Add("Orc.Automation.Tests");
+Components.Add("Orc.Automation.Tests");
 
 //=======================================================
 // REQUIRED INITIALIZATION, DO NOT CHANGE
