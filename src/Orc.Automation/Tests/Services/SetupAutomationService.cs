@@ -56,7 +56,7 @@
                 ++numWaits;
                 Thread.Sleep(200);
             }
-            while (mainWindow is null && numWaits < 500);
+            while (mainWindow is null && numWaits < 10);
 
             if (mainWindow is null)
             {
