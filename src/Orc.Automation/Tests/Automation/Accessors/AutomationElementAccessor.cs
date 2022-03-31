@@ -5,6 +5,7 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
+    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 
@@ -50,7 +51,7 @@
             {
                 return;
             }
-
+            
             _element = element;
             _accessElement = element;
 
@@ -171,7 +172,7 @@
             method.Finder = _finder;
 
             var methodStr = method.ToString();
-            
+
             AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
@@ -232,9 +233,9 @@
             File.WriteAllText("C:\\Temps\\AMs.xml", automationMethodsXml);
         }
 
-        public static void Load()
+        public static void Load(string filePath)
         {
-            var automationMethodsXml = File.ReadAllText("C:\\Temps\\AMs.xml");
+            var automationMethodsXml = File.ReadAllText(filePath);
 
             Instance = XmlSerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
         }

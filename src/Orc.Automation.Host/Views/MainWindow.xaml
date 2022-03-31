@@ -10,16 +10,18 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <Button Content="Load..."
+                    Click="OnLoad"/>
+
             <orcautomation:TestHost x:Name="TestHost"
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     AutomationProperties.AutomationId="TestHostId"/>
 
-            <TextBlock Grid.Row="3">
+            <TextBlock Grid.Row="2">
                 <Run x:Name="MouseXPositionRun"/>
                 <Run Text=" - "/>
                 <Run x:Name="MouseYPositionRun"/>
