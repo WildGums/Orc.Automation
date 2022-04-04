@@ -133,7 +133,7 @@
             return Access.Execute(methodName, parameters);
         }
 
-        public TControlModel Model<TControlModel>()
+        public virtual TControlModel Model<TControlModel>()
             where TControlModel : AutomationControlModel
         {
             return (TControlModel)_models.GetFromCacheOrFetch(typeof(TControlModel), () => this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access));
