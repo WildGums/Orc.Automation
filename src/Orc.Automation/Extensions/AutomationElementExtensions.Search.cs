@@ -43,24 +43,24 @@
         }
 
 
-        public static TElement Find<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static TElement Find<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             return Find<TElement>(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
-        public static AutomationElement Find(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static AutomationElement Find(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             return Find(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
-        public static TElement Find<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static TElement Find<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             return (TElement)Find(element, searchContext, typeof(TElement), scope, numberOfWaits);
         }
 
-        public static object Find(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static object Find(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             var className = AutomationHelper.GetControlClassName(wrapperType);
             if (!string.IsNullOrWhiteSpace(className) && string.IsNullOrWhiteSpace(searchContext.ClassName))
@@ -83,7 +83,7 @@
             return AutomationHelper.WrapAutomationObject(wrapperType, foundElement);
         }
 
-        public static AutomationElement Find(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static AutomationElement Find(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             var id = searchContext.Id;
             var name = searchContext.Name;
@@ -129,7 +129,7 @@
             return Find(element, resultCondition, scope, isRaw, numberOfWaits);
         }
 
-        private static AutomationElement Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Subtree, bool isRaw = false, int numberOfWaits = SearchParameters.NumberOfWaits)
+        private static AutomationElement Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Descendants, bool isRaw = false, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             Argument.IsNotNull(() => element);
 
@@ -164,24 +164,24 @@
             return element.FindFirst(scope, condition);
         }
 
-        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             return FindAll<TElement>(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
-        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             return FindAll(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
-        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             return (IEnumerable<TElement>)FindAll(element, searchContext, typeof(TElement), scope, numberOfWaits);
         }
 
-        public static object FindAll(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static object FindAll(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             var className = AutomationHelper.GetControlClassName(wrapperType);
             if (!string.IsNullOrWhiteSpace(className) && string.IsNullOrWhiteSpace(searchContext.ClassName))
@@ -206,7 +206,7 @@
             return AutomationHelper.WrapAutomationObject(list, foundElement);
         }
 
-        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             var id = searchContext.Id;
             var name = searchContext.Name;
@@ -252,7 +252,7 @@
             return FindAll(element, resultCondition, scope, numberOfWaits);
         }
 
-        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             Argument.IsNotNull(() => element);
 

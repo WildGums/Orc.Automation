@@ -14,7 +14,7 @@
         private readonly Tab _tab;
 
         private int? _tabIndex;
-        private TreeScope _treeScope = TreeScope.Subtree;
+        private TreeScope _treeScope = TreeScope.Descendants;
 
         public AutomationElement Element => _element;
 
