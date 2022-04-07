@@ -38,9 +38,6 @@
 
             foreach (var header in headers.Skip(1))
             {
-                var childElements = currentMenuItem.Element.GetChildElements().ToList();
-                var chileElements2 = currentMenuItem.Element.FindAll(controlType: ControlType.MenuItem, scope: TreeScope.Descendants).ToList();
-                var items2 = currentMenuItem.Items;
                 var nextMenuItem = currentMenuItem.Items?.ToList().FirstOrDefault(x => Equals(x.Element.TryGetDisplayText(), header));
 
                 currentMenuItem = nextMenuItem;
