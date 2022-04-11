@@ -13,6 +13,7 @@
         protected AutomationSetup Setup { get; private set; }
 #pragma warning disable IDISP006 // Don't ignore created IDisposable.
         protected virtual string ExecutablePath => string.Empty;
+        protected virtual string Args => null;
         protected virtual string MainWindowAutomationId => string.Empty;
         protected virtual Condition FindMainWindowCondition => new PropertyCondition(AutomationElement.AutomationIdProperty, MainWindowAutomationId);
 

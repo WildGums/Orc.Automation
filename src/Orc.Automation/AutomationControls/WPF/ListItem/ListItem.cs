@@ -12,13 +12,13 @@
 
         public string DisplayText => Element.TryGetDisplayText();
 
-        public bool IsSelected
+        public virtual bool IsSelected
         {
             get => Element.GetIsSelected();
             set => Element.TrySetSelection(value);
         }
 
-        public void Select()
+        public virtual void Select()
         {
             Element.Select();
         }

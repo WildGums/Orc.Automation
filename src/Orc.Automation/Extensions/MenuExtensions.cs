@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System.Linq;
-    using System.Windows.Automation;
     using Catel;
     using Controls;
 

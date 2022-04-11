@@ -7,12 +7,15 @@
 
     public class SetupAutomationService : ISetupAutomationService
     {
-        public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, Process existingProcess = null)
+        public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string args = null)
         {
             var automationSetup = new AutomationSetup();
 
             var numWaits = 0;
-            var process = existingProcess ?? Process.Start(executableFileLocation);
+
+            var process = args is null 
+                ? Process.Start(executableFileLocation) 
+                : Process.Start(executableFileLocation, args);
 
             do
             {
