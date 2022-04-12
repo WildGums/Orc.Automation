@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation
 {
-    using System.Windows;
     using Recording;
 
     public class AutomationInformerPeer : AutomationControlPeerBase<Controls.AutomationInformer>
@@ -23,7 +22,7 @@
 
             var items = EventListener.Events;
 
-            MessageBox.Show(items.Count.ToString());
+            System.Windows.MessageBox.Show(items.Count.ToString());
 
             items.Clear();
         }

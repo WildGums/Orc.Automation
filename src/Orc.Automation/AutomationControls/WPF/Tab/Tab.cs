@@ -14,7 +14,7 @@
         {
         }
 
-        public IReadOnlyList<TabItem> Items => By.ControlType(ControlType.TabItem).Many<TabItem>();
+        public IReadOnlyList<TabItem> Items => By.Scope(TreeScope.Children).Many<TabItem>();
 
         public int SelectedIndex
         {

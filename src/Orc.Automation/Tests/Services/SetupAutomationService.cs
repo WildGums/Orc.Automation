@@ -7,6 +7,10 @@
 
     public class SetupAutomationService : ISetupAutomationService
     {
+#pragma warning disable IDISP006 // Implement IDisposable
+        public AutomationSetup CurrentSetup { get; private set; }
+#pragma warning restore IDISP006 // Implement IDisposable
+
         public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string args = null)
         {
             var automationSetup = new AutomationSetup();
@@ -67,6 +71,10 @@
             }
 
             automationSetup.MainWindow = mainWindow;
+
+#pragma warning disable IDISP003 // Dispose previous before re-assigning
+            CurrentSetup = automationSetup;
+#pragma warning restore IDISP003 // Dispose previous before re-assigning
 
             return automationSetup;
         }
