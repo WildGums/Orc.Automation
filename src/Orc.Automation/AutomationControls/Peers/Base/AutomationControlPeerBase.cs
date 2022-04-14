@@ -234,7 +234,7 @@
 
                     return;
                 }
-
+                
                 _pendingMethod = null;
 
                 _result ??= new AutomationResultContainer();

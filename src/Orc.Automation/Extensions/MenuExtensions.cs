@@ -6,16 +6,6 @@
 
     public static class MenuExtensions
     {
-        public static void Select(this Menu menu, string header)
-        {
-            Argument.IsNotNull(() => menu);
-
-            var items = menu.Items;
-
-            var menuItem = items?.FirstOrDefault(x => Equals(x.Element.TryGetDisplayText(), header));
-            menuItem?.Click();
-        }
-
         public static void Select(this Menu menu, params string[] headers)
         {
             Argument.IsNotNull(() => menu);
@@ -27,7 +17,7 @@
 
             var items = menu.Items;
             var currentMenuItem = items?.FirstOrDefault(x => Equals(x.Element.TryGetDisplayText(), headers[0]));
-            if(currentMenuItem is  null)
+            if(currentMenuItem is null)
             {
                 return;
             }

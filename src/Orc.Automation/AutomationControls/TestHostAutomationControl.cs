@@ -2,12 +2,14 @@
 {
     using System;
     using System.Windows.Automation;
+    using System.Windows.Automation.Peers;
 
     public class TestHostAutomationControl : AutomationControl
     {
-        public TestHostAutomationControl(AutomationElement element) 
+        public TestHostAutomationControl(AutomationElement element)
             : base(element)
         {
+            
         }
 
         public object RunMethod(Type type, string methodName, params object[] parameters)
