@@ -8,7 +8,7 @@
     [AutomatedControl(ControlTypeName = nameof(ControlType.Window))]
     public class Window : Window<WindowModel>
     {
-        public static TWindow WaitForWindow<TWindow>(string id = null, string name = null, int numberOfWaits = 20)
+        public static TWindow WaitForWindow<TWindow>(string id = null, string name = null, int numberOfWaits = 10)
             where TWindow : AutomationControl, IWindow
         {
             var window = ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
