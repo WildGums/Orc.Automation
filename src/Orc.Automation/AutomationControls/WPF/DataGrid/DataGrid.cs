@@ -26,7 +26,7 @@
 
         public DataGridCell this[int columnIndex, int rowIndex]
         {
-            get => Element.GetItem(rowIndex, columnIndex).As<DataGridCell>();
+            get => Element.GetTableItem(rowIndex, columnIndex).As<DataGridCell>();
         }
     }
 }
