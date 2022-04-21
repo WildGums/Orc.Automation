@@ -16,7 +16,8 @@
             }    
 
             var items = menu.Items;
-            var currentMenuItem = items?.FirstOrDefault(x => Equals(x.Element.TryGetDisplayText(), headers[0]));
+            var headers1 = items.Select(x => x.Header).ToList();
+            var currentMenuItem = items?.FirstOrDefault(x => Equals(x.Header, headers[0]));
             if(currentMenuItem is null)
             {
                 return;

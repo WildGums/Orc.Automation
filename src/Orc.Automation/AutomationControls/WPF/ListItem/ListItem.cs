@@ -10,7 +10,7 @@
         {
         }
 
-        public string DisplayText => Element.TryGetDisplayText();
+        public virtual string DisplayText => Element.TryGetDisplayText();
 
         public virtual bool IsSelected
         {

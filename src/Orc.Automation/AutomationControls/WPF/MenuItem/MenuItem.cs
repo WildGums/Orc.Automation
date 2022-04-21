@@ -11,6 +11,8 @@
         {
         }
 
+        public string Header => Element.TryGetDisplayText();
+
         public IList<MenuItem> Items => By.Many<MenuItem>();
             
         public void Click()

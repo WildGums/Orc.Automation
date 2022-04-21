@@ -14,6 +14,15 @@
         }
     }
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.List), ClassName = "ListBox")]
+    public class ListBox : List
+    {
+        public ListBox(AutomationElement element)
+            : base(element)
+        {
+        }
+    }
+
     [AutomatedControl(ControlTypeName = nameof(ControlType.List), ClassName = "ListView")]
     public class List : FrameworkElement<ListModel>
     {
