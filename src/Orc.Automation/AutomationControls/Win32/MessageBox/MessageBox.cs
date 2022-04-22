@@ -1,15 +1,19 @@
 ﻿namespace Orc.Automation
 {
     using System.Windows.Automation;
-    using Catel.IoC;
-    using Services;
+    using Controls;
 
     //TODO:Vladimir: check class name on other machines
     [AutomatedControl(ClassName = "#32770")]
-    public class MessageBox : AutomationControl
+    public class MessageBox : Window
     {
-        //TODO: Vladimir simplify? think of it
-        public static MessageBox Current => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup?.MainWindow?.Find<MessageBox>();
+        public static void WaitYes() => Wait()?.Yes();
+        public static void WaitNo() => Wait()?.Yes();
+        public static void WaitOk() => Wait()?.Ok();
+        public static void WaitCancel() => Wait()?.Cancel();
+
+        public static MessageBox Wait() => Window.WaitForWindow<MessageBox>();
+
 
         public MessageBox(AutomationElement element) 
             : base(element)

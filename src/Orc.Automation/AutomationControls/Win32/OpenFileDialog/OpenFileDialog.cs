@@ -4,48 +4,44 @@
     using System.Linq;
     using System.Windows.Automation;
 
-    public class OpenFileDialogMap : AutomationBase
+    [AutomatedControl(ClassName = "#32770")]
+    public class OpenFileDialog : Window<WindowModel, OpenFileDialogMap>
     {
-        public OpenFileDialogMap(AutomationElement element)
-            : base(element)
+        public static void WaitAccept(string fileName)
         {
+            var openFileDialog = Wait();
+            openFileDialog.FilePath = fileName;
+
+            openFileDialog.Accept();
         }
 
-        public Button AcceptButton => By.Id("1").One<Button>();
-        public Button CancelButton => By.Id("2").One<Button>();
-        public ComboBox FilePathCombobox => By.Id("1148").One<ComboBox>();
-        public ComboBox FiltersCombobox => By.Id("1136").One<ComboBox>();
-    }
+        public static OpenFileDialog Wait() => Window.WaitForWindow<OpenFileDialog>();
 
-    public class OpenFileDialog : AutomationBase
-    {
-        private readonly OpenFileDialogMap _map;
 
         public OpenFileDialog(AutomationElement element)
             : base(element)
         {
-            _map = new OpenFileDialogMap(element);
         }
 
         public string FilePath
         {
-            get => _map.FilePathCombobox.Text;
-            set => _map.FilePathCombobox.Text = value;
+            get => Map.FilePathCombobox.Text;
+            set => Map.FilePathCombobox.Text = value;
         }
 
         public List<string> Filters
         {
-            get => _map.FiltersCombobox.Items.Select(x => x.Current.Name).ToList();
+            get => Map.FiltersCombobox.Items.Select(x => x.Current.Name).ToList();
         }
 
         public void Accept()
         {
-            _map.AcceptButton.Click();
+            Map.AcceptButton.Click();
         }
 
         public void Cancel()
         {
-            _map.CancelButton.Click();
+            Map.CancelButton.Click();
         }
     }
 }
