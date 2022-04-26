@@ -54,7 +54,7 @@
         /// <summary>
         /// Close window
         /// </summary>
-        public void Close() => Element.CloseWindow();
+        public virtual void Close() => Element.CloseWindow();
 
         public event EventHandler<AutomationEventArgs> DialogOpened;
     }
