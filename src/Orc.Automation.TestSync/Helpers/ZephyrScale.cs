@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation.TestSync.Helpers
+﻿namespace Orc.Automation.TestSync
 {
     using System.Threading.Tasks;
     using RestSharp;

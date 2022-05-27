@@ -9,7 +9,7 @@
         public string Project { get; set; }
 
         [Option("t", "test", IsMandatory = true, HelpText = "test result file")]
-        public string OutputFolder { get; set; }
+        public string TestResultsFilePath { get; set; }
         #endregion
     }
 }
