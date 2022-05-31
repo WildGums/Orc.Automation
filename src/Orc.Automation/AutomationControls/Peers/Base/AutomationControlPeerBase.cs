@@ -9,6 +9,7 @@
     using Catel;
     using Catel.IoC;
     using Catel.Reflection;
+    using Services;
 
     public abstract class AutomationControlPeerBase<TControl> : AutomationControlPeerBase
         where TControl : FrameworkElement
