@@ -43,6 +43,8 @@
         private AutomationMethod _pendingMethod;
 
         private IList<IAutomationMethodRun> _automationMethods;
+
+        private IAutomationTestAccessService _automationTestAccessService;
         #endregion
 
         #region Constructors
@@ -235,6 +237,11 @@
                 
                 _pendingMethod = null;
 
+                if (!HasAccess())
+                {
+                    return;
+                }
+
                 _result ??= new AutomationResultContainer();
 
                 var handle = method.Handle;
@@ -307,5 +314,17 @@
             RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }
         #endregion
+
+        private bool HasAccess()
+        {
+            if (_automationTestAccessService is null)
+            {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+                _automationTestAccessService = this.GetServiceLocator().TryResolveType<IAutomationTestAccessService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
+            }
+
+            return _automationTestAccessService?.HasAccess() ?? false;
+        }
     }
 }
