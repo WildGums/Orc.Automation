@@ -3,8 +3,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    //TODO:Vladimir: check class name on other machines
-    [AutomatedControl(ClassName = "#32770")]
+    [AutomatedControl(ClassName = Win32AutomationDialogsClassNames.MessageBoxClassName)]
     public class MessageBox : Window
     {
         public static void WaitYes() => Wait()?.Yes();

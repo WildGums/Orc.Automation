@@ -188,8 +188,6 @@
                 _result = null;
 
                 SetValuePatternInvoke(value);
-
-                return;
             }
         }
 
