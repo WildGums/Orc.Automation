@@ -3,7 +3,6 @@
     using System.Threading;
     using Controls;
     using NUnit.Framework;
-    using Orc.Controls.Tests;
 
     public abstract class ControlUiTestFactsBase<TControl> : UiTestFactsBase
         where TControl : System.Windows.FrameworkElement

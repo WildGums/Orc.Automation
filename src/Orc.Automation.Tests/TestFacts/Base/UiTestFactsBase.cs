@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Automation.Tests
 {
     using System.Windows.Automation;
-    using Automation;
-    using Automation.Services;
     using Catel.IoC;
     using NUnit.Framework;
+    using Services;
 
     public abstract class UiTestFactsBase
     {
@@ -23,7 +22,7 @@
         public virtual void SetUp()
         {
 #pragma warning disable IDISP003 // Don't ignore created IDisposable.
-            Setup = SetupAutomationService?.Setup(ExecutablePath, FindMainWindowCondition);
+            Setup = SetupAutomationService?.Setup(ExecutablePath, FindMainWindowCondition, Args);
 #pragma warning disable IDISP003 // Don't ignore created IDisposable.
 
             Assert.IsNotNull(Setup);
