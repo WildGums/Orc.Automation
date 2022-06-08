@@ -12,5 +12,6 @@
         public const string SaveFileDialogClassName = "#32770";
         public const string OpenFileDialogClassName = "#32770";
         public const string MessageBoxClassName = "#32770";
+        public const string SelectFolderDialogClassName = "#32770";
     }
 }
