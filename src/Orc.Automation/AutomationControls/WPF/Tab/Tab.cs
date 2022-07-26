@@ -6,7 +6,7 @@
     using System.Windows.Automation;
     using Catel;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Tab))]
+    [Control(ControlTypeName = nameof(ControlType.Tab))]
     public class Tab : FrameworkElement<TabModel>
     {
         public Tab(AutomationElement element)

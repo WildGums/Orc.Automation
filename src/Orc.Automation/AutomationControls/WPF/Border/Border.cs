@@ -3,7 +3,7 @@
     using System.Windows.Automation;
 
     [Raw]
-    [AutomatedControl(Class = typeof(System.Windows.Controls.Border))]
+    [Control(Class = typeof(System.Windows.Controls.Border))]
     public class Border : FrameworkElement<BorderModel>
     {
         public Border(AutomationElement element)

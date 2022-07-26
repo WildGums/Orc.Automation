@@ -5,7 +5,7 @@
     using System.Windows.Automation;
 
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.DataGrid), ClassName = "ListView")]
+    [Control(ControlTypeName = nameof(ControlType.DataGrid), ClassName = "ListView")]
     public class GridList : List
     {
         public GridList(AutomationElement element)
@@ -14,7 +14,7 @@
         }
     }
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.List), ClassName = "ListBox")]
+    [Control(ControlTypeName = nameof(ControlType.List), ClassName = "ListBox")]
     public class ListBox : List
     {
         public ListBox(AutomationElement element)
@@ -23,7 +23,7 @@
         }
     }
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.List), ClassName = "ListView")]
+    [Control(ControlTypeName = nameof(ControlType.List), ClassName = "ListView")]
     public class List : FrameworkElement<ListModel>
     {
         public List(AutomationElement element) 

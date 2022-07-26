@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Windows.Automation;
 
-    [AutomatedControl(ClassName = Win32AutomationDialogsClassNames.OpenFileDialogClassName)]
+    [Control(ClassName = Win32AutomationDialogsClassNames.OpenFileDialogClassName)]
     public class OpenFileDialog : Window<WindowModel, OpenFileDialogMap>
     {
         public static void WaitAccept(string fileName)

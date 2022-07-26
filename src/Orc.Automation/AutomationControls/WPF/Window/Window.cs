@@ -5,7 +5,7 @@
     using Catel.IoC;
     using Services;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Window))]
+    [Control(ControlTypeName = nameof(ControlType.Window))]
     public class Window : Window<WindowModel>
     {
         public static AutomationElement MainWindow => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup

@@ -1,20 +1,11 @@
 ﻿namespace Orc.Automation
 {
-    using System;
-    using System.Windows.Automation;
-
-    public class AutomatedControlAttribute : AutomationAttribute
+    public class AutomatedControlAttribute : ControlAttribute
     {
-        private string _className;
-
-        public string ClassName
+        public override string ClassName
         {
-            get => _className ?? Class?.FullName;
-            set => _className = value;
+            get =>  $"{base.ClassName}{NameConventions.ActiveModelControlClassNameSuffix}";
+            set => base.ClassName = value;
         }
-
-        public ControlType ControlType => AutomationHelper.GetControlType(ControlTypeName);
-        public Type Class { get; set; }
-        public string ControlTypeName { get; set; }
     }
 }

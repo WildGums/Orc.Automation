@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Menu))]
+    [Control(ControlTypeName = nameof(ControlType.Menu))]
     public class Menu : FrameworkElement<MenuModel>
     {
         public static Menu WaitForContextMenu()

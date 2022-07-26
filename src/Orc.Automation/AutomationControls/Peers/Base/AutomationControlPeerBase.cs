@@ -24,7 +24,7 @@
 
         protected override string GetClassNameCore()
         {
-            return typeof(TControl).FullName;
+            return $"{typeof(TControl).FullName}{NameConventions.ActiveModelControlClassNameSuffix}";
         }
 
         [AutomationMethod]

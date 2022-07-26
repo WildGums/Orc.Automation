@@ -5,7 +5,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.DataGrid))]
+    [Control(ControlTypeName = nameof(ControlType.DataGrid))]
     public class DataGrid : FrameworkElement<DataGridModel>
     {
         public DataGrid(AutomationElement element) 

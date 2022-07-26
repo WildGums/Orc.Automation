@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Windows.Automation;
 
-    [AutomatedControl(ClassName = Win32AutomationDialogsClassNames.SaveFileDialogClassName)]
+    [Control(ClassName = Win32AutomationDialogsClassNames.SaveFileDialogClassName)]
     public class SaveFileDialog : Window<WindowModel, SaveFileDialogMap>
     {
         public static void WaitAccept(string fileName)

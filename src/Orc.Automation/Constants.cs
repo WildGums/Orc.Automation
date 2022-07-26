@@ -14,4 +14,9 @@
         public const string MessageBoxClassName = "#32770";
         public const string SelectFolderDialogClassName = "#32770";
     }
+
+    public static class NameConventions
+    {
+        public const string ActiveModelControlClassNameSuffix = "[ActiveAutomationControl]";
+    }
 }

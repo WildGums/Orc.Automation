@@ -17,7 +17,7 @@
         {
             var window = Setup.MainWindow;
 
-            var testHost = window.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
+            var testHost = window.Find<TestHostAutomationControl>();
             if (testHost is null)
             {
                 Assert.Fail("Can't find Test host");
@@ -37,7 +37,7 @@
         [TearDown]
         public virtual void TearDownTest()
         {
-            var testHost = Setup.MainWindow.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
+            var testHost = Setup.MainWindow.Find<TestHostAutomationControl>();
 
             testHost?.ClearControls();
         }
@@ -61,7 +61,7 @@
         {
             var window = Setup.MainWindow;
 
-            var testHost = window.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
+            var testHost = window.Find<TestHostAutomationControl>();
             if (testHost is null)
             {
                 return;

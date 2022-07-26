@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.ListItem))]
+    [Control(ControlTypeName = nameof(ControlType.ListItem))]
     public class ListItem : FrameworkElement<ListItemModel>
     {
         public ListItem(AutomationElement element)

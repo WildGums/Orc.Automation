@@ -136,7 +136,12 @@
         public virtual TControlModel Model<TControlModel>()
             where TControlModel : AutomationControlModel
         {
-            return (TControlModel)_models.GetFromCacheOrFetch(typeof(TControlModel), () => this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access));
+            return (TControlModel)_models.GetFromCacheOrFetch(typeof(TControlModel), CreateModel<TControlModel>);
+        }
+
+        protected virtual TControlModel CreateModel<TControlModel>()
+        {
+            return this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access);
         }
 
 #pragma warning disable CS0067

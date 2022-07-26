@@ -6,7 +6,7 @@
     using System.Windows.Automation;
     using Catel;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.ComboBox)/*, ClassName = "ComboBox"*/)]
+    [Control(ControlTypeName = nameof(ControlType.ComboBox)/*, ClassName = "ComboBox"*/)]
     public class ComboBox : FrameworkElement<ComboBoxModel>
     {
         public ComboBox(AutomationElement element) 

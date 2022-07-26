@@ -5,7 +5,6 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Threading;
-    using System.Windows;
     using System.Windows.Automation;
     using Catel;
 
@@ -55,7 +54,12 @@
             _element = element;
             _accessElement = element;
 
-            _valuePattern = _accessElement.TryGetPattern<ValuePattern>();
+            var isActiveModelElement = AutomationHelper.IsActiveModelControl(element);
+            if (isActiveModelElement)
+            {
+                _valuePattern = _accessElement.TryGetPattern<ValuePattern>();
+            }
+
             if (_valuePattern is null)
             {
                 _accessElement = _accessElement.Find(className: typeof(Controls.AutomationInformer).FullName, scope:TreeScope.Parent);

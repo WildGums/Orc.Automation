@@ -4,7 +4,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.DataItem))]
+    [Control(ControlTypeName = nameof(ControlType.DataItem))]
     public class DataItem : FrameworkElement<DataGridRowModel>
     {
         public DataItem(AutomationElement element)

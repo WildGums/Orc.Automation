@@ -3,7 +3,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    [AutomatedControl(ClassName = Win32AutomationDialogsClassNames.MessageBoxClassName)]
+    [Control(ClassName = Win32AutomationDialogsClassNames.MessageBoxClassName)]
     public class MessageBox : Window
     {
         public static void WaitYes() => Wait()?.Yes();

@@ -2,8 +2,8 @@
 {
     using System;
     using System.Windows.Automation;
-    using System.Windows.Automation.Peers;
 
+    [AutomatedControl(Class = typeof(TestHost))]
     public class TestHostAutomationControl : AutomationControl
     {
         public TestHostAutomationControl(AutomationElement element)

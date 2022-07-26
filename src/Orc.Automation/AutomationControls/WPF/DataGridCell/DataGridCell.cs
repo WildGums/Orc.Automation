@@ -3,7 +3,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    [AutomatedControl(ClassName = "DataGridCell")]
+    [Control(ClassName = "DataGridCell")]
     public class DataGridCell : FrameworkElement<DataGridCellModel>
     {
         public DataGridCell(AutomationElement element) 

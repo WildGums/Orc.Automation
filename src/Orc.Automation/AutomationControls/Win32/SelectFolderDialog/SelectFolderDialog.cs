@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-    [AutomatedControl(ClassName = Win32AutomationDialogsClassNames.SelectFolderDialogClassName)]
+    [Control(ClassName = Win32AutomationDialogsClassNames.SelectFolderDialogClassName)]
     public class SelectFolderDialog : Window<WindowModel, SelectFolderDialogMap>
     {
         public static void WaitAccept(string folderPath)
