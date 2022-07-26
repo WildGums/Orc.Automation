@@ -13,12 +13,14 @@
             /*subscribe to all valuable tree events*/
 
             //Loaded
+#pragma warning disable WPF0092 // Use correct handler type
             EventManager.RegisterClassHandler(
                 typeof(FrameworkElement),
                 FrameworkElement.LoadedEvent,
                 new LoadedEventHandler(OnLoaded),
                 true
             );
+#pragma warning restore WPF0092 // Use correct handler type
         }
 
         private static void OnLoaded(object sender, LoadedEventArgs e)

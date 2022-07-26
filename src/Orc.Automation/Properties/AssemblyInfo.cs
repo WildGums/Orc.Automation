@@ -12,6 +12,8 @@ using System.Windows.Markup;
 
 [assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/automation", "orcautomation")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation")]
+[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation.Controls")]
+[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation.Converters")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
