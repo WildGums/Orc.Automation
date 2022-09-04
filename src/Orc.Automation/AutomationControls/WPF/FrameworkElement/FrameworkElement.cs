@@ -3,7 +3,20 @@
     using System.Windows;
     using System.Windows.Automation;
 
-    public class FrameworkElement<TControlModel, TMap> : AutomationControl<TControlModel, TMap>
+    public class FrameworkElement : FrameworkElement<FrameworkElementModel>
+    {
+        public FrameworkElement(AutomationElement element, ControlType controlType)
+            : base(element, controlType)
+        {
+        }
+
+        public FrameworkElement(AutomationElement element)
+            : base(element)
+        {
+        }
+    }
+
+    public abstract class FrameworkElement<TControlModel, TMap> : FrameworkElement<TControlModel>
         where TControlModel : FrameworkElementModel
         where TMap : AutomationBase
     {
@@ -17,30 +30,19 @@
         {
             
         }
+
+        protected TMap Map => Map<TMap>();
     }
 
-    public class FrameworkElement<TControlModel> : AutomationControl<TControlModel>
+    public abstract class FrameworkElement<TControlModel> : AutomationControl<TControlModel>
         where TControlModel : FrameworkElementModel
-    {
-        public FrameworkElement(AutomationElement element, ControlType controlType) 
-            : base(element, controlType)
-        {
-        }
-
-        public FrameworkElement(AutomationElement element) 
-            : base(element)
-        {
-        }
-    }
-
-    public class FrameworkElement : AutomationControl<FrameworkElementModel>
     {
         public FrameworkElement(AutomationElement element, ControlType controlType)
             : base(element, controlType)
         {
         }
 
-        public FrameworkElement(AutomationElement element) 
+        public FrameworkElement(AutomationElement element)
             : base(element)
         {
         }
@@ -55,7 +57,7 @@
 
                     var dpi = DpiHelper.GetDpi();
 
-                    var leftTop = (Point) this.GetLeftTop();
+                    var leftTop = (Point)this.GetLeftTop();
                     var size = new Size(current.ActualWidth * dpi, current.ActualHeight * dpi);
 
                     return new Rect(leftTop, size);

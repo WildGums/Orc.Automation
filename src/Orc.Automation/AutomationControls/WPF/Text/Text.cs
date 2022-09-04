@@ -3,7 +3,7 @@
     using System.Windows.Automation;
     using System.Windows.Media;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Text))]
+    [Control(ControlTypeName = nameof(ControlType.Text))]
     public class Text : FrameworkElement<TextModel>
     {
         public Text(AutomationElement element) 

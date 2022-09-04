@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Automation.Tests", "Orc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Automation.Recorder", "Orc.Automation.Recorder\Orc.Automation.Recorder.csproj", "{BB61C3F3-3060-4333-9E25-12F36C8C2C27}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Automation.TestSync", "Orc.Automation.TestSync\Orc.Automation.TestSync.csproj", "{8DBEE369-1E9B-4043-990D-C2E67876C129}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB61C3F3-3060-4333-9E25-12F36C8C2C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DBEE369-1E9B-4043-990D-C2E67876C129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DBEE369-1E9B-4043-990D-C2E67876C129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DBEE369-1E9B-4043-990D-C2E67876C129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DBEE369-1E9B-4043-990D-C2E67876C129}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{8946028D-A6F7-4A64-98CC-71F1669E1D8E} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 		{8EBD8595-0992-4FFA-BCA2-EE7BF507B507} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 		{BB61C3F3-3060-4333-9E25-12F36C8C2C27} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
+		{8DBEE369-1E9B-4043-990D-C2E67876C129} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E0FE4DD-B99D-4AF7-9702-C059F18239A7}

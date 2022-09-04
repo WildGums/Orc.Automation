@@ -14,6 +14,11 @@
                 return (string) DisplayNameConverter.Convert(null, null, null, CultureInfo.CurrentCulture);
             }
 
+            if (value is string stringValue)
+            {
+                return stringValue;
+            }
+
             return (string) DisplayNameConverter.Convert(value, value.GetType(), null, CultureInfo.CurrentCulture);
         }
     }

@@ -81,14 +81,14 @@
             return control.Execute<GetLeftTopMethodRun>();
         }
 
-        public static AutomationElement Find(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static AutomationElement Find(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             Argument.IsNotNull(() => parent);
 
             return parent.Element.Find(id, name, className, isRaw, controlType, scope, numberOfWaits);
         }
 
-        public static TElement Find<TElement>(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = SearchParameters.NumberOfWaits)
+        public static TElement Find<TElement>(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             Argument.IsNotNull(() => parent);

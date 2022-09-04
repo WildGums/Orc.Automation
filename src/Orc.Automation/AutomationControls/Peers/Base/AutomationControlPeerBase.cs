@@ -9,6 +9,7 @@
     using Catel;
     using Catel.IoC;
     using Catel.Reflection;
+    using Services;
 
     public abstract class AutomationControlPeerBase<TControl> : AutomationControlPeerBase
         where TControl : FrameworkElement
@@ -23,7 +24,7 @@
 
         protected override string GetClassNameCore()
         {
-            return typeof(TControl).FullName;
+            return $"{typeof(TControl).FullName}{NameConventions.ActiveModelControlClassNameSuffix}";
         }
 
         [AutomationMethod]
@@ -43,6 +44,8 @@
         private AutomationMethod _pendingMethod;
 
         private IList<IAutomationMethodRun> _automationMethods;
+
+        private IAutomationTestAccessService _automationTestAccessService;
         #endregion
 
         #region Constructors
@@ -188,8 +191,6 @@
                 _result = null;
 
                 SetValuePatternInvoke(value);
-
-                return;
             }
         }
 
@@ -234,8 +235,13 @@
 
                     return;
                 }
-
+                
                 _pendingMethod = null;
+
+                if (!HasAccess())
+                {
+                    return;
+                }
 
                 _result ??= new AutomationResultContainer();
 
@@ -309,5 +315,17 @@
             RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }
         #endregion
+
+        private bool HasAccess()
+        {
+            if (_automationTestAccessService is null)
+            {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+                _automationTestAccessService = this.GetServiceLocator().TryResolveType<IAutomationTestAccessService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
+            }
+
+            return _automationTestAccessService?.HasAccess() ?? false;
+        }
     }
 }

@@ -12,6 +12,13 @@
     public static class AutomationHelper
     {
         private const int MaxStackTraceLookUp = 5;
+
+        public static bool IsActiveModelControl(AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.Current.ClassName.Contains(NameConventions.ActiveModelControlClassNameSuffix);
+        }
         
         public static ControlType GetControlType(Type type)
         {

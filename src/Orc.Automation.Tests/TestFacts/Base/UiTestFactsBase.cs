@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Automation.Tests
 {
     using System.Windows.Automation;
-    using Automation;
-    using Automation.Services;
     using Catel.IoC;
     using NUnit.Framework;
+    using Services;
 
     public abstract class UiTestFactsBase
     {
@@ -13,6 +12,7 @@
         protected AutomationSetup Setup { get; private set; }
 #pragma warning disable IDISP006 // Don't ignore created IDisposable.
         protected virtual string ExecutablePath => string.Empty;
+        protected virtual string Args => null;
         protected virtual string MainWindowAutomationId => string.Empty;
         protected virtual Condition FindMainWindowCondition => new PropertyCondition(AutomationElement.AutomationIdProperty, MainWindowAutomationId);
 
@@ -22,7 +22,7 @@
         public virtual void SetUp()
         {
 #pragma warning disable IDISP003 // Don't ignore created IDisposable.
-            Setup = SetupAutomationService?.Setup(ExecutablePath, FindMainWindowCondition);
+            Setup = SetupAutomationService?.Setup(ExecutablePath, FindMainWindowCondition, Args);
 #pragma warning disable IDISP003 // Don't ignore created IDisposable.
 
             Assert.IsNotNull(Setup);

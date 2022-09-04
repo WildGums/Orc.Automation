@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Edit))]
+    [Control(ControlTypeName = nameof(ControlType.Edit))]
     public class Edit : FrameworkElement<EditModel>
     {
         public Edit(AutomationElement element) 

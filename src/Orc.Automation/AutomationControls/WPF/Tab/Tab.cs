@@ -6,7 +6,7 @@
     using System.Windows.Automation;
     using Catel;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Tab))]
+    [Control(ControlTypeName = nameof(ControlType.Tab))]
     public class Tab : FrameworkElement<TabModel>
     {
         public Tab(AutomationElement element)
@@ -14,7 +14,7 @@
         {
         }
 
-        public IReadOnlyList<TabItem> Items => By.ControlType(ControlType.TabItem).Many<TabItem>();
+        public IReadOnlyList<TabItem> Items => By.Scope(TreeScope.Children).Many<TabItem>();
 
         public int SelectedIndex
         {

@@ -7,12 +7,19 @@
 
     public class SetupAutomationService : ISetupAutomationService
     {
-        public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, Process existingProcess = null)
+#pragma warning disable IDISP006 // Implement IDisposable
+        public AutomationSetup CurrentSetup { get; private set; }
+#pragma warning restore IDISP006 // Implement IDisposable
+
+        public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string args = null)
         {
             var automationSetup = new AutomationSetup();
 
             var numWaits = 0;
-            var process = existingProcess ?? Process.Start(executableFileLocation);
+
+            var process = args is null 
+                ? Process.Start(executableFileLocation) 
+                : Process.Start(executableFileLocation, args);
 
             do
             {
@@ -64,6 +71,10 @@
             }
 
             automationSetup.MainWindow = mainWindow;
+
+#pragma warning disable IDISP003 // Dispose previous before re-assigning
+            CurrentSetup = automationSetup;
+#pragma warning restore IDISP003 // Dispose previous before re-assigning
 
             return automationSetup;
         }

@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Windows.Automation;
 
-[AutomatedControl(ControlTypeName = nameof(ControlType.Calendar))]
+[Control(ControlTypeName = nameof(ControlType.Calendar))]
 public class Calendar : FrameworkElement<CalendarModel, CalendarMap>
 {
     public Calendar(AutomationElement element) 

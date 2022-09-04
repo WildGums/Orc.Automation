@@ -6,18 +6,33 @@
     using System.Windows.Automation;
     using Catel;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.ComboBox))]
+    [Control(ControlTypeName = nameof(ControlType.ComboBox)/*, ClassName = "ComboBox"*/)]
     public class ComboBox : FrameworkElement<ComboBoxModel>
     {
         public ComboBox(AutomationElement element) 
-            : base(element, ControlType.ComboBox)
+            : base(element/*, ControlType.ComboBox*/)
         {
         }
 
         public string Text
         {
-            get => Element.GetValue<string>();
-            set => Element.SetValue(value);
+            get
+            {
+                if (Element.TryGetValue(out string value))
+                {
+                    return value;
+                }
+
+                return Element.TryGetDisplayText();
+            }
+
+            set
+            {
+                if (!Element.TrySetValue(value))
+                {
+                    this.SelectValue(value);
+                }
+            }
         }
 
         public int SelectedIndex

@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Hyperlink))]
+    [Control(ControlTypeName = nameof(ControlType.Hyperlink))]
     public class Hyperlink : FrameworkElement<HyperlinkModel>
     {
         public Hyperlink(AutomationElement element)

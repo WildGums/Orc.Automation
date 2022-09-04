@@ -1,6 +1,8 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Linq;
+    using Catel;
     using Controls;
 
     public static class TabExtensions
@@ -27,6 +29,13 @@
 #pragma warning disable IDISP004 // Don't ignore created IDisposable.
             return tab.TabScope(tabIndex).Execute(searchFunc);
 #pragma warning restore IDISP004 // Don't ignore created IDisposable.
+        }
+
+        public static void Select(this Tab tab, string name)
+        {
+            Argument.IsNotNull(() => tab);
+
+            tab.Items.FirstOrDefault(x => Equals(x.Header, name))?.TrySelect();
         }
     }
 }

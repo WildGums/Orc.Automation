@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.TabItem))]
+    [Control(ControlTypeName = nameof(ControlType.TabItem))]
     public class TabItem : FrameworkElement
     {
         public TabItem(AutomationElement element) 

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Windows.Automation;
     using Catel;
+    using Controls;
 
     public static partial class AutomationElementExtensions
     {
@@ -13,7 +14,7 @@
             var rawTreeWalker = TreeWalker.RawViewWalker;
             var rawElement = rawTreeWalker.GetFirstChild(element);
 
-            return rawElement?.Current.Name;
+            return rawElement?.Current.Name ?? element.Find<Text>(isRaw: true)?.Value;
         }
 
         public static IEnumerable<AutomationElement> GetAncestors(this AutomationElement element, Condition condition)

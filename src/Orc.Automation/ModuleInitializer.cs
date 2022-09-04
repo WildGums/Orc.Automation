@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Catel.IoC;
-using Catel.Logging;
-using Catel.MVVM;
+﻿using Catel.IoC;
 using Catel.Services;
 using Orc.Automation.Services;
 
@@ -21,5 +18,7 @@ public static class ModuleInitializer
 
         var languageService = serviceLocator.ResolveType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Automation", "Orc.Automation.Properties", "Resources"));
+
+        serviceLocator.RegisterType<IAutomationTestAccessService, AutomationTestAccessService>();
     }
 }

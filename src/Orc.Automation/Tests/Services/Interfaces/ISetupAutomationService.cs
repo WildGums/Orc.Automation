@@ -5,6 +5,8 @@
 
     public interface ISetupAutomationService
     {
-        AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, Process existingProcess = null);
+        public AutomationSetup CurrentSetup { get; }
+
+        AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string args = null);
     }
 }

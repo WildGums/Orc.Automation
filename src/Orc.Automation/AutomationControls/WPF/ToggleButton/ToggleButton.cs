@@ -5,7 +5,7 @@
     /// <summary>
     /// Toggle button Automation Element wrapper
     /// </summary>
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Button))]
+    [Control(ControlTypeName = nameof(ControlType.Button))]
     public class ToggleButton : FrameworkElement<ToggleButtonModel>
     {
         public ToggleButton(AutomationElement element)

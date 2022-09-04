@@ -5,7 +5,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.DataGrid))]
+    [Control(ControlTypeName = nameof(ControlType.DataGrid))]
     public class DataGrid : FrameworkElement<DataGridModel>
     {
         public DataGrid(AutomationElement element) 
@@ -26,7 +26,7 @@
 
         public DataGridCell this[int columnIndex, int rowIndex]
         {
-            get => Element.GetItem(rowIndex, columnIndex).As<DataGridCell>();
+            get => Element.GetTableItem(rowIndex, columnIndex).As<DataGridCell>();
         }
     }
 }

@@ -3,11 +3,13 @@
     using System;
     using System.Windows.Automation;
 
+    [AutomatedControl(Class = typeof(TestHost))]
     public class TestHostAutomationControl : AutomationControl
     {
-        public TestHostAutomationControl(AutomationElement element) 
+        public TestHostAutomationControl(AutomationElement element)
             : base(element)
         {
+            
         }
 
         public object RunMethod(Type type, string methodName, params object[] parameters)

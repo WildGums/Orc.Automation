@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.TreeItem))]
+    [Control(ControlTypeName = nameof(ControlType.TreeItem))]
     public class TreeItem : FrameworkElement<TreeItemModel>
     {
         public TreeItem(AutomationElement element)

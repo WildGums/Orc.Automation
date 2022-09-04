@@ -2,9 +2,43 @@
 {
     using System;
     using System.Windows.Automation;
+    using Catel.IoC;
+    using Services;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Window))]
-    public class Window : FrameworkElement<WindowModel>
+    [Control(ControlTypeName = nameof(ControlType.Window))]
+    public class Window : Window<WindowModel>
+    {
+        public static AutomationElement MainWindow => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
+            ?.MainWindow;
+
+        public static TWindow WaitForWindow<TWindow>(string id = null, string name = null, int numberOfWaits = 10)
+            where TWindow : AutomationControl, IWindow
+        {
+            var window = MainWindow?.Find<TWindow>(id: id, name: name, numberOfWaits: numberOfWaits);
+
+            return window;
+        }
+
+        public Window(AutomationElement element)
+            : base(element)
+        {
+        }
+    }
+
+    public abstract class Window<TModel, TMap> : Window<TModel>
+        where TModel : WindowModel
+        where TMap : AutomationBase
+    {
+        public Window(AutomationElement element)
+            : base(element)
+        {
+        }
+
+        protected TMap Map => Map<TMap>();
+    }
+
+    public abstract class Window<TModel> : FrameworkElement<TModel>, IWindow
+        where TModel : WindowModel
     {
         public Window(AutomationElement element)
             : base(element, ControlType.Window)
@@ -20,8 +54,14 @@
         /// <summary>
         /// Close window
         /// </summary>
-        public void Close() => Element.CloseWindow();
+        public virtual void Close() => Element.CloseWindow();
 
         public event EventHandler<AutomationEventArgs> DialogOpened;
+    }
+
+    public interface IWindow
+    {
+        void Close();
+        event EventHandler<AutomationEventArgs> DialogOpened;
     }
 }

@@ -50,11 +50,16 @@
             {
                 return;
             }
-
+            
             _element = element;
             _accessElement = element;
 
-            _valuePattern = _accessElement.TryGetPattern<ValuePattern>();
+            var isActiveModelElement = AutomationHelper.IsActiveModelControl(element);
+            if (isActiveModelElement)
+            {
+                _valuePattern = _accessElement.TryGetPattern<ValuePattern>();
+            }
+
             if (_valuePattern is null)
             {
                 _accessElement = _accessElement.Find(className: typeof(Controls.AutomationInformer).FullName, scope:TreeScope.Parent);
@@ -171,7 +176,7 @@
             method.Finder = _finder;
 
             var methodStr = method.ToString();
-            
+
             AutomationMethodsList.Instance.Methods.Add(method);
 
             if (string.IsNullOrWhiteSpace(methodStr))
@@ -232,9 +237,9 @@
             File.WriteAllText("C:\\Temps\\AMs.xml", automationMethodsXml);
         }
 
-        public static void Load()
+        public static void Load(string filePath)
         {
-            var automationMethodsXml = File.ReadAllText("C:\\Temps\\AMs.xml");
+            var automationMethodsXml = File.ReadAllText(filePath);
 
             Instance = XmlSerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
         }

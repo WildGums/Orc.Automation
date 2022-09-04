@@ -2,8 +2,8 @@
 {
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.Button))]
-    public sealed class Button : FrameworkElement<ButtonModel>
+    [Control(ControlTypeName = nameof(ControlType.Button))]
+    public class Button : FrameworkElement<ButtonModel>
     {
         public Button(AutomationElement element) 
             : base(element, ControlType.Button)

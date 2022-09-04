@@ -3,7 +3,7 @@
     using System.Windows.Automation;
     using Controls;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.HeaderItem))]
+    [Control(ControlTypeName = nameof(ControlType.HeaderItem))]
     public class HeaderItem : FrameworkElement<HeaderItemModel>
     {
         public HeaderItem(AutomationElement element)

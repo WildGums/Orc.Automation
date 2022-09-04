@@ -27,6 +27,24 @@
             throw new AutomationException("Can't get value");
         }
 
+        public static bool TryGetValue(this AutomationElement element, out string value)
+        {
+            Argument.IsNotNull(() => element);
+
+            var localValue = string.Empty;
+            value = string.Empty;
+
+            var result = element.TryRunPatternFunc<ValuePattern>(x => localValue = x.Current.Value);
+            if (result)
+            {
+                value = localValue;
+
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool TryGetValue(this AutomationElement element, out double value)
         {
             Argument.IsNotNull(() => element);
@@ -293,7 +311,7 @@
             return element.RunPatternFunc<TablePattern, int>(x => x.Current.ColumnCount);
         }
 
-        public static AutomationElement GetItem(this AutomationElement element, int row, int column)
+        public static AutomationElement GetTableItem(this AutomationElement element, int row, int column)
         {
             Argument.IsNotNull(() => element);
 
@@ -531,6 +549,15 @@
         public static bool TryCloseWindow(this AutomationElement element)
         {
             return element.TryRunPatternFunc<WindowPattern>(x => x.Close());
+        }
+        #endregion
+
+        #region Grid
+        public static AutomationElement GetGridItem(this AutomationElement element, int row, int column)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<GridPattern, AutomationElement>(x => x.GetItem(row, column));
         }
         #endregion
 
