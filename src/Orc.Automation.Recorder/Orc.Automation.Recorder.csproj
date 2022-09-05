@@ -21,7 +21,7 @@
     </PackageReference>
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.6.0" PrivateAssets="all" />
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
-    <PackageReference Include="Orc.Theming" Version="4.5.0" />
+    <PackageReference Include="Orc.Theming" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
