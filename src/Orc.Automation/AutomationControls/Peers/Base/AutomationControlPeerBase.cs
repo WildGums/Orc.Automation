@@ -52,7 +52,7 @@
         public AutomationControlPeerBase(FrameworkElement owner)
             : base(owner)
         {
-            Argument.IsNotNull(() => owner);
+            ArgumentNullException.ThrowIfNull(owner);
 
             _owner = owner;
 
@@ -130,10 +130,12 @@
                 return true;
             }
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             if (this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(automationMethodType) is not IAutomationMethodRun automationMethod)
             {
                 return false;
             }
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
 
             _automationMethods.Add(automationMethod);
             return true;
@@ -321,7 +323,7 @@
             if (_automationTestAccessService is null)
             {
 #pragma warning disable IDISP004 // Don't ignore created IDisposable
-                _automationTestAccessService = this.GetServiceLocator().TryResolveType<IAutomationTestAccessService>();
+                _automationTestAccessService = this.GetServiceLocator().ResolveType<IAutomationTestAccessService>();
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
             }
 

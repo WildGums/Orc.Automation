@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
@@ -21,14 +22,14 @@
         public By(AutomationElement element, Tab tab)
             : this(element)
         {
-            Argument.IsNotNull(() => tab);
+            ArgumentNullException.ThrowIfNull(tab);
 
             _tab = tab;
         }
 
         public By(AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             _element = element;
         }

@@ -12,7 +12,7 @@
 
         public ReflectionAutomationMethodRun(AutomationControlPeerBase peer, string methodName)
         {
-            Argument.IsNotNull(() => peer);
+            ArgumentNullException.ThrowIfNull(peer);
 
             _peer = peer;
             Name = methodName;

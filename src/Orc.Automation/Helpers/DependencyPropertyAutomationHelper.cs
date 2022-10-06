@@ -12,14 +12,14 @@
     {
         public static bool TryGetDependencyPropertyValue(DependencyObject element, string propertyName, out object propertyValue)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return TryGetDependencyPropertyValue(element, element.GetType(), propertyName, out propertyValue);
         }
 
         public static bool TryGetDependencyPropertyValue(DependencyObject element, Type ownerType, string propertyName, out object propertyValue)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             propertyValue = null;
 
@@ -49,14 +49,14 @@
 
         public static bool SetDependencyPropertyValue(DependencyObject element, string propertyName, object value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return SetDependencyPropertyValue(element, element.GetType(), propertyName, value);
         }
 
         public static bool SetDependencyPropertyValue(DependencyObject element, Type ownerType, string propertyName, object value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
             
             if (string.IsNullOrWhiteSpace(propertyName))
             {

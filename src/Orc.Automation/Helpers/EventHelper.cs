@@ -35,7 +35,7 @@
 
         public static void RaiseEvent(object target, string eventName, EventArgs eventArgs)
         {
-            Argument.IsNotNull(() => target);
+            ArgumentNullException.ThrowIfNull(target);
             Argument.IsNotNullOrWhitespace(() => eventName);
 
             MulticastDelegate eventDelegate = null;

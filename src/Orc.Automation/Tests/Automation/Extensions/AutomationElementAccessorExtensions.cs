@@ -7,28 +7,28 @@
     {
         public static T GetValue<T>(this AutomationElementAccessor automationElementAccessor, string propertyName, Type ownerType = null)
         {
-            Argument.IsNotNull(() => automationElementAccessor);
+            ArgumentNullException.ThrowIfNull(automationElementAccessor);
 
             return (T)automationElementAccessor.GetValue(propertyName, ownerType);
         }
 
         public static T GetValue<T>(this AutomationElementAccessor automationElementAccessor)
         {
-            Argument.IsNotNull(() => automationElementAccessor);
+            ArgumentNullException.ThrowIfNull(automationElementAccessor);
 
             return (T)automationElementAccessor.GetValue();
         }
 
         public static T GetValue<T, TOwner>(this AutomationElementAccessor automationElementAccessor, string propertyName)
         {
-            Argument.IsNotNull(() => automationElementAccessor);
+            ArgumentNullException.ThrowIfNull(automationElementAccessor);
 
             return (T)automationElementAccessor.GetValue(propertyName, typeof(TOwner));
         }
 
         public static object GetValue(this AutomationElementAccessor automationElementAccessor)
         {
-            Argument.IsNotNull(() => automationElementAccessor);
+            ArgumentNullException.ThrowIfNull(automationElementAccessor);
 
             var propertyName = AutomationHelper.GetCallingProperty();
             if (string.IsNullOrWhiteSpace(propertyName))
@@ -41,7 +41,7 @@
 
         public static void SetValue(this AutomationElementAccessor automationElementAccessor, object value)
         {
-            Argument.IsNotNull(() => automationElementAccessor);
+            ArgumentNullException.ThrowIfNull(automationElementAccessor);
 
             var propertyName = AutomationHelper.GetCallingProperty();
             if (string.IsNullOrWhiteSpace(propertyName))
@@ -54,7 +54,7 @@
         
         public static T Execute<T>(this AutomationElementAccessor automationElementAccessor, string methodName, params object[] parameters)
         {
-            Argument.IsNotNull(() => automationElementAccessor);
+            ArgumentNullException.ThrowIfNull(automationElementAccessor);
 
             return (T)automationElementAccessor.Execute(methodName, parameters);
         }

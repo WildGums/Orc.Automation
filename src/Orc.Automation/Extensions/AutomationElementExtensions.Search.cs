@@ -14,14 +14,14 @@
     {
         public static Window GetHostWindow(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.Find<Window>(controlType: ControlType.Window, scope: TreeScope.Ancestors);
         }
 
         public static TAutomationElementOrElementCollection FindOneOrMany<TAutomationElementOrElementCollection>(this AutomationElement element, SearchContext searchContext)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             object searchResult;
             var type = typeof(TAutomationElementOrElementCollection);
@@ -131,7 +131,7 @@
 
         private static AutomationElement Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Descendants, bool isRaw = false, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var numWaits = 0;
 
@@ -254,7 +254,7 @@
 
         public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var numWaits = 0;
 

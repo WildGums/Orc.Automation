@@ -32,14 +32,14 @@
 
         public AutomationElementAccessor(AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             _element = element;
         }
 
         public AutomationElementAccessor Part(IPartFinder partFinder)
         {
-            Argument.IsNotNull(() => partFinder);
+            ArgumentNullException.ThrowIfNull(partFinder);
 
             return new AutomationElementAccessor(_element, partFinder);
         }
@@ -106,7 +106,7 @@
         
         public void SetValue(string propertyName, object value, Type ownerType = null)
         {
-            Argument.IsNotNull(() => propertyName);
+            ArgumentNullException.ThrowIfNull(propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
 
             var result = ownerType is null
@@ -116,7 +116,7 @@
 
         public object GetValue(string propertyName, Type ownerType = null)
         {
-            Argument.IsNotNull(() => propertyName);
+            ArgumentNullException.ThrowIfNull(propertyName);
 
             var result = ownerType is null 
                 ? Execute(nameof(AutomationControlPeerBase.GetPropertyValue), propertyName)

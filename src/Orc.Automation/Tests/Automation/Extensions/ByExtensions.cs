@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Collections.Generic;
     using Catel;
     using Catel.Reflection;
@@ -8,7 +9,7 @@
     {
         public static By Id(this By by)
         {
-            Argument.IsNotNull(() => by);
+            ArgumentNullException.ThrowIfNull(by);
 
             var property = AutomationHelper.GetCallingProperty();
             if (property is null)
@@ -21,7 +22,7 @@
 
         public static By Name(this By by)
         {
-            Argument.IsNotNull(() => by);
+            ArgumentNullException.ThrowIfNull(by);
 
             var property = AutomationHelper.GetCallingProperty();
             if (property is null)
@@ -35,7 +36,7 @@
         public static T One<T>(this By by)
             where T : AutomationControl
         {
-            Argument.IsNotNull(() => by);
+            ArgumentNullException.ThrowIfNull(by);
 
             PrepareSearch<T>(by);
 
@@ -58,7 +59,7 @@
 
         public static List<T> Many<T>(this By by)
         {
-            Argument.IsNotNull(() => by);
+            ArgumentNullException.ThrowIfNull(by);
 
             PrepareSearch<T>(by);
 

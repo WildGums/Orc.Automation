@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Linq;
     using Catel;
     using Orc.Automation.Controls;
@@ -8,7 +9,7 @@
     {
         public static void Select(this MenuItem menuItem, string header)
         {
-            Argument.IsNotNull(() => menuItem);
+            ArgumentNullException.ThrowIfNull(menuItem);
 
             var items = menuItem.Items;
 

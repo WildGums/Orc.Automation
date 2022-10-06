@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows.Automation;
     using Catel;
@@ -9,7 +10,7 @@
     {
         public static string TryGetDisplayText(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var rawTreeWalker = TreeWalker.RawViewWalker;
             var rawElement = rawTreeWalker.GetFirstChild(element);
@@ -19,7 +20,7 @@
 
         public static IEnumerable<AutomationElement> GetAncestors(this AutomationElement element, Condition condition)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var treeWalker = new TreeWalker(condition);
 
@@ -37,14 +38,14 @@
 
         public static AutomationElement GetParent(this AutomationElement element, Condition condition = null)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return condition is null ? TreeWalker.ControlViewWalker.GetParent(element) : new TreeWalker(condition).GetParent(element);
         }
 
         public static AutomationElement GetRawChild(this AutomationElement containerElement, int index)
         {
-            Argument.IsNotNull(() => containerElement);
+            ArgumentNullException.ThrowIfNull(containerElement);
 
             var item = TreeWalker.RawViewWalker.GetFirstChild(containerElement);
             var currentIndex = 0;
@@ -60,7 +61,7 @@
 
         public static AutomationElement GetChild(this AutomationElement containerElement, int index)
         {
-            Argument.IsNotNull(() => containerElement);
+            ArgumentNullException.ThrowIfNull(containerElement);
 
             var item = TreeWalker.ControlViewWalker.GetFirstChild(containerElement);
             var currentIndex = 0;
@@ -76,7 +77,7 @@
 
         public static AutomationElement GetFirstDescendant(this AutomationElement element, Condition condition)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var treeWalker = new TreeWalker(condition);
 
@@ -87,7 +88,7 @@
 
         public static IEnumerable<AutomationElement> GetChildElements(this AutomationElement containerElement)
         {
-            Argument.IsNotNull(() => containerElement);
+            ArgumentNullException.ThrowIfNull(containerElement);
 
             var item = TreeWalker.ControlViewWalker.GetFirstChild(containerElement);
 
