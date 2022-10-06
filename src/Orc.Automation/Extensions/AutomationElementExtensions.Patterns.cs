@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Windows.Automation;
     using System.Windows.Automation.Text;
-    using Catel;
 
     public static partial class AutomationElementExtensions
     {
@@ -99,7 +98,8 @@
         {
             var textRanges = element.RunPatternFunc<TextPattern, TextPatternRange[]>(x => x.GetSelection());
 
-            return (IReadOnlyList<string>) textRanges?.Select(x => x.GetText(-1)).ToList() ?? Array.Empty<string>();
+            var result = textRanges?.Select(x => x.GetText(-1)).ToArray() ?? Array.Empty<string>();
+            return result;
         }
         #endregion
 
@@ -525,13 +525,13 @@
         }
 
         //TODO:Vladimir:maybe use IDisposable to return in previous view...but for now lets leave that way
-        public static TResult InvokeInView<TResult>(this AutomationElement element, int viewIndex, Func<TResult> func)
+        public static TResult InvokeInView<TResult>(this AutomationElement element, int viewIndex, Func<TResult>? func)
         {
             ArgumentNullException.ThrowIfNull(element);
 
             if (func is null)
             {
-                return default;
+                return default!;
             }
 
             element.SelectView(viewIndex);
@@ -650,7 +650,7 @@
             return true;
         }
         
-        public static TPattern TryGetPattern<TPattern>(this AutomationElement element)
+        public static TPattern? TryGetPattern<TPattern>(this AutomationElement element)
             where TPattern : BasePattern
         {
             var patternField = typeof(TPattern).GetField("Pattern");
