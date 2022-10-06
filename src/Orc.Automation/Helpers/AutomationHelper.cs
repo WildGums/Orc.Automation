@@ -28,7 +28,7 @@
                 return controlType;
             }
 
-            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>();
+            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>() ?? type.GetCustomAttribute<ControlAttribute>();
             if (automatedControlAttribute is null)
             {
                 return null;
@@ -40,7 +40,7 @@
 
         public static string GetControlClassName(Type type)
         {
-            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>();
+            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>() ?? type.GetCustomAttribute<ControlAttribute>();
             if (automatedControlAttribute is null)
             {
                 return null;
