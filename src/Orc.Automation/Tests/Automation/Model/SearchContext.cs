@@ -9,7 +9,7 @@
             
         }
 
-        public SearchContext(string id = null, string name = null, string className = null, ControlType controlType = null, bool isRaw = false, Condition customCondition = null)
+        public SearchContext(string? id = null, string? name = null, string? className = null, ControlType? controlType = null, bool isRaw = false, Condition? customCondition = null)
         {
             Id = id;
             Name = name;
@@ -19,12 +19,12 @@
             IsRaw = isRaw;
         }
 
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public ControlType ControlType { get; set; }
-        public string ClassName { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public ControlType? ControlType { get; set; }
+        public string? ClassName { get; set; }
         public bool IsRaw { get; set; }
-        public Condition Condition { get; set; }
+        public Condition? Condition { get; set; }
         public bool IsCached { get; set; }
 
         public bool IsEmpty => string.IsNullOrWhiteSpace(Id)

@@ -5,14 +5,13 @@
     using System.Linq;
     using System.Windows.Automation;
     using System.Windows.Automation.Text;
-    using Catel;
 
     public static partial class AutomationElementExtensions
     {
         #region Get Value
         public static T GetValue<T>(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             if (typeof(T) == typeof(double))
             {
@@ -29,7 +28,7 @@
 
         public static bool TryGetValue(this AutomationElement element, out string value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var localValue = string.Empty;
             value = string.Empty;
@@ -47,7 +46,7 @@
 
         public static bool TryGetValue(this AutomationElement element, out double value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var localValue = 0d;
             value = 0d;
@@ -67,28 +66,28 @@
         #region Set Value
         public static void SetValue(this AutomationElement element, double value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.RunPatternFunc<RangeValuePattern>(x => x.SetValue(value));
         }
 
         public static void SetValue(this AutomationElement element, string value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.RunPatternFunc<ValuePattern>(x => x.SetValue(value));
         }
 
         public static bool TrySetValue(this AutomationElement element, double value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<RangeValuePattern>(x => x.SetValue(value));
         }
 
         public static bool TrySetValue(this AutomationElement element, string value)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<ValuePattern>(x => x.SetValue(value));
         }
@@ -99,7 +98,8 @@
         {
             var textRanges = element.RunPatternFunc<TextPattern, TextPatternRange[]>(x => x.GetSelection());
 
-            return (IReadOnlyList<string>) textRanges?.Select(x => x.GetText(-1)).ToList() ?? Array.Empty<string>();
+            var result = textRanges?.Select(x => x.GetText(-1)).ToArray() ?? Array.Empty<string>();
+            return result;
         }
         #endregion
 
@@ -111,49 +111,49 @@
 
         public static double GetRangeMaximum(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<RangeValuePattern, double>(x => x.Current.Maximum);
         }
 
         public static double GetRangeSmallChange(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<RangeValuePattern, double>(x => x.Current.SmallChange);
         }
 
         public static double GetRangeLargeChange(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<RangeValuePattern, double>(x => x.Current.LargeChange);
         }
 
         public static bool TryGetRangeSmallChange(this AutomationElement element, out double smallChange)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<RangeValuePattern, double>(x => x.Current.SmallChange, out smallChange);
         }
 
         public static bool TryGetRangeLargeChange(this AutomationElement element, out double largeChange)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<RangeValuePattern, double>(x => x.Current.LargeChange, out largeChange);
         }
 
         public static bool TryGetRangeMinimum(this AutomationElement element, out double minimum)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<RangeValuePattern, double>(x => x.Current.Minimum, out minimum);
         }
 
         public static bool TryGetRangeMaximum(this AutomationElement element, out double maximum)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<RangeValuePattern, double>(x => x.Current.Maximum, out maximum);
         }
@@ -162,14 +162,14 @@
         #region Select
         public static void Select(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.RunPatternFunc<SelectionItemPattern>(x => x.Select());
         }
 
         public static bool GetIsSelected(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<SelectionItemPattern, bool>(x => x.Current.IsSelected);
         }
@@ -203,35 +203,35 @@
 
         public static AutomationElement GetSelectionContainer(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<SelectionItemPattern, AutomationElement>(x => x.Current.SelectionContainer);
         }
 
         public static bool TryAddToSelection(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<SelectionItemPattern>(x => x.AddToSelection());
         }
 
         public static bool TrySelect(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<SelectionItemPattern>(x => x.Select());
         }
 
         public static bool TryDeselect(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.TryRunPatternFunc<SelectionItemPattern>(x => x.RemoveFromSelection());
         }
 
         public static bool TryGetIsSelected(this AutomationElement element, out bool isSelected)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             isSelected = false;
             var localIsSelected = false;
@@ -249,21 +249,21 @@
         #region Select Item
         public static AutomationElement[] GetSelection(this AutomationElement container)
         {
-            Argument.IsNotNull(() => container);
+            ArgumentNullException.ThrowIfNull(container);
 
             return container.RunPatternFunc<SelectionPattern, AutomationElement[]>(x => x.Current.GetSelection());
         }
 
         public static bool CanSelectMultiple(this AutomationElement container)
         {
-            Argument.IsNotNull(() => container);
+            ArgumentNullException.ThrowIfNull(container);
 
             return container.RunPatternFunc<SelectionPattern, bool>(x => x.Current.CanSelectMultiple);
         }
 
         public static bool TrySelectItem(this AutomationElement containerElement, int index, out AutomationElement selectItem)
         {
-            Argument.IsNotNull(() => containerElement);
+            ArgumentNullException.ThrowIfNull(containerElement);
 
             selectItem = GetChild(containerElement, index);
             return selectItem?.TrySelect() == true;
@@ -285,35 +285,35 @@
         #region Table
         public static AutomationElement[] GetColumnHeaders(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<TablePattern, AutomationElement[]>(x => x.Current.GetColumnHeaders());
         }
 
         public static AutomationElement[] GetRowHeaders(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<TablePattern, AutomationElement[]>(x => x.Current.GetRowHeaders());
         }
 
         public static int GetRowCount(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<TablePattern, int>(x => x.Current.RowCount);
         }
 
         public static int GetColumnCount(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<TablePattern, int>(x => x.Current.ColumnCount);
         }
 
         public static AutomationElement GetTableItem(this AutomationElement element, int row, int column)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<TablePattern, AutomationElement>(x => x.GetItem(row, column));
         }
@@ -322,7 +322,7 @@
         #region Transform
         public static void Resize(this AutomationElement element, double newWidth, double newHeight)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.TryRunPatternFunc<TransformPattern>(x =>
             {
@@ -335,7 +335,7 @@
 
         public static void Move(this AutomationElement element, double newX, double newY)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.TryRunPatternFunc<TransformPattern>(x =>
             {
@@ -348,7 +348,7 @@
 
         public static void Rotate(this AutomationElement element, double degrees)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.TryRunPatternFunc<TransformPattern>(x =>
             {
@@ -370,7 +370,7 @@
         /// <exception cref="AutomationException">if Toggle pattern is not supported</exception>
         public static bool? Toggle(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             if (TryToggle(element, out var state))
             {
@@ -512,7 +512,7 @@
         #region MultipleViewPattern
         public static void SelectView(this AutomationElement element, int viewIndex)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             element.TryRunPatternFunc<MultipleViewPattern>(x =>
             {
@@ -525,13 +525,13 @@
         }
 
         //TODO:Vladimir:maybe use IDisposable to return in previous view...but for now lets leave that way
-        public static TResult InvokeInView<TResult>(this AutomationElement element, int viewIndex, Func<TResult> func)
+        public static TResult InvokeInView<TResult>(this AutomationElement element, int viewIndex, Func<TResult>? func)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             if (func is null)
             {
-                return default;
+                return default!;
             }
 
             element.SelectView(viewIndex);
@@ -555,7 +555,7 @@
         #region Grid
         public static AutomationElement GetGridItem(this AutomationElement element, int row, int column)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.RunPatternFunc<GridPattern, AutomationElement>(x => x.GetItem(row, column));
         }
@@ -569,7 +569,7 @@
         /// <returns></returns>
         public static bool TryClick(this AutomationElement element, bool useMouse = true)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             try
             {
@@ -590,7 +590,7 @@
         public static TResult RunPatternFunc<TPattern, TResult>(this AutomationElement element, Func<TPattern, TResult> func)
             where TPattern : BasePattern
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return TryRunPatternFunc(element, func, out var funcResult)
                 ? funcResult
@@ -600,7 +600,7 @@
         public static void RunPatternFunc<TPattern>(this AutomationElement element, Action<TPattern> action)
             where TPattern : BasePattern
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var result = TryRunPatternFunc(element, action);
             if (!result)
@@ -612,7 +612,7 @@
         public static bool TryRunPatternFunc<TPattern, TResult>(this AutomationElement element, Func<TPattern, TResult> func, out TResult functionResult)
             where TPattern : BasePattern
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             functionResult = default;
             TResult localFuncResult = default;
@@ -628,7 +628,7 @@
         public static bool TryRunPatternFunc<TPattern>(this AutomationElement element, Action<TPattern> action)
             where TPattern : BasePattern
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var automationPattern = TryGetPattern<TPattern>(element);
             if (automationPattern is null)
@@ -650,7 +650,7 @@
             return true;
         }
         
-        public static TPattern TryGetPattern<TPattern>(this AutomationElement element)
+        public static TPattern? TryGetPattern<TPattern>(this AutomationElement element)
             where TPattern : BasePattern
         {
             var patternField = typeof(TPattern).GetField("Pattern");

@@ -11,7 +11,7 @@
     {
         public static TValue GetSelectedValue<TValue>(this ComboBox combobox)
         {
-            Argument.IsNotNull(() => combobox);
+            ArgumentNullException.ThrowIfNull(combobox);
 
             if (typeof(TValue) == typeof(bool))
             {
@@ -28,7 +28,7 @@
 
         public static object GetSelectedValue(this ComboBox combobox)
         {
-            Argument.IsNotNull(() => combobox);
+            ArgumentNullException.ThrowIfNull(combobox);
 
             //TODO:Vladimir
             return combobox.SelectedItem?.As<FrameworkElement>()?.Current?.DataContext;
@@ -36,7 +36,7 @@
 
         private static object GetSelectedBooleanValue(this ComboBox combobox)
         {
-            Argument.IsNotNull(() => combobox);
+            ArgumentNullException.ThrowIfNull(combobox);
 
             var itemText = combobox.SelectedItem?.TryGetDisplayText();
             if (Equals(itemText, "True"))
@@ -54,7 +54,7 @@
 
         private static object GetSelectedEnumValue<TEnum>(this ComboBox combobox)
         {
-            Argument.IsNotNull(() => combobox);
+            ArgumentNullException.ThrowIfNull(combobox);
 
             var itemText = combobox.SelectedItem?.TryGetDisplayText();
 
@@ -65,7 +65,7 @@
 
         public static void SelectValue(this ComboBox combobox, object value)
         {
-            Argument.IsNotNull(() => combobox);
+            ArgumentNullException.ThrowIfNull(combobox);
 
             var valueString = value.ToDisplayString();
 
@@ -74,7 +74,7 @@
 
         public static void Select(this ComboBox combobox, Func<AutomationElement, bool> predicate)
         {
-            Argument.IsNotNull(() => combobox);
+            ArgumentNullException.ThrowIfNull(combobox);
 
             combobox.InvokeInExpandState(() =>
             {

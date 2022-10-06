@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Windows;
     using System.Windows.Automation;
     using System.Windows.Input;
@@ -44,14 +45,16 @@
 
         public static TAutomationControl As<TAutomationControl>(this AutomationControl control)
         {
-            Argument.IsNotNull(() => control);
+            ArgumentNullException.ThrowIfNull(control);
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TAutomationControl>(control.Element);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
         }
 
         public static void MouseHover(this AutomationControl control)
         {
-            Argument.IsNotNull(() => control);
+            ArgumentNullException.ThrowIfNull(control);
 
             var rect = control.BoundingRectangle;
 
@@ -60,7 +63,7 @@
 
         public static void MouseOut(this AutomationControl control)
         {
-            Argument.IsNotNull(() => control);
+            ArgumentNullException.ThrowIfNull(control);
 
             var rect = control.BoundingRectangle;
 
@@ -76,14 +79,14 @@
 
         public static object GetLeftTop(this AutomationControl control)
         {
-            Argument.IsNotNull(() => control);
+            ArgumentNullException.ThrowIfNull(control);
 
             return control.Execute<GetLeftTopMethodRun>();
         }
 
         public static AutomationElement Find(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
-            Argument.IsNotNull(() => parent);
+            ArgumentNullException.ThrowIfNull(parent);
 
             return parent.Element.Find(id, name, className, isRaw, controlType, scope, numberOfWaits);
         }
@@ -91,7 +94,7 @@
         public static TElement Find<TElement>(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
-            Argument.IsNotNull(() => parent);
+            ArgumentNullException.ThrowIfNull(parent);
 
             return parent.Element.Find<TElement>(id, name, className, isRaw, controlType, scope, numberOfWaits);
         }

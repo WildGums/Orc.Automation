@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Catel;
     using Catel.Reflection;
 
     public static class TypeExtensions
@@ -20,17 +19,11 @@
 
         public static Type FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly assembly = null)
         {
-            Argument.IsNotNull(() => singleGenericTypeArgument);
+            ArgumentNullException.ThrowIfNull(singleGenericTypeArgument);
 
-#if NET|| NETCORE
             var types = from type in (assembly ?? Assembly.GetExecutingAssembly()).GetTypesEx()
                 where !type.IsAbstract && typeof(TBaseType).IsAssignableFromEx(type)
                 let baseTypeLocal = type.BaseType
-#elif NETFX_CORE
-            var types = from type in AppDomain.CurrentDomain.GetLoadedAssemblies().SelectMany(x => x.GetTypesEx())
-                        where !type.GetTypeInfo().IsAbstract && typeof(TBaseType).IsAssignableFromEx(type)
-                        let baseTypeLocal = type.GetTypeInfo().BaseType
-#endif
                 let genericArgs = baseTypeLocal.GetGenericArguments()
                 where genericArgs.Contains(singleGenericTypeArgument)
                 select type;

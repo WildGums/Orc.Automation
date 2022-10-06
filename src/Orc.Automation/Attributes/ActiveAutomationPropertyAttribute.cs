@@ -15,7 +15,7 @@
             OriginalName = originalName;
         }
 
-        public string OriginalName { get; set; }
-        public Type OwnerType { get; set; }
+        public string? OriginalName { get; set; }
+        public Type? OwnerType { get; set; }
     }
 }

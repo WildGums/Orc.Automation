@@ -88,7 +88,9 @@
                 return converter;
             }
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             converter = converterType.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(converterType) as ISerializationValueConverter;
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
             converters.Add(type, converter);
 
             return converter;

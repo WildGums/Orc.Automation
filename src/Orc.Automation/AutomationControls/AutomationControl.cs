@@ -48,7 +48,7 @@
         public AutomationControl(AutomationElement element, ControlType controlType)
             : this(element)
         {
-            Argument.IsNotNull(() => controlType);
+            ArgumentNullException.ThrowIfNull(controlType);
 
             if (!Equals(element.Current.ControlType, controlType))
             {
@@ -141,7 +141,9 @@
 
         protected virtual TControlModel CreateModel<TControlModel>()
         {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             return this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
         }
 
 #pragma warning disable CS0067

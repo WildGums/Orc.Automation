@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using Catel;
     using Controls;
 
@@ -13,7 +14,7 @@
         /// <returns></returns>
         public static ListItem TryGetVirtualizedItem(this List list, int itemIndex)
         {
-            Argument.IsNotNull(() => list);
+            ArgumentNullException.ThrowIfNull(list);
 
             var id = list.Execute<GotoVirtualizedItemAutomationMethodRun>(itemIndex);
             return string.IsNullOrWhiteSpace(id?.ToString()) ? null : list.Find<ListItem>(id: id.ToString());

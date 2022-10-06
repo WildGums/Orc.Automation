@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Linq;
     using System.Windows;
     using System.Windows.Automation;
@@ -12,7 +13,7 @@
     {
         public static DependencyObject FindVisualDescendantWithAutomationId(this System.Windows.FrameworkElement frameworkElement, string targetId)
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
             
             var result = frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
 
@@ -22,7 +23,7 @@
         public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
             where TBehavior : Behavior
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             var behaviors = Interaction.GetBehaviors(frameworkElement);
 
@@ -32,7 +33,9 @@
                 return existingBehaviorOfType;
             }
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             var behavior = frameworkElement.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TBehavior>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
             behaviors.Add(behavior);
 
             return behavior;

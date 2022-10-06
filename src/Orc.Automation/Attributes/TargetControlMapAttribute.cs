@@ -17,7 +17,9 @@
                 return;
             }
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             var elementMap = element.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(targetElementMapProperty.PropertyType);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
             if (elementMap is null)
             {
                 return;

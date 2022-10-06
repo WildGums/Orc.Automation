@@ -20,7 +20,7 @@
 
         public AutomationBase(AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             Element = element;
         }

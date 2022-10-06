@@ -33,7 +33,7 @@
 
         public static void Select(this Tab tab, string name)
         {
-            Argument.IsNotNull(() => tab);
+            ArgumentNullException.ThrowIfNull(tab);
 
             tab.Items.FirstOrDefault(x => Equals(x.Header, name))?.TrySelect();
         }

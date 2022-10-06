@@ -7,7 +7,9 @@
         public T Create<T>(object element)
             where T : AutomationBase
         {
+#pragma warning disable IDISP001 // Dispose created
             var typeFactory = this.GetTypeFactory();
+#pragma warning restore IDISP001 // Dispose created
 
             if (element is AutomationControl control)
             {

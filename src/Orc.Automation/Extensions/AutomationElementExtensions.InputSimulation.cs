@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation
 {
+    using System;
     using System.Windows.Automation;
     using System.Windows.Input;
     using Catel;
@@ -8,7 +9,7 @@
     {
         public static void MouseClick(this AutomationElement element, MouseButton mouseButton = MouseButton.Left)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
             
             element.MouseHover();
             MouseInput.Click(mouseButton);
@@ -16,7 +17,7 @@
 
         public static void MouseHover(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var rect = element.Current.BoundingRectangle;
 
@@ -25,7 +26,7 @@
 
         public static void MouseOut(this AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var rect = element.Current.BoundingRectangle;
 

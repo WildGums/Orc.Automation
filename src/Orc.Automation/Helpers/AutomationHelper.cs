@@ -15,7 +15,7 @@
 
         public static bool IsActiveModelControl(AutomationElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             return element.Current.ClassName.Contains(NameConventions.ActiveModelControlClassNameSuffix);
         }
@@ -83,14 +83,16 @@
 
         public static object WrapAutomationObject(Type type, object value)
         {
-            Argument.IsNotNull(() => value);
+            ArgumentNullException.ThrowIfNull(value);
 
             if (value.GetType() == type)
             {
                 return value;
             }
 
+#pragma warning disable IDISP001 // Dispose created
             var typeFactory = value.GetTypeFactory();
+#pragma warning restore IDISP001 // Dispose created
 
             if (typeof(AutomationBase).IsAssignableFrom(type))
             {
