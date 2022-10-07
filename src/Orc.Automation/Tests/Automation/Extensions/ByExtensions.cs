@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Catel;
     using Catel.Reflection;
 
     public static class ByExtensions
@@ -33,7 +32,7 @@
             return by.Name(property);
         }
 
-        public static T One<T>(this By by)
+        public static T? One<T>(this By by)
             where T : AutomationControl
         {
             ArgumentNullException.ThrowIfNull(by);

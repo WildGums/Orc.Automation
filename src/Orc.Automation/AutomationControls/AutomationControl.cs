@@ -3,9 +3,9 @@
     using System;
     using System.Windows;
     using System.Windows.Automation;
-    using Catel;
     using Catel.Caching;
     using Catel.IoC;
+    using Catel.Reflection;
     using Microsoft.Xaml.Behaviors;
 
     public class AutomationControl<TControlModel, TMap> : AutomationControl<TControlModel>
@@ -23,6 +23,26 @@
         }
 
         protected TMap Map => Map<TMap>();
+
+        protected TValue? GetMapValue<TValue>(object? source, string propertyName)
+        {
+            if (source is null)
+            {
+                return default;
+            }
+
+            return PropertyHelper.GetPropertyValue<TValue>(source, propertyName);
+        }
+
+        protected void SetMapValue<TValue>(object? source, string propertyName, TValue value)
+        {
+            if (source is null)
+            {
+                return;
+            }
+
+            PropertyHelper.SetPropertyValue(source, propertyName, value);
+        }
     }
 
     public class AutomationControl<TControlModel> : AutomationControl

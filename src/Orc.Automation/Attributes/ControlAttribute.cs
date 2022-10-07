@@ -13,7 +13,7 @@ public class ControlAttribute : AutomationAttribute
         set => _className = value;
     }
 
-    public ControlType ControlType => AutomationHelper.GetControlType(ControlTypeName);
-    public Type Class { get; set; }
-    public string ControlTypeName { get; set; }
+    public ControlType? ControlType => AutomationHelper.GetControlType(ControlTypeName);
+    public Type? Class { get; set; }
+    public string? ControlTypeName { get; set; }
 }

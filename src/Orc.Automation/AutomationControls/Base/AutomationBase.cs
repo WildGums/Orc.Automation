@@ -2,7 +2,6 @@
 {
     using System;
     using System.Windows.Automation;
-    using Catel;
     using Catel.Caching;
 
     /// <summary>

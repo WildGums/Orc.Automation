@@ -6,7 +6,6 @@
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
-    using Catel;
     using Catel.IoC;
     using Catel.Reflection;
     using Services;
@@ -24,11 +23,11 @@
 
         protected override string GetClassNameCore()
         {
-            return $"{typeof(TControl).FullName}{NameConventions.ActiveModelControlClassNameSuffix}";
+            return $"{typeof(TControl).GetSafeFullName()}{NameConventions.ActiveModelControlClassNameSuffix}";
         }
 
         [AutomationMethod]
-        public object TryFindResource(string key)
+        public object? TryFindResource(string key)
         {
             return Control.TryFindResource(key);
         }
@@ -36,19 +35,16 @@
 
     public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
     {
-        #region Fields
         private readonly FrameworkElement _owner;
 
-        private AutomationResultContainer _result = new();
+        private AutomationResultContainer? _result = new ();
 
-        private AutomationMethod _pendingMethod;
+        private AutomationMethod? _pendingMethod;
 
         private IList<IAutomationMethodRun> _automationMethods;
 
-        private IAutomationTestAccessService _automationTestAccessService;
-        #endregion
+        private IAutomationTestAccessService? _automationTestAccessService;
 
-        #region Constructors
         public AutomationControlPeerBase(FrameworkElement owner)
             : base(owner)
         {
@@ -65,9 +61,7 @@
                 RaiseEvent("AutomationMessageSent", args.Message);
             });
         }
-        #endregion
 
-        #region Methods
         private void Initialize()
         {
             _automationMethods = GetAvailableAutomationMethods();
@@ -142,14 +136,14 @@
         }
 
         [AutomationMethod]
-        public object GetResource(string name)
+        public object? GetResource(string name)
         {
             return _owner.TryFindResource(name);
         }
 
         protected override string GetClassNameCore()
         {
-            return _owner.GetType().FullName;
+            return _owner.GetType().GetSafeFullName();
         }
 
         protected override AutomationControlType GetAutomationControlTypeCore()
@@ -181,9 +175,7 @@
 
             return base.GetPattern(patternInterface);
         }
-        #endregion
 
-        #region IValueProvider
         public virtual void SetValue(string value)
         {
             _pendingMethod = AutomationMethod.FromStr(value);
@@ -219,13 +211,11 @@
 
         }
 
-        protected virtual string GetValueFromPattern()
+        protected virtual string? GetValueFromPattern()
         {
             return null;
         }
-        #endregion
 
-        #region InvokeProvider
         public virtual void Invoke()
         {
             try
@@ -300,7 +290,7 @@
 
         }
 
-        protected void RaiseEvent(string eventName, object args)
+        protected void RaiseEvent(string eventName, object? args)
         {
             if (string.IsNullOrWhiteSpace(eventName))
             {
@@ -316,7 +306,6 @@
 
             RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }
-        #endregion
 
         private bool HasAccess()
         {

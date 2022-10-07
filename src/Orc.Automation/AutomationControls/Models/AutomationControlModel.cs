@@ -17,6 +17,8 @@ public class AutomationControlModel : ModelBase
 
     public AutomationControlModel(AutomationElementAccessor accessor)
     {
+        ArgumentNullException.ThrowIfNull(accessor);
+
         _accessor = accessor;
     }
 

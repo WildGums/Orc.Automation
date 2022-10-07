@@ -39,6 +39,11 @@
 
         public string PutControl(string fullName)
         {
+            if (_hostGrid is null)
+            {
+                return "Error: Host grid is null";
+            }
+
             var controlType = TypeHelper.GetTypeByName(fullName);
             if (controlType is null)
             {
@@ -99,7 +104,7 @@
             }
         }
 
-        private void LoadAssembly(AssemblyName assemblyName, string rootDirectory = null)
+        private void LoadAssembly(AssemblyName assemblyName, string? rootDirectory = null)
         {
             if (_loadedAssemblyNames.Contains(assemblyName.FullName))
             {
@@ -109,6 +114,7 @@
             var loadedAssembly = AppDomain.CurrentDomain.Load(assemblyName);
 
             var referencedAssemblies = loadedAssembly.GetReferencedAssemblies();
+
             foreach (var referencedAssembly in referencedAssemblies)
             {
                 try

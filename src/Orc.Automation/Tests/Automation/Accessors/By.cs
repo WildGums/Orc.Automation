@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Windows.Automation;
     using Automation;
-    using Catel;
     using Controls;
 
     public class By
@@ -90,7 +89,7 @@
             return this;
         }
 
-        public virtual AutomationElement One()
+        public virtual AutomationElement? One()
         {
             if (_tabIndex is not null && _tab is not null)
             {

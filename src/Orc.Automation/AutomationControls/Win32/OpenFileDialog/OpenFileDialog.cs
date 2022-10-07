@@ -23,7 +23,7 @@
         {
         }
 
-        public string FilePath
+        public string? FilePath
         {
             get => Map.FilePathCombobox.Text;
             set => Map.FilePathCombobox.Text = value;
@@ -31,17 +31,17 @@
 
         public List<string> Filters
         {
-            get => Map.FiltersCombobox.Items.Select(x => x.Current.Name).ToList();
+            get => Map.FiltersCombobox?.Items.Select(x => x.Current.Name).ToList() ?? new List<string>();
         }
 
         public void Accept()
         {
-            Map.AcceptButton.Click();
+            Map.AcceptButton?.Click();
         }
 
         public void Cancel()
         {
-            Map.CancelButton.Click();
+            Map.CancelButton?.Click();
         }
     }
 }
