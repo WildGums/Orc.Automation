@@ -8,6 +8,9 @@
     {
         public static bool TryLoadControl(this TestHostAutomationControl testHost, Type controlType, out string testHostAutomationId, params string[] resources)
         {
+            ArgumentNullException.ThrowIfNull(testHost);
+            ArgumentNullException.ThrowIfNull(controlType);
+
             var controlAssembly = controlType.Assembly;
 
             var controlTypeFullName = controlType.FullName;

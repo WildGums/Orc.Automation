@@ -17,7 +17,7 @@
                 .ToDictionary(x => x, x => x.GetAttribute<TAttribute>());
         }
 
-        public static Type FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly assembly = null)
+        public static Type? FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly? assembly = null)
         {
             ArgumentNullException.ThrowIfNull(singleGenericTypeArgument);
 

@@ -9,7 +9,7 @@
 
     public class TimeSpanSerializationConverter : SerializationValueConverterBase<TimeSpan, SerializableTimeSpan>
     {
-        public override object ConvertFrom(TimeSpan value)
+        public override object? ConvertFrom(TimeSpan value)
         {
             return new SerializableTimeSpan
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableTimeSpan value)
+        public override object? ConvertTo(SerializableTimeSpan value)
         {
             return TimeSpan.FromMilliseconds(value.TotalMilliseconds);
         }

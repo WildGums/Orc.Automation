@@ -6,6 +6,8 @@
     {
         public static Func<TResult> MakeDefault<TResult>(this Action action)
         {
+            ArgumentNullException.ThrowIfNull(action);
+
             return () =>
             {
                 action.Invoke(); 

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using Catel;
     using Controls;
 
     public static class TabExtensions
@@ -19,6 +18,9 @@
         public static TControl InTab<TControl>(this Tab tab, int tabIndex, Func<TControl> searchFunc, bool restorePreviousTab = false)
           //  where TControl : FrameworkElement
         {
+            ArgumentNullException.ThrowIfNull(tab);
+            ArgumentNullException.ThrowIfNull(searchFunc);
+
             var control = searchFunc.Invoke();
           //  if (control.IsVisible())
             if(control is not null)

@@ -10,14 +10,19 @@ public abstract class ConditionalPartFinderBase : IPartFinder
 {
     protected abstract bool IsMatch(object descendant);
 
-    public FrameworkElement Find(FrameworkElement parent)
+    public FrameworkElement? Find(FrameworkElement parent)
     {
+        ArgumentNullException.ThrowIfNull(parent);
+
         return FindVisualDescendant(parent, IsMatch) as FrameworkElement;
     }
 
 
-    private static DependencyObject FindVisualDescendant(DependencyObject startElement, Predicate<object> condition)
+    private static DependencyObject? FindVisualDescendant(DependencyObject startElement, Predicate<object> condition)
     {
+        ArgumentNullException.ThrowIfNull(startElement);
+        ArgumentNullException.ThrowIfNull(condition);
+
         if (startElement is not null)
         {
             if (condition(startElement))
@@ -44,12 +49,10 @@ public abstract class ConditionalPartFinderBase : IPartFinder
                 return FindVisualDescendant(startElementAsBorder.Child, condition);
             }
 
-#if NET || NETCORE
             if (startElement is Decorator startElementAsDecorator)
             {
                 return FindVisualDescendant(startElementAsDecorator.Child, condition);
             }
-#endif
 
             // If the element has children, loop the children
             var children = new List<DependencyObject>();

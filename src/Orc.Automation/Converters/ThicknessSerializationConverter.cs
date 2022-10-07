@@ -12,7 +12,7 @@
 
     internal class ThicknessSerializationConverter : SerializationValueConverterBase<Thickness, SerializableThickness>
     {
-        public override object ConvertFrom(Thickness value)
+        public override object? ConvertFrom(Thickness value)
         {
             return new SerializableThickness
             {
@@ -23,7 +23,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableThickness value)
+        public override object? ConvertTo(SerializableThickness value)
         {
             return new Thickness
             {

@@ -6,7 +6,7 @@
 
     public class SerializableCultureInfo
     {
-        public string CultureName { get; set; }
+        public string? CultureName { get; set; }
     }
 
     public class CultureInfoSerializationConverter : SerializationValueConverterBase<CultureInfo, SerializableCultureInfo>
@@ -15,12 +15,12 @@
             .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
             .OrderBy(culture => culture.DisplayName).ToDictionary(x => x.Name, x => x);
 
-        public override object ConvertFrom(CultureInfo value)
+        public override object? ConvertFrom(CultureInfo value)
         {
             return new SerializableCultureInfo { CultureName = value.Name };
         }
 
-        public override object ConvertTo(SerializableCultureInfo value)
+        public override object? ConvertTo(SerializableCultureInfo value)
         {
             return _availableCultures.TryGetValue(value.CultureName, out var cultureInfo) ? cultureInfo : null;
         }
@@ -28,7 +28,7 @@
 
     public class SerializableCultureInfoList
     {
-        public List<SerializableCultureInfo> Cultures { get; set; }
+        public List<SerializableCultureInfo>? Cultures { get; set; }
     }
 
     public class CultureInfoListSerializationConverter : SerializationValueConverterBase<List<CultureInfo>, SerializableCultureInfoList>

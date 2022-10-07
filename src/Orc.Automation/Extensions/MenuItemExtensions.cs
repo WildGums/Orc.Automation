@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using Catel;
     using Orc.Automation.Controls;
 
     public static class MenuItemExtensions

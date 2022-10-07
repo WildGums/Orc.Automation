@@ -4,6 +4,11 @@
 
     public class EventListenerConfiguration
     {
+        public EventListenerConfiguration()
+        {
+            InputEventsNames = new List<string>();
+        }
+
         public List<string> InputEventsNames { get; set; }
     }
 }

@@ -10,7 +10,7 @@
 
     public class DurationSerializationConverter : SerializationValueConverterBase<Duration, SerializableDuration>
     {
-        public override object ConvertFrom(Duration value)
+        public override object? ConvertFrom(Duration value)
         {
             return new SerializableDuration
             {
@@ -18,7 +18,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableDuration value)
+        public override object? ConvertTo(SerializableDuration value)
         {
             return new Duration(value.Duration);
         }

@@ -10,10 +10,9 @@
         public double BottomRight { get; set; }
     }
 
-
     public class CornerRadiusSerializationConverter : SerializationValueConverterBase<CornerRadius, SerializableCornerRadius>
     {
-        public override object ConvertFrom(CornerRadius value)
+        public override object? ConvertFrom(CornerRadius value)
         {
             return new SerializableCornerRadius
             {
@@ -24,7 +23,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableCornerRadius value)
+        public override object? ConvertTo(SerializableCornerRadius value)
         {
             return new CornerRadius
             {

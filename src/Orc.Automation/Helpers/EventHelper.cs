@@ -10,6 +10,10 @@
     {
         public static bool TrySubscribeToEvent(object target, string eventName, Action handler)
         {
+            ArgumentNullException.ThrowIfNull(target);
+            Argument.IsNotNullOrWhitespace(() => eventName);
+            ArgumentNullException.ThrowIfNull(handler);
+
             var @event = target.GetType().GetEvent(eventName);
             if (@event is null)
             {
@@ -62,6 +66,9 @@
 
         private static Delegate Create(EventInfo evt, Action action)
         {
+            ArgumentNullException.ThrowIfNull(evt);
+            ArgumentNullException.ThrowIfNull(action);
+
             var handlerType = evt.EventHandlerType;
             var eventParams = handlerType.GetMethod("Invoke").GetParameters();
 

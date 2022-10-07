@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using Catel;
     using Controls;
 
     public static class ListExtensions
@@ -22,6 +21,8 @@
 
         public static ListItem SelectVirtualizedItem(this List list, int itemIndex)
         {
+            ArgumentNullException.ThrowIfNull(list);
+
             var item = list.TryGetVirtualizedItem(itemIndex);
             if (item is not null)
             {

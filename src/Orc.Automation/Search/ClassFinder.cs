@@ -1,5 +1,7 @@
 ﻿namespace Orc.Automation;
 
+using System;
+
 public class ClassFinder : ConditionalPartFinderBase
 {
     public static ClassFinder Create(string className) => new()
@@ -11,6 +13,8 @@ public class ClassFinder : ConditionalPartFinderBase
 
     protected override bool IsMatch(object descendant)
     {
+        ArgumentNullException.ThrowIfNull(descendant);
+
         return Equals(descendant.GetType().FullName, ClassName);
     }
 }

@@ -4,7 +4,7 @@
 
     public class AutomationFactory
     {
-        public T Create<T>(object element)
+        public T? Create<T>(object element)
             where T : AutomationBase
         {
 #pragma warning disable IDISP001 // Dispose created

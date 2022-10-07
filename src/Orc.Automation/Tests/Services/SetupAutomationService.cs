@@ -8,10 +8,10 @@
     public class SetupAutomationService : ISetupAutomationService
     {
 #pragma warning disable IDISP006 // Implement IDisposable
-        public AutomationSetup CurrentSetup { get; private set; }
+        public AutomationSetup? CurrentSetup { get; private set; }
 #pragma warning restore IDISP006 // Implement IDisposable
 
-        public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string args = null)
+        public virtual AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string? args = null)
         {
             var automationSetup = new AutomationSetup();
 
