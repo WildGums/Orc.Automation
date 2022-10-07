@@ -3,12 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Windows.Automation;
-    using Catel;
     using Controls;
 
     public static partial class AutomationElementExtensions
     {
-        public static string TryGetDisplayText(this AutomationElement element)
+        public static string? TryGetDisplayText(this AutomationElement element)
         {
             ArgumentNullException.ThrowIfNull(element);
 
@@ -25,6 +24,7 @@
             var treeWalker = new TreeWalker(condition);
 
             var parent = GetParent(element);
+
             while (parent is not null)
             {
                 if (treeWalker.GetParent(element) is not null)
@@ -36,14 +36,14 @@
             }
         }
 
-        public static AutomationElement GetParent(this AutomationElement element, Condition condition = null)
+        public static AutomationElement? GetParent(this AutomationElement element, Condition? condition = null)
         {
             ArgumentNullException.ThrowIfNull(element);
 
             return condition is null ? TreeWalker.ControlViewWalker.GetParent(element) : new TreeWalker(condition).GetParent(element);
         }
 
-        public static AutomationElement GetRawChild(this AutomationElement containerElement, int index)
+        public static AutomationElement? GetRawChild(this AutomationElement containerElement, int index)
         {
             ArgumentNullException.ThrowIfNull(containerElement);
 
@@ -59,7 +59,7 @@
             return item;
         }
 
-        public static AutomationElement GetChild(this AutomationElement containerElement, int index)
+        public static AutomationElement? GetChild(this AutomationElement containerElement, int index)
         {
             ArgumentNullException.ThrowIfNull(containerElement);
 
@@ -75,7 +75,7 @@
             return item;
         }
 
-        public static AutomationElement GetFirstDescendant(this AutomationElement element, Condition condition)
+        public static AutomationElement? GetFirstDescendant(this AutomationElement element, Condition condition)
         {
             ArgumentNullException.ThrowIfNull(element);
 

@@ -11,7 +11,7 @@
         /// <param name="list"></param>
         /// <param name="itemIndex"></param>
         /// <returns></returns>
-        public static ListItem TryGetVirtualizedItem(this List list, int itemIndex)
+        public static ListItem? TryGetVirtualizedItem(this List list, int itemIndex)
         {
             ArgumentNullException.ThrowIfNull(list);
 
@@ -19,7 +19,7 @@
             return string.IsNullOrWhiteSpace(id?.ToString()) ? null : list.Find<ListItem>(id: id.ToString());
         }
 
-        public static ListItem SelectVirtualizedItem(this List list, int itemIndex)
+        public static ListItem? SelectVirtualizedItem(this List list, int itemIndex)
         {
             ArgumentNullException.ThrowIfNull(list);
 

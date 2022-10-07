@@ -16,6 +16,6 @@
             return Equals(method.Name, Name);
         }
 
-        public abstract bool TryInvoke(FrameworkElement owner, AutomationMethod method, [NotNullWhen(true)] out AutomationValue result);
+        public abstract bool TryInvoke(FrameworkElement owner, AutomationMethod method, [NotNullWhen(true)] out AutomationValue? result);
     }
 }

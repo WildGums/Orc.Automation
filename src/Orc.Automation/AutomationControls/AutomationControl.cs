@@ -94,7 +94,6 @@
             Access.AutomationEvent += OnEvent;
         }
 
-        #region Automation Properties
         public AutomationElement.AutomationElementInformation AutomationProperties => Element.Current;
 
         public bool IsPart { get; protected set; }
@@ -102,7 +101,6 @@
         protected AutomationElementAccessor Access { get; private set; }
         public bool IsEnabled => AutomationProperties.IsEnabled;
         public virtual Rect BoundingRectangle => Element.Current.BoundingRectangle;
-        #endregion
 
         public void AttachBehavior<TBehavior>()
             where TBehavior : Behavior

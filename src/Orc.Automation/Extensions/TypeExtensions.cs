@@ -14,7 +14,7 @@
             return type
                 .GetProperties()
                 .Where(prop => Attribute.IsDefined(prop, typeof(TAttribute)))
-                .ToDictionary(x => x, x => x.GetAttribute<TAttribute>());
+                .ToDictionary(x => x, x => x.GetAttribute<TAttribute>()!);
         }
 
         public static Type? FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly? assembly = null)
@@ -44,7 +44,7 @@
             // short-circuit if you expect lots of arrays 
             if (type.IsArray)
             {
-                return type.GetElementType();
+                return type.GetElementType() ?? typeof(object);
             }
 
             // type is IEnumerable<T>;

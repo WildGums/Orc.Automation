@@ -11,7 +11,7 @@
         {
             if (value is null)
             {
-                return (string?) DisplayNameConverter.Convert(null, null, null, CultureInfo.CurrentCulture);
+                return (string?) DisplayNameConverter.Convert(null, typeof(object), null, CultureInfo.CurrentCulture);
             }
 
             if (value is string stringValue)

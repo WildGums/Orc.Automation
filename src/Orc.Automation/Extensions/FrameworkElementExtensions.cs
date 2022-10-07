@@ -33,7 +33,7 @@
             }
 
 #pragma warning disable IDISP004 // Don't ignore created IDisposable
-            var behavior = frameworkElement.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TBehavior>();
+            var behavior = frameworkElement.GetTypeFactory().CreateRequiredInstanceWithParametersAndAutoCompletion<TBehavior>();
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
             behaviors.Add(behavior);
 

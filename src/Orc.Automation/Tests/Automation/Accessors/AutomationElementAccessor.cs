@@ -111,7 +111,7 @@
             });
         }
         
-        public void SetValue(string propertyName, object value, Type? ownerType = null)
+        public void SetValue(string propertyName, object? value, Type? ownerType = null)
         {
             ArgumentNullException.ThrowIfNull(propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
@@ -214,7 +214,7 @@
         
         private event EventHandler<AutomationEventArgs>? _automationEvent; 
 
-        public event EventHandler<AutomationEventArgs> AutomationEvent
+        public event EventHandler<AutomationEventArgs>? AutomationEvent
         {
             add
             {

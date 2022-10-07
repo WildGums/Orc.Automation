@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using Catel.Reflection;
     using Controls;
 
     public static class TestHostAutomationElementExtensions
@@ -13,7 +14,7 @@
 
             var controlAssembly = controlType.Assembly;
 
-            var controlTypeFullName = controlType.FullName;
+            var controlTypeFullName = controlType.GetSafeFullName();
             var controlAssemblyLocation = controlAssembly.Location;
 
             testHostAutomationId = string.Empty;

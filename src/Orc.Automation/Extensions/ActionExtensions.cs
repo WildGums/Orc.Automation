@@ -4,7 +4,7 @@
 
     public static class ActionExtensions
     {
-        public static Func<TResult> MakeDefault<TResult>(this Action action)
+        public static Func<TResult?> MakeDefault<TResult>(this Action action)
         {
             ArgumentNullException.ThrowIfNull(action);
 

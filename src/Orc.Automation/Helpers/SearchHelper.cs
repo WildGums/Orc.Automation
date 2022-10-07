@@ -7,7 +7,7 @@
 
     public static class SearchHelper
     {
-        public static UIElement GetDirectlyOver(Window window, Point point, string typeName)
+        public static UIElement? GetDirectlyOver(Window window, Point point, string typeName)
         {
             ArgumentNullException.ThrowIfNull(window);
             ArgumentNullException.ThrowIfNull(typeName);
@@ -31,8 +31,8 @@
 
             var pointHitTestParameters = new PointHitTestParameters(point);
 
-            UIElement elementFromFilterLocal = null;
-            UIElement elementFromResultLocal = null;
+            UIElement? elementFromFilterLocal = null;
+            UIElement? elementFromResultLocal = null;
             VisualTreeHelper.HitTest(window, o => FilterCallback(o, typeName, ref elementFromFilterLocal), r => ResultCallback(r, ref elementFromResultLocal), pointHitTestParameters);
 
             elementFromFilter = elementFromFilterLocal;

@@ -7,8 +7,6 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Threading;
-    using System.Xml.Linq;
-    using Catel;
 
     public static class DependencyPropertyAutomationHelper
     {
@@ -81,7 +79,7 @@
             return true;
         }
 
-        private static DependencyProperty GetDependencyPropertyByName(DependencyObject dependencyObject, Type ownerType, string propertyName)
+        private static DependencyProperty? GetDependencyPropertyByName(DependencyObject dependencyObject, Type ownerType, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(dependencyObject);
             ArgumentNullException.ThrowIfNull(ownerType);
@@ -89,7 +87,7 @@
             return GetDependencyPropertyByName(dependencyObject.GetType(), ownerType, propertyName);
         }
 
-        private static DependencyProperty GetDependencyPropertyByName(Type dependencyObjectType, Type ownerType, string propertyName)
+        private static DependencyProperty? GetDependencyPropertyByName(Type dependencyObjectType, Type ownerType, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(dependencyObjectType);
             ArgumentNullException.ThrowIfNull(ownerType);

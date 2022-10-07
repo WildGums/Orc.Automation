@@ -41,7 +41,6 @@ public class AutomationControlModel : ModelBase
         if (_accessor is null || _ignoredProperties.Contains(propertyName))
         {
             base.SetValueToPropertyBag(propertyName, value);
-
             return;
         }
 
@@ -56,21 +55,26 @@ public class AutomationControlModel : ModelBase
         base.SetValueToPropertyBag(propertyName, value);
     }
 
-    private (string propertyName, Type type) GetApiPropertyDescription(string propertyName)
+    private (string propertyName, Type? type) GetApiPropertyDescription(string propertyName)
     {
         var property = PropertyHelper.GetPropertyInfo(this, propertyName);
+        if (property is null)
+        {
+            throw new InvalidOperationException($"Cannot find property '{GetType().Name}.{propertyName}'");
+        }
+
         var apiAttribute = property.GetAttribute<ActiveAutomationPropertyAttribute>();
         if (apiAttribute is null)
         {
             var automationAccessTypeAttribute = GetType().GetAttribute<ActiveAutomationModelAttribute>();
             return automationAccessTypeAttribute is not null
-                ? new ValueTuple<string, Type>(propertyName, automationAccessTypeAttribute.DefaultOwnerType)
+                ? new ValueTuple<string, Type?>(propertyName, automationAccessTypeAttribute.DefaultOwnerType)
                 : default;
         }
 
         propertyName = string.IsNullOrWhiteSpace(apiAttribute.OriginalName) ? propertyName : apiAttribute.OriginalName;
         var type = apiAttribute.OwnerType;
 
-        return new ValueTuple<string, Type>(propertyName, type);
+        return new ValueTuple<string, Type?>(propertyName, type);
     }
 }

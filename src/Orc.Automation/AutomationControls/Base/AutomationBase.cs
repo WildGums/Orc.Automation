@@ -31,7 +31,7 @@
         public T Map<T>()
             where T : AutomationBase
         {
-            return (T)_maps.GetFromCacheOrFetch(typeof(T), () => Factory.Create<T>(this));
+            return (T)_maps.GetFromCacheOrFetch(typeof(T), () => Factory.CreateRequired<T>(this));
         }
     }
 }
