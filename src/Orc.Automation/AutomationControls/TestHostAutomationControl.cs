@@ -12,7 +12,7 @@
             
         }
 
-        public object RunMethod(Type type, string methodName, params object[] parameters)
+        public object RunMethod(Type type, string methodName, params object?[] parameters)
         {
             TryLoadAssembly(type.Assembly.Location);
 

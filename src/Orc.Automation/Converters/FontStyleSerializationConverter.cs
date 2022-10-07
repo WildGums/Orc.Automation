@@ -9,7 +9,7 @@
 
     public class FontStyleSerializationConverter : SerializationValueConverterBase<FontStyle, SerializableFontStyle>
     {
-        public override object ConvertFrom(FontStyle value)
+        public override object? ConvertFrom(FontStyle value)
         {
             var index = 0;
             if (Equals(value, FontStyles.Normal))
@@ -28,7 +28,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableFontStyle value)
+        public override object? ConvertTo(SerializableFontStyle value)
         {
             var index = value.FontStyleIndex;
             return index switch

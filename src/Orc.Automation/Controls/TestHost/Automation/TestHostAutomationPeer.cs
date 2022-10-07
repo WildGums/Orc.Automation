@@ -54,7 +54,7 @@
 
             try
             {
-                method.Invoke(null, new object[]{"Default"});
+                method.Invoke(null, new object?[]{"Default"});
             }
             catch (Exception ex)
             {

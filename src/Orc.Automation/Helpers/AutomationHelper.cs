@@ -6,7 +6,6 @@
     using System.Diagnostics;
     using System.Reflection;
     using System.Windows.Automation;
-    using Catel;
     using Catel.IoC;
 
     public static class AutomationHelper
@@ -20,8 +19,10 @@
             return element.Current.ClassName.Contains(NameConventions.ActiveModelControlClassNameSuffix);
         }
         
-        public static ControlType GetControlType(Type type)
+        public static ControlType? GetControlType(Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             var controlType = GetControlType(type.Name);
             if (controlType is not null)
             {
@@ -38,8 +39,10 @@
             return controlType;
         }
 
-        public static string GetControlClassName(Type type)
+        public static string? GetControlClassName(Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>() ?? type.GetCustomAttribute<ControlAttribute>();
             if (automatedControlAttribute is null)
             {
@@ -50,7 +53,7 @@
             return string.IsNullOrWhiteSpace(className) ? null : className;
         }
 
-        public static ControlType GetControlType(string controlTypeName)
+        public static ControlType? GetControlType(string? controlTypeName)
         {
             if (!string.IsNullOrWhiteSpace(controlTypeName))
             {
@@ -60,9 +63,10 @@
             return null;
         }
 
-        public static string GetCallingProperty()
+        public static string? GetCallingProperty()
         {
             var stackTrace = new StackTrace();
+
             for (var i = 1; i <= MaxStackTraceLookUp; i++)
             {
                 var callingProperty = stackTrace.GetFrame(i)?.GetMethod()?.Name;
@@ -81,8 +85,9 @@
             return null;
         }
 
-        public static object WrapAutomationObject(Type type, object value)
+        public static object? WrapAutomationObject(Type type, object value)
         {
+            ArgumentNullException.ThrowIfNull(type);
             ArgumentNullException.ThrowIfNull(value);
 
             if (value.GetType() == type)

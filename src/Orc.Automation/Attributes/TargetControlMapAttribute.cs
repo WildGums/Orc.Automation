@@ -10,6 +10,9 @@
     {
         public static void Initialize(AutomationElement element, object host)
         {
+            ArgumentNullException.ThrowIfNull(element);
+            ArgumentNullException.ThrowIfNull(host);
+
             var hostType = host.GetType();
             var targetElementMapProperty = hostType.GetProperties().FirstOrDefault(prop => Attribute.IsDefined(prop, typeof(TargetControlMapAttribute)));
             if (targetElementMapProperty is null)

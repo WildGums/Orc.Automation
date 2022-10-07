@@ -4,23 +4,22 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Automation;
-    using Catel;
     using Catel.IoC;
     using Catel.Windows;
     using Microsoft.Xaml.Behaviors;
 
     public static class FrameworkElementExtensions
     {
-        public static DependencyObject FindVisualDescendantWithAutomationId(this System.Windows.FrameworkElement frameworkElement, string targetId)
+        public static DependencyObject? FindVisualDescendantWithAutomationId(this FrameworkElement frameworkElement, string targetId)
         {
             ArgumentNullException.ThrowIfNull(frameworkElement);
             
-            var result = frameworkElement.FindVisualDescendant(x => Equals((x as System.Windows.FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
+            var result = frameworkElement.FindVisualDescendant(x => Equals((x as FrameworkElement)?.GetValue(AutomationProperties.AutomationIdProperty), targetId));
 
             return result ?? frameworkElement.FindVisualDescendantByName(targetId);
         }
 
-        public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
+        public static TBehavior AttachBehavior<TBehavior>(this FrameworkElement frameworkElement)
             where TBehavior : Behavior
         {
             ArgumentNullException.ThrowIfNull(frameworkElement);
@@ -34,7 +33,7 @@
             }
 
 #pragma warning disable IDISP004 // Don't ignore created IDisposable
-            var behavior = frameworkElement.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TBehavior>();
+            var behavior = frameworkElement.GetTypeFactory().CreateRequiredInstanceWithParametersAndAutoCompletion<TBehavior>();
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
             behaviors.Add(behavior);
 

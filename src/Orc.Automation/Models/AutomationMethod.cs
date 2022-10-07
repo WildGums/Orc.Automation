@@ -8,7 +8,7 @@
 
     public class AutomationValueList : List<AutomationValue>
     {
-        public static AutomationValueList Create(params object[] parameters)
+        public static AutomationValueList Create(params object?[] parameters)
         {
             if (parameters is null || !parameters.Any())
             {
@@ -39,11 +39,16 @@
         [NonSerialized]
         public static readonly AutomationMethod Empty = new ();
 
-        public string Handle { get; set; }
-        public Rect? SearchRectangle { get; set; }
-        public string SearchTypeName { get; set; }
+        public AutomationMethod()
+        {
+            Parameters = new AutomationValueList();
+        }
 
-        public IPartFinder Finder { get; set; }
+        public string? Handle { get; set; }
+        public Rect? SearchRectangle { get; set; }
+        public string? SearchTypeName { get; set; }
+
+        public IPartFinder? Finder { get; set; }
 
         public static AutomationMethod FromStr(string methodText)
         {
@@ -62,7 +67,7 @@
             }
         }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public AutomationValueList Parameters { get; set; }
 
         public override string ToString()

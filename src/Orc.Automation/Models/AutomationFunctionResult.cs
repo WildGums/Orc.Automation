@@ -20,10 +20,10 @@
             return XmlSerializerHelper.DeserializeValue(resultText, typeof(AutomationResultContainer)) as AutomationResultContainer ?? Empty;
         }
         
-        public string LastEventName { get; set; }
-        public AutomationValue LastEventArgs { get; set; }
+        public string? LastEventName { get; set; }
+        public AutomationValue? LastEventArgs { get; set; }
 
-        public AutomationValue LastInvokedMethodResult { get; set; }
+        public AutomationValue? LastInvokedMethodResult { get; set; }
 
         public override string ToString()
         {

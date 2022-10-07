@@ -7,6 +7,7 @@
     {
         public static TResult Execute<TResult>(this IDisposable disposable, Func<TResult> func)
         {
+            ArgumentNullException.ThrowIfNull(disposable);
             ArgumentNullException.ThrowIfNull(func);
 
 #pragma warning disable IDISP007 // Don't dispose injected.
@@ -19,6 +20,7 @@
 
         public static void Execute(this IDisposable disposable, Action action)
         {
+            ArgumentNullException.ThrowIfNull(disposable);
             ArgumentNullException.ThrowIfNull(action);
 
             disposable.Execute(action.MakeDefault<bool>());

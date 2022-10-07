@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using Catel;
     using Controls;
 
     public static class ListExtensions
@@ -12,7 +11,7 @@
         /// <param name="list"></param>
         /// <param name="itemIndex"></param>
         /// <returns></returns>
-        public static ListItem TryGetVirtualizedItem(this List list, int itemIndex)
+        public static ListItem? TryGetVirtualizedItem(this List list, int itemIndex)
         {
             ArgumentNullException.ThrowIfNull(list);
 
@@ -20,8 +19,10 @@
             return string.IsNullOrWhiteSpace(id?.ToString()) ? null : list.Find<ListItem>(id: id.ToString());
         }
 
-        public static ListItem SelectVirtualizedItem(this List list, int itemIndex)
+        public static ListItem? SelectVirtualizedItem(this List list, int itemIndex)
         {
+            ArgumentNullException.ThrowIfNull(list);
+
             var item = list.TryGetVirtualizedItem(itemIndex);
             if (item is not null)
             {

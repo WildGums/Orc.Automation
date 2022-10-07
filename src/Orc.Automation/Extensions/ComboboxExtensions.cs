@@ -3,30 +3,29 @@
     using System;
     using System.Linq;
     using System.Windows.Automation;
-    using Catel;
     using Controls;
     using FilterBuilder.Automation;
 
     public static class ComboboxExtensions
     {
-        public static TValue GetSelectedValue<TValue>(this ComboBox combobox)
+        public static TValue? GetSelectedValue<TValue>(this ComboBox combobox)
         {
             ArgumentNullException.ThrowIfNull(combobox);
 
             if (typeof(TValue) == typeof(bool))
             {
-                return (TValue)combobox.GetSelectedBooleanValue();
+                return (TValue?)combobox.GetSelectedBooleanValue();
             }
 
             if (typeof(TValue).IsEnum)
             {
-                return (TValue)combobox.GetSelectedEnumValue<TValue>();
+                return (TValue?)combobox.GetSelectedEnumValue<TValue>();
             }
 
-            return (TValue)combobox.GetSelectedValue();
+            return (TValue?)combobox.GetSelectedValue();
         }
 
-        public static object GetSelectedValue(this ComboBox combobox)
+        public static object? GetSelectedValue(this ComboBox combobox)
         {
             ArgumentNullException.ThrowIfNull(combobox);
 
@@ -34,7 +33,7 @@
             return combobox.SelectedItem?.As<FrameworkElement>()?.Current?.DataContext;
         }
 
-        private static object GetSelectedBooleanValue(this ComboBox combobox)
+        private static object? GetSelectedBooleanValue(this ComboBox combobox)
         {
             ArgumentNullException.ThrowIfNull(combobox);
 
@@ -52,7 +51,7 @@
             return null;
         }
 
-        private static object GetSelectedEnumValue<TEnum>(this ComboBox combobox)
+        private static object? GetSelectedEnumValue<TEnum>(this ComboBox combobox)
         {
             ArgumentNullException.ThrowIfNull(combobox);
 
@@ -63,7 +62,7 @@
                 .FirstOrDefault(value => Equals(value.ToDisplayString(), itemText));
         }
 
-        public static void SelectValue(this ComboBox combobox, object value)
+        public static void SelectValue(this ComboBox combobox, object? value)
         {
             ArgumentNullException.ThrowIfNull(combobox);
 
@@ -75,6 +74,7 @@
         public static void Select(this ComboBox combobox, Func<AutomationElement, bool> predicate)
         {
             ArgumentNullException.ThrowIfNull(combobox);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             combobox.InvokeInExpandState(() =>
             {

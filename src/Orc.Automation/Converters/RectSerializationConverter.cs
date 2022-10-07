@@ -9,7 +9,7 @@
 
     public class RectSerializationConverter : SerializationValueConverterBase<Rect, SerializableRect>
     {
-        public override object ConvertFrom(Rect value)
+        public override object? ConvertFrom(Rect value)
         {
             return new SerializableRect
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableRect value)
+        public override object? ConvertTo(SerializableRect value)
         {
             return value.Rect;
         }

@@ -16,7 +16,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<ISetupAutomationService, SetupAutomationService>();
 
-        var languageService = serviceLocator.ResolveType<ILanguageService>();
+        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Automation", "Orc.Automation.Properties", "Resources"));
 
         serviceLocator.RegisterType<IAutomationTestAccessService, AutomationTestAccessService>();

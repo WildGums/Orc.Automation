@@ -1,12 +1,17 @@
 ﻿namespace Orc.Automation
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows;
     using System.Windows.Media;
 
     public static class SearchHelper
     {
-        public static UIElement GetDirectlyOver(Window window, Point point, string typeName)
+        public static UIElement? GetDirectlyOver(Window window, Point point, string typeName)
         {
+            ArgumentNullException.ThrowIfNull(window);
+            ArgumentNullException.ThrowIfNull(typeName);
+
             if (TryGetElementAtPosition(window, point, typeName, out var elementFromFilter, out var elementFromResult))
             {
                 return elementFromFilter
@@ -16,15 +21,18 @@
             return null;
         }
 
-        private static bool TryGetElementAtPosition(Window window, Point point, string typeName, out UIElement elementFromFilter, out UIElement elementFromResult)
+        private static bool TryGetElementAtPosition(Window window, Point point, string typeName, [NotNullWhen(true)]out UIElement? elementFromFilter, [NotNullWhen(true)] out UIElement? elementFromResult)
         {
+            ArgumentNullException.ThrowIfNull(window);
+            ArgumentNullException.ThrowIfNull(typeName);
+
             elementFromFilter = null;
             elementFromResult = null;
 
             var pointHitTestParameters = new PointHitTestParameters(point);
 
-            UIElement elementFromFilterLocal = null;
-            UIElement elementFromResultLocal = null;
+            UIElement? elementFromFilterLocal = null;
+            UIElement? elementFromResultLocal = null;
             VisualTreeHelper.HitTest(window, o => FilterCallback(o, typeName, ref elementFromFilterLocal), r => ResultCallback(r, ref elementFromResultLocal), pointHitTestParameters);
 
             elementFromFilter = elementFromFilterLocal;
@@ -34,8 +42,11 @@
                    || elementFromResult is not null;
         }
 
-        private static HitTestFilterBehavior FilterCallback(DependencyObject target, string typeName, ref UIElement element)
+        private static HitTestFilterBehavior FilterCallback(DependencyObject target, string typeName, [NotNullWhen(true)] ref UIElement? element)
         {
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(typeName);
+
             var filterResult = target switch
             {
                 UIElement { IsVisible: false } => HitTestFilterBehavior.ContinueSkipSelfAndChildren,
@@ -60,9 +71,11 @@
             return filterResult;
         }
 
-        private static HitTestResultBehavior ResultCallback(HitTestResult result, ref UIElement directlyOverElement)
+        private static HitTestResultBehavior ResultCallback(HitTestResult result, ref UIElement? directlyOverElement)
         {
-            if (result?.VisualHit is not UIElement uiElement)
+            ArgumentNullException.ThrowIfNull(result);
+
+            if (result.VisualHit is not UIElement uiElement)
             {
                 return HitTestResultBehavior.Continue;
             }

@@ -9,7 +9,10 @@
     {
         public static Type GetTypeByName(string fullName)
         {
+            ArgumentNullException.ThrowIfNull(fullName);
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
             foreach (var assembly in assemblies)
             {
                 try
@@ -33,7 +36,8 @@
 
         private static IList<Type> GetLoadableTypes(Assembly assembly)
         {
-            if (assembly is null) throw new ArgumentNullException(nameof(assembly));
+            ArgumentNullException.ThrowIfNull(assembly);
+            
             try
             {
                 return assembly.GetTypes();

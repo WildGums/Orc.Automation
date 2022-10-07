@@ -8,6 +8,7 @@
         public static void WaitAccept(string folderPath)
         {
             var openFileDialog = Wait();
+
             openFileDialog.FolderPath = folderPath;
 
             openFileDialog.Accept();
@@ -20,20 +21,20 @@
         {
         }
 
-        public string FolderPath
+        public string? FolderPath
         {
-            get => Map.FolderEdit.Text;
-            set => Map.FolderEdit.Text = value;
+            get => Map.FolderEdit?.Text;
+            set => SetMapValue(Map.FolderEdit, nameof(Edit.Text), value);
         }
 
         public void Accept()
         {
-            Map.SelectFolderButton.Click();
+            Map.SelectFolderButton?.Click();
         }
 
         public void Cancel()
         {
-            Map.CancelButton.Click();
+            Map.CancelButton?.Click();
         }
     }
 }

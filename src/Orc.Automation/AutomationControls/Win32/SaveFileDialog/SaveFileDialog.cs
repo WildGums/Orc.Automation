@@ -22,31 +22,31 @@
         {
         }
 
-        public string FilePath
+        public string? FilePath
         {
-            get => Map.FileNameComboBox.Text;
-            set => Map.FileNameComboBox.Text = value;
+            get => Map.FileNameComboBox?.Text;
+            set => SetMapValue(Map.FileNameComboBox, nameof(ComboBox.Text), value);
         }
 
-        public string FileType
+        public string? FileType
         {
-            get => Map.FileTypeComboBox.Text;
-            set => Map.FileTypeComboBox.Text = value;
+            get => Map.FileTypeComboBox?.Text;
+            set => SetMapValue(Map.FileTypeComboBox, nameof(ComboBox.Text), value);
         }
 
         public IReadOnlyList<string> AvailableFileTypes
         {
-            get => Map.FileTypeComboBox.Items.Select(x => x.Current.Name).ToList();
+            get => Map.FileTypeComboBox.Items.Select(x => x.Current.Name).ToList() ?? new List<string>();
         }
 
         public void Accept()
         {
-            Map.SaveButton.Click();
+            Map.SaveButton?.Click();
         }
 
         public void Cancel()
         {
-            Map.CancelButton.Click();
+            Map.CancelButton?.Click();
         }
     }
 }

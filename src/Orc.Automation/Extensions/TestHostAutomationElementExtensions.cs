@@ -2,15 +2,19 @@
 {
     using System;
     using System.Linq;
+    using Catel.Reflection;
     using Controls;
 
     public static class TestHostAutomationElementExtensions
     {
         public static bool TryLoadControl(this TestHostAutomationControl testHost, Type controlType, out string testHostAutomationId, params string[] resources)
         {
+            ArgumentNullException.ThrowIfNull(testHost);
+            ArgumentNullException.ThrowIfNull(controlType);
+
             var controlAssembly = controlType.Assembly;
 
-            var controlTypeFullName = controlType.FullName;
+            var controlTypeFullName = controlType.GetSafeFullName();
             var controlAssemblyLocation = controlAssembly.Location;
 
             testHostAutomationId = string.Empty;

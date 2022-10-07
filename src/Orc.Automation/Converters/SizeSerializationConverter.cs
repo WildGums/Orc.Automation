@@ -10,7 +10,7 @@
 
     internal class SizeSerializationConverter : SerializationValueConverterBase<Size, SerializableSize>
     {
-        public override object ConvertFrom(Size value)
+        public override object? ConvertFrom(Size value)
         {
             return new SerializableSize
             {
@@ -19,7 +19,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableSize value)
+        public override object? ConvertTo(SerializableSize value)
         {
             return new Size
             {

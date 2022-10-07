@@ -34,8 +34,11 @@
             return strResult;
         }
 
-        public static object DeserializeValue(string text, Type type)
+        public static object? DeserializeValue(string text, Type type)
         {
+            ArgumentNullException.ThrowIfNull(text);
+            ArgumentNullException.ThrowIfNull(type);
+
             var converter = GetValueConverter(DeserializationConverters, type);
 
             type = converter?.ToType ?? type;

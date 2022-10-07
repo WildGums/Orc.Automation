@@ -10,10 +10,10 @@
         {
         }
 
-        public Text ContentText => By.One<Text>();
-        public Button YesButton => By.Name("Yes").One<Button>();
-        public Button NoButton => By.Name("No").One<Button>();
-        public Button OkButton => By.Name("OK").One<Button>();
-        public Button CancelButton => By.Name("Cancel").One<Button>();
+        public Text? ContentText => By.One<Text>();
+        public Button? YesButton => By.Name("Yes").One<Button>();
+        public Button? NoButton => By.Name("No").One<Button>();
+        public Button? OkButton => By.Name("OK").One<Button>();
+        public Button? CancelButton => By.Name("Cancel").One<Button>();
     }
 }

@@ -10,23 +10,27 @@
 
     public class AutomationElementAccessor
     {
-        private readonly IPartFinder _finder;
+        private readonly AutomationElement _element;
+        private readonly IPartFinder? _finder;
 
-        private AutomationElement _accessElement;
-        private AutomationElement _element;
-        private InvokePattern _invokePattern;
-        private ValuePattern _valuePattern;
+        private AutomationElement? _accessElement;
+        private InvokePattern? _invokePattern;
+        private ValuePattern? _valuePattern;
 
         private bool _isInitialized;
 
         public static AutomationElementAccessor PartAccessor(AutomationElement element, IPartFinder partFinder)
         {
+            ArgumentNullException.ThrowIfNull(element);
+
             return new AutomationElementAccessor(element, partFinder);
         }
 
         private AutomationElementAccessor(AutomationElement element, IPartFinder partFinder)
             : this(element)
         {
+            ArgumentNullException.ThrowIfNull(element);
+
             _finder = partFinder;
         }
 
@@ -51,7 +55,6 @@
                 return;
             }
             
-            _element = element;
             _accessElement = element;
 
             var isActiveModelElement = AutomationHelper.IsActiveModelControl(element);
@@ -88,13 +91,17 @@
             }
         }
 
-        private void OnEventInvoke(object sender, System.Windows.Automation.AutomationEventArgs e)
+        private void OnEventInvoke(object? sender, System.Windows.Automation.AutomationEventArgs e)
         {
-            var result = _valuePattern.Current.Value;
-
+            var result = _valuePattern?.Current.Value ?? string.Empty;
             var automationResult = AutomationResultContainer.FromStr(result);
 
             var eventName = automationResult.LastEventName;
+            if (eventName is null)
+            {
+                throw new InvalidOperationException("Last event name cannot be null when invoking an event");
+            }
+
             var eventData = automationResult.LastEventArgs?.ExtractValue();
 
             _automationEvent?.Invoke(this, new AutomationEventArgs
@@ -104,7 +111,7 @@
             });
         }
         
-        public void SetValue(string propertyName, object value, Type ownerType = null)
+        public void SetValue(string propertyName, object? value, Type? ownerType = null)
         {
             ArgumentNullException.ThrowIfNull(propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
@@ -114,7 +121,7 @@
                 : Execute(nameof(AutomationControlPeerBase.SetAttachedPropertyValue), ownerType, propertyName, value);
         }
 
-        public object GetValue(string propertyName, Type ownerType = null)
+        public object? GetValue(string propertyName, Type? ownerType = null)
         {
             ArgumentNullException.ThrowIfNull(propertyName);
 
@@ -125,7 +132,7 @@
             return result;
         }
 
-        public object TryFindResource(string resourceKey)
+        public object? TryFindResource(string resourceKey)
         {
             return Execute(nameof(TryFindResource), resourceKey);
         }
@@ -135,13 +142,13 @@
             Execute(AttachBehaviorMethodRun.AttachBehaviorMethodPrefix, behaviorType);
         }
 
-        public object Execute(string methodName, params object[] parameters)
+        public object? Execute(string methodName, params object?[] parameters)
         {
             var automationValues = AutomationValueList.Create(parameters);
             return Execute(methodName, automationValues, 20);
         }
 
-        private object Execute(string methodName, AutomationValueList parameters, int delay = 200)
+        private object? Execute(string methodName, AutomationValueList parameters, int delay = 200)
         {
             var method = new AutomationMethod
             {
@@ -155,7 +162,7 @@
             return resultValue;
         }
 
-        private AutomationValue Execute(AutomationMethod method, int delay)
+        private AutomationValue? Execute(AutomationMethod method, int delay)
         {
             EnsureInitialized();
 
@@ -184,7 +191,7 @@
                 return null;
             }
 
-            _valuePattern.SetValue(methodStr);
+            _valuePattern?.SetValue(methodStr);
 
             Thread.Sleep(delay);
 
@@ -199,14 +206,15 @@
 
             Thread.Sleep(delay);
 
-            var result = _valuePattern.Current.Value;
+            var result = _valuePattern?.Current.Value ?? string.Empty;
             var automationResultContainer = AutomationResultContainer.FromStr(result);
 
             return automationResultContainer.LastInvokedMethodResult;
         }
         
-        private event EventHandler<AutomationEventArgs> _automationEvent; 
-        public event EventHandler<AutomationEventArgs> AutomationEvent
+        private event EventHandler<AutomationEventArgs>? _automationEvent; 
+
+        public event EventHandler<AutomationEventArgs>? AutomationEvent
         {
             add
             {
@@ -241,7 +249,11 @@
         {
             var automationMethodsXml = File.ReadAllText(filePath);
 
-            Instance = XmlSerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
+            var newResult = XmlSerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
+            if (newResult is not null)
+            {
+                Instance = newResult;
+            }
         }
     }
 }

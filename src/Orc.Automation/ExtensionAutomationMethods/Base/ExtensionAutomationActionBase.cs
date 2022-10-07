@@ -6,7 +6,7 @@
     public abstract class ExtensionAutomationActionBase<TOwner, TValue1, TValue2, TValue3, TValue4, TValue5> : ExtensionAutomationActionBase<TOwner>
         where TOwner : System.Windows.FrameworkElement
     {
-        protected override void Invoke(TOwner owner, params object[] parameters)
+        protected override void Invoke(TOwner owner, params object?[] parameters)
         {
             var value1 = parameters.Extract<TValue1>(0);
             var value2 = parameters.Extract<TValue2>(1);
@@ -23,7 +23,7 @@
     public abstract class ExtensionAutomationActionBase<TOwner, TValue1, TValue2, TValue3, TValue4> : ExtensionAutomationActionBase<TOwner>
         where TOwner : System.Windows.FrameworkElement
     {
-        protected override void Invoke(TOwner owner, params object[] parameters)
+        protected override void Invoke(TOwner owner, params object?[] parameters)
         {
             var value1 = parameters.Extract<TValue1>(0);
             var value2 = parameters.Extract<TValue2>(1);
@@ -39,7 +39,7 @@
     public abstract class ExtensionAutomationActionBase<TOwner, TValue1, TValue2, TValue3> : ExtensionAutomationActionBase<TOwner>
         where TOwner : System.Windows.FrameworkElement
     {
-        protected override void Invoke(TOwner owner, params object[] parameters)
+        protected override void Invoke(TOwner owner, params object?[] parameters)
         {
             var value1 = parameters.Extract<TValue1>(0);
             var value2 = parameters.Extract<TValue2>(1);
@@ -54,7 +54,7 @@
     public abstract class ExtensionAutomationActionBase<TOwner, TValue1, TValue2> : ExtensionAutomationActionBase<TOwner>
         where TOwner : System.Windows.FrameworkElement
     {
-        protected override void Invoke(TOwner owner, params object[] parameters)
+        protected override void Invoke(TOwner owner, params object?[] parameters)
         {
             var value1 = parameters.Extract<TValue1>(0);
             var value2 = parameters.Extract<TValue2>(1);
@@ -68,7 +68,7 @@
     public abstract class ExtensionAutomationActionBase<TOwner, TValue> : ExtensionAutomationActionBase<TOwner>
         where TOwner : System.Windows.FrameworkElement
     {
-        protected override void Invoke(TOwner owner, params object[] parameters)
+        protected override void Invoke(TOwner owner, params object?[] parameters)
         {
             var value = parameters.Extract<TValue>(0);
 
@@ -96,6 +96,6 @@
             return true;
         }
 
-        protected abstract void Invoke(TOwner owner, params object[] parameters);
+        protected abstract void Invoke(TOwner owner, params object?[] parameters);
     }
 }

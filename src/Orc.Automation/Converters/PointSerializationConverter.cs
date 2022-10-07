@@ -9,7 +9,7 @@
 
     public class PointSerializationConverter : SerializationValueConverterBase<Point, SerializablePoint>
     {
-        public override object ConvertFrom(Point value)
+        public override object? ConvertFrom(Point value)
         {
             return new SerializablePoint
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        public override object ConvertTo(SerializablePoint value)
+        public override object? ConvertTo(SerializablePoint value)
         {
             return value.Point;
         }

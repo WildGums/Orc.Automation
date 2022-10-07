@@ -23,7 +23,7 @@
 #pragma warning restore WPF0092 // Use correct handler type
         }
 
-        private static void OnLoaded(object sender, LoadedEventArgs e)
+        private static void OnLoaded(object? sender, LoadedEventArgs e)
         {
             
         }
@@ -33,6 +33,8 @@
     {
         public InputEventEntry(InputEventArgs args)
         {
+            ArgumentNullException.ThrowIfNull(args);
+
             Args = args;
             Timestamp = args.Timestamp;
 
@@ -46,13 +48,13 @@
         public InputEventArgs Args { get; }
         public int Timestamp { get; }
         public string Name { get; }
-        public Type ElementType { get; }
+        public Type? ElementType { get; }
     }
 
     public static class EventListener
     {
         public static readonly List<InputEventEntry> Events = new ();
-        public static Func<InputEventEntry, bool> Filter;
+        public static Func<InputEventEntry, bool>? Filter;
 
         public static void StartListen()
         {
@@ -111,33 +113,35 @@
 
         }
 
-        private static void MouseDown(object sender, MouseButtonEventArgs e)
+        private static void MouseDown(object? sender, MouseButtonEventArgs e)
         {
             AddEvent(e);
         }
 
-        private static void MouseUp(object sender, MouseButtonEventArgs e)
+        private static void MouseUp(object? sender, MouseButtonEventArgs e)
         {
             AddEvent(e);
         }
 
-        private static void KeyDown(object sender, KeyEventArgs e)
+        private static void KeyDown(object? sender, KeyEventArgs e)
         {
             AddEvent(e);
         }
 
-        private static void KeyUp(object sender, KeyEventArgs e)
+        private static void KeyUp(object? sender, KeyEventArgs e)
         {
             AddEvent(e);
         }
 
-        private static void TextInput(object sender, TextCompositionEventArgs e)
+        private static void TextInput(object? sender, TextCompositionEventArgs e)
         {
             AddEvent(e);
         }
 
         private static void AddEvent(InputEventArgs args)
         {
+            ArgumentNullException.ThrowIfNull(args);
+
             var entry = new InputEventEntry(args);
 
             var filter = Filter;

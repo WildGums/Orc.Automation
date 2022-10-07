@@ -6,25 +6,21 @@
 
     public class SerializableColor
     {
-        public string Color { get; set; }
+        public string? Color { get; set; }
     }
 
     public class ColorSerializationConverter : SerializationValueConverterBase<Color, SerializableColor>
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
-
-        #region Constants
+        
         private const char ArgbSeparator = ';';
-        #endregion
 
-        public override object ConvertFrom(Color value)
+        public override object? ConvertFrom(Color value)
         {
             return new SerializableColor { Color = $"{value.A}{ArgbSeparator}{value.R}{ArgbSeparator}{value.G}{ArgbSeparator}{value.B}" };
         }
 
-        public override object ConvertTo(SerializableColor value)
+        public override object? ConvertTo(SerializableColor value)
         {
             var color = value.Color;
 

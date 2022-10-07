@@ -22,7 +22,7 @@
 
             var items = EventListener.Events;
 
-            System.Windows.MessageBox.Show(items.Count.ToString());
+            System.Windows.MessageBox.Show(items.Count.ToString() ?? string.Empty);
 
             items.Clear();
         }

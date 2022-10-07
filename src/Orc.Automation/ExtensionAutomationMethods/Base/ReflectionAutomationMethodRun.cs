@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Windows;
@@ -13,6 +14,7 @@
         public ReflectionAutomationMethodRun(AutomationControlPeerBase peer, string methodName)
         {
             ArgumentNullException.ThrowIfNull(peer);
+            Argument.IsNotNullOrWhitespace(() => methodName);
 
             _peer = peer;
             Name = methodName;
@@ -20,8 +22,10 @@
 
         public override string Name { get; }
 
-        public override bool TryInvoke(FrameworkElement target, AutomationMethod automationMethod, out AutomationValue result)
+        public override bool TryInvoke(FrameworkElement target, AutomationMethod automationMethod, [NotNullWhen(true)]out AutomationValue? result)
         {
+            ArgumentNullException.ThrowIfNull(target);
+
             var type = _peer.GetType();
 
             result = null;
@@ -55,7 +59,7 @@
             return true;
         }
 
-        private static object[] AttachTargetToParameters(FrameworkElement target, AutomationMethod automationMethod, object[] automationInputParameters)
+        private static object?[] AttachTargetToParameters(FrameworkElement target, AutomationMethod automationMethod, object?[] automationInputParameters)
         {
             var tempParameters = automationInputParameters.ToList();
 

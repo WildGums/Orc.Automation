@@ -9,7 +9,7 @@
 
     public class FontStretchSerializationConverter : SerializationValueConverterBase<FontStretch, SerializableFontStretch>
     {
-        public override object ConvertFrom(FontStretch value)
+        public override object? ConvertFrom(FontStretch value)
         {
             return new SerializableFontStretch
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        public override object ConvertTo(SerializableFontStretch value)
+        public override object? ConvertTo(SerializableFontStretch value)
         {
             return FontStretch.FromOpenTypeStretch(value.Stretch);
         }

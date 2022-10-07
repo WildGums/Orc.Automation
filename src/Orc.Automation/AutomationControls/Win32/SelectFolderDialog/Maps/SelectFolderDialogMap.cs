@@ -9,8 +9,8 @@
         {
         }
 
-        public Button SelectFolderButton => By.Name("Select Folder").One<Button>();
-        public Button CancelButton => By.Name("Cancel").One<Button>();
-        public Edit FolderEdit => By.Name("Folder:").One<Edit>();
+        public Button? SelectFolderButton => By.Name("Select Folder").One<Button>();
+        public Button? CancelButton => By.Name("Cancel").One<Button>();
+        public Edit? FolderEdit => By.Name("Folder:").One<Edit>();
     }
 }

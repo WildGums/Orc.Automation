@@ -3,9 +3,9 @@
     using System;
     using System.Windows;
     using System.Windows.Automation;
-    using Catel;
     using Catel.Caching;
     using Catel.IoC;
+    using Catel.Reflection;
     using Microsoft.Xaml.Behaviors;
 
     public class AutomationControl<TControlModel, TMap> : AutomationControl<TControlModel>
@@ -23,6 +23,26 @@
         }
 
         protected TMap Map => Map<TMap>();
+
+        protected TValue? GetMapValue<TValue>(object? source, string propertyName)
+        {
+            if (source is null)
+            {
+                return default;
+            }
+
+            return PropertyHelper.GetPropertyValue<TValue>(source, propertyName);
+        }
+
+        protected void SetMapValue<TValue>(object? source, string propertyName, TValue value)
+        {
+            if (source is null)
+            {
+                return;
+            }
+
+            PropertyHelper.SetPropertyValue(source, propertyName, value);
+        }
     }
 
     public class AutomationControl<TControlModel> : AutomationControl
@@ -74,7 +94,6 @@
             Access.AutomationEvent += OnEvent;
         }
 
-        #region Automation Properties
         public AutomationElement.AutomationElementInformation AutomationProperties => Element.Current;
 
         public bool IsPart { get; protected set; }
@@ -82,7 +101,6 @@
         protected AutomationElementAccessor Access { get; private set; }
         public bool IsEnabled => AutomationProperties.IsEnabled;
         public virtual Rect BoundingRectangle => Element.Current.BoundingRectangle;
-        #endregion
 
         public void AttachBehavior<TBehavior>()
             where TBehavior : Behavior
