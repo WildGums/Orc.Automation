@@ -17,7 +17,6 @@ public abstract class ConditionalPartFinderBase : IPartFinder
         return FindVisualDescendant(parent, IsMatch) as FrameworkElement;
     }
 
-
     private static DependencyObject? FindVisualDescendant(DependencyObject startElement, Predicate<object> condition)
     {
         ArgumentNullException.ThrowIfNull(startElement);

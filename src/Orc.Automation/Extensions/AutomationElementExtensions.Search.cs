@@ -31,8 +31,8 @@
             else
             {
                 searchResult = //!searchInfo.IsTransient && _targetControl is not null
-                                //  ? _targetControl.GetPart(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType)
-                                // :
+                               //  ? _targetControl.GetPart(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType)
+                               // :
                                 element.Find(id: searchContext.Id, name: searchContext.Name, className: searchContext.ClassName, controlType: searchContext.ControlType);
             }
 
@@ -41,11 +41,16 @@
             return (TAutomationElementOrElementCollection)searchResult;
         }
 
-
         public static TElement? Find<TElement>(this AutomationElement element, string? id = null, string? name = null, string? className = null, bool isRaw = false, ControlType? controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             return Find<TElement>(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
+        }
+
+        public static TElement FindRequired<TElement>(this AutomationElement element, string? id = null, string? name = null, string? className = null, bool isRaw = false, ControlType? controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+            where TElement : AutomationControl
+        {
+            return FindRequired<TElement>(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
         public static AutomationElement? Find(this AutomationElement element, string? id = null, string? name = null, string? className = null, bool isRaw = false, ControlType? controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
@@ -53,10 +58,27 @@
             return Find(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
         }
 
+        public static AutomationElement FindRequired(this AutomationElement element, string? id = null, string? name = null, string? className = null, bool isRaw = false, ControlType? controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+        {
+            return FindRequired(element, new SearchContext(id, name, className, controlType, isRaw), scope, numberOfWaits);
+        }
+
         public static TElement? Find<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
             where TElement : AutomationControl
         {
             return (TElement?)Find(element, searchContext, typeof(TElement), scope, numberOfWaits);
+        }
+
+        public static TElement FindRequired<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+            where TElement : AutomationControl
+        {
+            var foundElement = (TElement?)Find(element, searchContext, typeof(TElement), scope, numberOfWaits);
+            if (foundElement is null)
+            {
+                throw new InvalidOperationException("Could not find required element");
+            }
+
+            return foundElement;
         }
 
         public static object? Find(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
@@ -80,6 +102,17 @@
             }
 
             return AutomationHelper.WrapAutomationObject(wrapperType, foundElement);
+        }
+
+        public static object FindRequired(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+        {
+            var foundElement = Find(element, searchContext, wrapperType, scope, numberOfWaits);
+            if (foundElement is null)
+            {
+                throw new InvalidOperationException("Could not find required element");
+            }
+
+            return foundElement;
         }
 
         public static AutomationElement? Find(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
@@ -128,6 +161,17 @@
             return Find(element, resultCondition, scope, isRaw, numberOfWaits);
         }
 
+        public static AutomationElement FindRequired(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+        {
+            var foundElement = Find(element, searchContext, scope, numberOfWaits);
+            if (foundElement is null)
+            {
+                throw new InvalidOperationException("Could not find required element");
+            }
+
+            return foundElement;
+        }
+
         private static AutomationElement? Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Descendants, bool isRaw = false, int numberOfWaits = SearchParameters.NumberOfWaits)
         {
             ArgumentNullException.ThrowIfNull(element);
@@ -137,12 +181,23 @@
             AutomationElement? foundElement;
             do
             {
-                foundElement = TryFindElementByCondition(element, scope, condition, isRaw); 
+                foundElement = TryFindElementByCondition(element, scope, condition, isRaw);
 
                 ++numWaits;
                 Thread.Sleep(SearchParameters.WaitDelay);
-            } 
+            }
             while (foundElement is null && numWaits < numberOfWaits);
+
+            return foundElement;
+        }
+
+        private static AutomationElement FindRequired(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Descendants, bool isRaw = false, int numberOfWaits = SearchParameters.NumberOfWaits)
+        {
+            var foundElement = Find(element, condition, scope, isRaw, numberOfWaits);
+            if (foundElement is null)
+            {
+                throw new InvalidOperationException("Could not find required element");
+            }
 
             return foundElement;
         }
@@ -265,7 +320,7 @@
 
                 ++numWaits;
                 Thread.Sleep(100);
-            } 
+            }
             while (foundElements is null && numWaits < numberOfWaits);
 
             return foundElements ?? Array.Empty<AutomationElement>();
