@@ -11,9 +11,9 @@
         {
         }
 
-        public string Text
+        public string? Text
         {
-            get => Element.GetValue<string>();
+            get => Element.GetValue<string?>();
             set => Element.SetValue(value);
         }
 
