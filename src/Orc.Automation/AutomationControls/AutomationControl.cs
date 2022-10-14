@@ -26,22 +26,12 @@
 
         protected TValue? GetMapValue<TValue>(object? source, string propertyName)
         {
-            if (source is null)
-            {
-                return default;
-            }
-
-            return PropertyHelper.GetPropertyValue<TValue>(source, propertyName);
+            return Map.GetMapValue<TValue>(source, propertyName);
         }
 
         protected void SetMapValue<TValue>(object? source, string propertyName, TValue value)
         {
-            if (source is null)
-            {
-                return;
-            }
-
-            PropertyHelper.SetPropertyValue(source, propertyName, value);
+            Map.SetMapValue<TValue>(source, propertyName, value);
         }
     }
 
