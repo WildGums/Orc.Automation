@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation.Controls;
+namespace Orc.Automation.Controls;
 
 using System.Collections.Generic;
 using System.Windows.Automation;

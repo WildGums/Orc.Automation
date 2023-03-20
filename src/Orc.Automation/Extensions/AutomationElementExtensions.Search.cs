@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation;
+namespace Orc.Automation;
 
 using System;
 using System.Collections;

@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation.Controls;
+namespace Orc.Automation.Controls;
 
 using System;
 using System.Windows.Automation;

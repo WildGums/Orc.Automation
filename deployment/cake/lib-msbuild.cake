@@ -1,5 +1,5 @@
-#addin "nuget:?package=Cake.Issues&version=1.0.0"
-#addin "nuget:?package=Cake.Issues.MsBuild&version=1.0.0"
+#addin "nuget:?package=Cake.Issues&version=2.0.0"
+#addin "nuget:?package=Cake.Issues.MsBuild&version=2.0.0"
 
 #tool "nuget:?package=MSBuild.Extension.Pack&version=1.9.1"
 
@@ -224,8 +224,11 @@ private static void RunMsBuild(BuildContext buildContext, string projectName, st
     var failBuild = false;
 
     try
-    {
-        buildContext.CakeContext.MSBuild(projectFileName, msBuildSettings);
+    {        
+        // using (buildContext.CakeContext.UseDiagnosticVerbosity())
+        // {
+            buildContext.CakeContext.MSBuild(projectFileName, msBuildSettings);
+        //}
     }
     catch (System.Exception)
     {
