@@ -1,22 +1,21 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Windows.Automation;
+using System.Windows.Media;
+
+[Control(ControlTypeName = nameof(ControlType.Text))]
+public class Text : FrameworkElement<TextModel>
 {
-    using System.Windows.Automation;
-    using System.Windows.Media;
-
-    [Control(ControlTypeName = nameof(ControlType.Text))]
-    public class Text : FrameworkElement<TextModel>
+    public Text(AutomationElement element) 
+        : base(element, ControlType.Text)
     {
-        public Text(AutomationElement element) 
-            : base(element, ControlType.Text)
-        {
-        }
-
-        public SolidColorBrush Foreground
-        {
-            get => Access.GetValue<SolidColorBrush>();
-            set => Access.SetValue(value);
-        }
-
-        public string Value => Element.Current.Name;
     }
+
+    public SolidColorBrush Foreground
+    {
+        get => Access.GetValue<SolidColorBrush>();
+        set => Access.SetValue(value);
+    }
+
+    public string Value => Element.Current.Name;
 }

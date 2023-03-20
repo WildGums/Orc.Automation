@@ -1,13 +1,12 @@
-﻿namespace Orc.Automation.Controls
-{
-    using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
+﻿namespace Orc.Automation.Controls;
 
-    public class AutomationInformer : ContentControl
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+
+public class AutomationInformer : ContentControl
+{
+    protected override AutomationPeer OnCreateAutomationPeer()
     {
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new AutomationInformerPeer(this);
-        }
+        return new AutomationInformerPeer(this);
     }
 }

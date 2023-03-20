@@ -1,26 +1,25 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System;
+using System.Linq;
+using System.Windows.Automation;
+
+public class CalendarDaysPart : AutomationControl
 {
-    using System;
-    using System.Linq;
-    using System.Windows.Automation;
+    private readonly CalendarDayViewMap _map;
 
-    public class CalendarDaysPart : AutomationControl
+    public CalendarDaysPart(AutomationElement element)
+        : base(element)
     {
-        private readonly CalendarDayViewMap _map;
+        _map = new CalendarDayViewMap(element);
+    }
 
-        public CalendarDaysPart(AutomationElement element)
-            : base(element)
-        {
-            _map = new CalendarDayViewMap(element);
-        }
+    public void SelectDay(int day)
+    {
+        var button = _map.DayButtons
+            .SkipWhile(x => DateTime.Parse(x.Current.HelpText).Day != 1)
+            .FirstOrDefault(x => DateTime.Parse(x.Current.HelpText).Day == day);
 
-        public void SelectDay(int day)
-        {
-            var button = _map.DayButtons
-                .SkipWhile(x => DateTime.Parse(x.Current.HelpText).Day != 1)
-                .FirstOrDefault(x => DateTime.Parse(x.Current.HelpText).Day == day);
-
-            button?.Invoke();
-        }
+        button?.Invoke();
     }
 }

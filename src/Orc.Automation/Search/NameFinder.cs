@@ -1,27 +1,26 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Windows;
+
+public class NameFinder : ConditionalPartFinderBase
 {
-    using System;
-    using System.Windows;
-
-    public class NameFinder : ConditionalPartFinderBase
+    public NameFinder()
     {
-        public NameFinder()
-        {
-            Name = string.Empty;
-        }
+        Name = string.Empty;
+    }
 
-        public static NameFinder Create(string name) => new()
-        {
-            Name = name
-        };
+    public static NameFinder Create(string name) => new()
+    {
+        Name = name
+    };
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        protected override bool IsMatch(object descendant)
-        {
-            ArgumentNullException.ThrowIfNull(descendant);
+    protected override bool IsMatch(object descendant)
+    {
+        ArgumentNullException.ThrowIfNull(descendant);
 
-            return Equals(((DependencyObject)descendant).GetValue(FrameworkElement.NameProperty), Name);
-        }
+        return Equals(((DependencyObject)descendant).GetValue(FrameworkElement.NameProperty), Name);
     }
 }

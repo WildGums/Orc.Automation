@@ -1,36 +1,35 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Windows.Automation;
+using System.Windows.Input;
+using Catel;
+
+public static partial class AutomationElementExtensions
 {
-    using System;
-    using System.Windows.Automation;
-    using System.Windows.Input;
-    using Catel;
-
-    public static partial class AutomationElementExtensions
+    public static void MouseClick(this AutomationElement element, MouseButton mouseButton = MouseButton.Left)
     {
-        public static void MouseClick(this AutomationElement element, MouseButton mouseButton = MouseButton.Left)
-        {
-            ArgumentNullException.ThrowIfNull(element);
+        ArgumentNullException.ThrowIfNull(element);
             
-            element.MouseHover();
-            MouseInput.Click(mouseButton);
-        }
+        element.MouseHover();
+        MouseInput.Click(mouseButton);
+    }
 
-        public static void MouseHover(this AutomationElement element)
-        {
-            ArgumentNullException.ThrowIfNull(element);
+    public static void MouseHover(this AutomationElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
 
-            var rect = element.Current.BoundingRectangle;
+        var rect = element.Current.BoundingRectangle;
 
-            MouseInput.MoveTo(rect.GetClickablePoint());
-        }
+        MouseInput.MoveTo(rect.GetClickablePoint());
+    }
 
-        public static void MouseOut(this AutomationElement element)
-        {
-            ArgumentNullException.ThrowIfNull(element);
+    public static void MouseOut(this AutomationElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
 
-            var rect = element.Current.BoundingRectangle;
+        var rect = element.Current.BoundingRectangle;
 
-            MouseInput.MoveTo(rect.GetPointOut());
-        }
+        MouseInput.MoveTo(rect.GetPointOut());
     }
 }

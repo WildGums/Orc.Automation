@@ -1,38 +1,37 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System.Windows;
+using System.Windows.Automation.Peers;
+using Window = System.Windows.Window;
+
+public class AutomationWindowPeerBase<TWindow> : AutomationControlPeerBase<TWindow>
+    where TWindow : Window
 {
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using Window = System.Windows.Window;
+    private readonly WindowAutomationPeer _windowPeer;
 
-    public class AutomationWindowPeerBase<TWindow> : AutomationControlPeerBase<TWindow>
-        where TWindow : Window
+    public AutomationWindowPeerBase(TWindow owner) 
+        : base(owner)
     {
-        private readonly WindowAutomationPeer _windowPeer;
+        _windowPeer = new WindowAutomationPeer(owner);
+    }
 
-        public AutomationWindowPeerBase(TWindow owner) 
-            : base(owner)
+    public override object GetPattern(PatternInterface patternInterface)
+    {
+        if (patternInterface is PatternInterface.Window)
         {
-            _windowPeer = new WindowAutomationPeer(owner);
+            return _windowPeer;
         }
 
-        public override object GetPattern(PatternInterface patternInterface)
-        {
-            if (patternInterface is PatternInterface.Window)
-            {
-                return _windowPeer;
-            }
+        return base.GetPattern(patternInterface);
+    }
 
-            return base.GetPattern(patternInterface);
-        }
+    protected override string GetNameCore() => _windowPeer.GetName();
 
-        protected override string GetNameCore() => _windowPeer.GetName();
+    protected override AutomationControlType GetAutomationControlTypeCore() 
+        => AutomationControlType.Window;
 
-        protected override AutomationControlType GetAutomationControlTypeCore() 
-            => AutomationControlType.Window;
-
-        protected override Rect GetBoundingRectangleCore()
-        {
-            return _windowPeer.GetBoundingRectangle();
-        }
+    protected override Rect GetBoundingRectangleCore()
+    {
+        return _windowPeer.GetBoundingRectangle();
     }
 }

@@ -1,25 +1,24 @@
-﻿namespace Orc.FilterBuilder.Automation
+﻿namespace Orc.FilterBuilder.Automation;
+
+using System.Globalization;
+using Catel.MVVM;
+
+internal static class DisplayNameConverterHelper
 {
-    using System.Globalization;
-    using Catel.MVVM;
+    private static readonly ObjectToDisplayNameConverter DisplayNameConverter = new();
 
-    internal static class DisplayNameConverterHelper
+    public static string? ToDisplayString(this object? value)
     {
-        private static readonly ObjectToDisplayNameConverter DisplayNameConverter = new();
-
-        public static string? ToDisplayString(this object? value)
+        if (value is null)
         {
-            if (value is null)
-            {
-                return (string?) DisplayNameConverter.Convert(null, typeof(object), null, CultureInfo.CurrentCulture);
-            }
-
-            if (value is string stringValue)
-            {
-                return stringValue;
-            }
-
-            return (string?) DisplayNameConverter.Convert(value, value.GetType(), null, CultureInfo.CurrentCulture);
+            return (string?) DisplayNameConverter.Convert(null, typeof(object), null, CultureInfo.CurrentCulture);
         }
+
+        if (value is string stringValue)
+        {
+            return stringValue;
+        }
+
+        return (string?) DisplayNameConverter.Convert(value, value.GetType(), null, CultureInfo.CurrentCulture);
     }
 }

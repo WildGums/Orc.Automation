@@ -1,11 +1,10 @@
-﻿namespace Orc.Automation.Services
+﻿namespace Orc.Automation.Services;
+
+using System.Windows.Automation;
+
+public interface ISetupAutomationService
 {
-    using System.Windows.Automation;
+    public AutomationSetup? CurrentSetup { get; }
 
-    public interface ISetupAutomationService
-    {
-        public AutomationSetup? CurrentSetup { get; }
-
-        AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string? args = null);
-    }
+    AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, string? args = null);
 }

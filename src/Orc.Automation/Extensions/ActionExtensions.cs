@@ -1,18 +1,17 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+
+public static class ActionExtensions
 {
-    using System;
-
-    public static class ActionExtensions
+    public static Func<TResult?> MakeDefault<TResult>(this Action action)
     {
-        public static Func<TResult?> MakeDefault<TResult>(this Action action)
-        {
-            ArgumentNullException.ThrowIfNull(action);
+        ArgumentNullException.ThrowIfNull(action);
 
-            return () =>
-            {
-                action.Invoke(); 
-                return default;
-            };
-        }
+        return () =>
+        {
+            action.Invoke(); 
+            return default;
+        };
     }
 }

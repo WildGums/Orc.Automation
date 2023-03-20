@@ -1,11 +1,10 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+[ActiveAutomationModel]
+public class HeaderItemModel : FrameworkElementModel
 {
-    [ActiveAutomationModel]
-    public class HeaderItemModel : FrameworkElementModel
+    public HeaderItemModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public HeaderItemModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
     }
 }
