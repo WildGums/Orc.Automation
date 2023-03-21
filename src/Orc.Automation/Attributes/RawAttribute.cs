@@ -1,6 +1,5 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+public class RawAttribute : AutomationAttribute
 {
-    public class RawAttribute : AutomationAttribute
-    {
-    }
 }

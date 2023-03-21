@@ -1,23 +1,22 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Collections.Generic;
+using System.Windows.Automation;
+
+[Control(ControlTypeName = nameof(ControlType.MenuItem))]
+public class MenuItem : FrameworkElement<MenuItemModel>
 {
-    using System.Collections.Generic;
-    using System.Windows.Automation;
-
-    [Control(ControlTypeName = nameof(ControlType.MenuItem))]
-    public class MenuItem : FrameworkElement<MenuItemModel>
+    public MenuItem(AutomationElement element) 
+        : base(element, ControlType.MenuItem)
     {
-        public MenuItem(AutomationElement element) 
-            : base(element, ControlType.MenuItem)
-        {
-        }
+    }
 
-        public string Header => Element.TryGetDisplayText();
+    public string Header => Element.TryGetDisplayText();
 
-        public IList<MenuItem> Items => By.Many<MenuItem>();
+    public IList<MenuItem> Items => By.Many<MenuItem>();
             
-        public void Click()
-        {
-            Element.TryClick();
-        }
+    public void Click()
+    {
+        Element.TryClick();
     }
 }

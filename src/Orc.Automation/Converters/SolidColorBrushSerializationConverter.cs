@@ -1,30 +1,29 @@
-﻿namespace Orc.Automation.Converters
+﻿namespace Orc.Automation.Converters;
+
+using System.Windows.Media;
+
+public class SolidColorBrushSerializationConverter : SerializationValueConverterBase<SolidColorBrush, SerializableColor>
 {
-    using System.Windows.Media;
+    private readonly ColorSerializationConverter _colorSerializationConverter;
 
-    public class SolidColorBrushSerializationConverter : SerializationValueConverterBase<SolidColorBrush, SerializableColor>
+    public SolidColorBrushSerializationConverter()
     {
-        private readonly ColorSerializationConverter _colorSerializationConverter;
+        _colorSerializationConverter = new ColorSerializationConverter();
+    }
 
-        public SolidColorBrushSerializationConverter()
+    public override object? ConvertFrom(SolidColorBrush value)
+    {
+        return _colorSerializationConverter.ConvertFrom(value.Color);
+    }
+
+    public override object? ConvertTo(SerializableColor value)
+    {
+        var color = (Color?) _colorSerializationConverter.ConvertTo(value);
+        if (color is null)
         {
-            _colorSerializationConverter = new ColorSerializationConverter();
+            return null;
         }
 
-        public override object? ConvertFrom(SolidColorBrush value)
-        {
-            return _colorSerializationConverter.ConvertFrom(value.Color);
-        }
-
-        public override object? ConvertTo(SerializableColor value)
-        {
-            var color = (Color?) _colorSerializationConverter.ConvertTo(value);
-            if (color is null)
-            {
-                return null;
-            }
-
-            return new SolidColorBrush(color.Value);
-        }
+        return new SolidColorBrush(color.Value);
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace Orc.Automation
-{
-    using System;
+﻿namespace Orc.Automation;
 
-    public class AutomationAttribute : Attribute
-    {
-    }
+using System;
+
+public class AutomationAttribute : Attribute
+{
 }

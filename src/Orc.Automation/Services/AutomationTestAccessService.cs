@@ -1,10 +1,9 @@
-﻿namespace Orc.Automation.Services
+﻿namespace Orc.Automation.Services;
+
+public class AutomationTestAccessService : IAutomationTestAccessService
 {
-    public class AutomationTestAccessService : IAutomationTestAccessService
+    public bool HasAccess()
     {
-        public bool HasAccess()
-        {
-            return true;
-        }
+        return true;
     }
 }

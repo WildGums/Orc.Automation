@@ -1,14 +1,13 @@
-﻿namespace Orc.Automation.Recroding.Models
+﻿namespace Orc.Automation.Recroding.Models;
+
+using System.Collections.Generic;
+
+public class EventListenerConfiguration
 {
-    using System.Collections.Generic;
-
-    public class EventListenerConfiguration
+    public EventListenerConfiguration()
     {
-        public EventListenerConfiguration()
-        {
-            InputEventsNames = new List<string>();
-        }
-
-        public List<string> InputEventsNames { get; set; }
+        InputEventsNames = new List<string>();
     }
+
+    public List<string> InputEventsNames { get; set; }
 }

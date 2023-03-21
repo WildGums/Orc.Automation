@@ -1,25 +1,24 @@
-﻿namespace Orc.Automation.Converters
-{
-    using System.Windows;
+﻿namespace Orc.Automation.Converters;
 
-    public class SerializablePoint
+using System.Windows;
+
+public class SerializablePoint
+{
+    public Point Point { get; set; }
+}
+
+public class PointSerializationConverter : SerializationValueConverterBase<Point, SerializablePoint>
+{
+    public override object? ConvertFrom(Point value)
     {
-        public Point Point { get; set; }
+        return new SerializablePoint
+        {
+            Point = value
+        };
     }
 
-    public class PointSerializationConverter : SerializationValueConverterBase<Point, SerializablePoint>
+    public override object? ConvertTo(SerializablePoint value)
     {
-        public override object? ConvertFrom(Point value)
-        {
-            return new SerializablePoint
-            {
-                Point = value
-            };
-        }
-
-        public override object? ConvertTo(SerializablePoint value)
-        {
-            return value.Point;
-        }
+        return value.Point;
     }
 }

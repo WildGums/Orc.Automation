@@ -1,19 +1,18 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Windows.Automation;
+
+[Control(ControlTypeName = nameof(ControlType.CheckBox))]
+public class CheckBox : FrameworkElement<CheckBoxModel>
 {
-    using System.Windows.Automation;
-
-    [Control(ControlTypeName = nameof(ControlType.CheckBox))]
-    public class CheckBox : FrameworkElement<CheckBoxModel>
+    public CheckBox(AutomationElement element) 
+        : base(element, ControlType.CheckBox)
     {
-        public CheckBox(AutomationElement element) 
-            : base(element, ControlType.CheckBox)
-        {
-        }
+    }
 
-        public bool? IsChecked
-        {
-            get => Element.GetToggleState();
-            set => Element.TrySetToggleState(value);
-        }
+    public bool? IsChecked
+    {
+        get => Element.GetToggleState();
+        set => Element.TrySetToggleState(value);
     }
 }

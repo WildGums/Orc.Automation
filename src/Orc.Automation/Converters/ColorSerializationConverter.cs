@@ -1,45 +1,44 @@
-﻿namespace Orc.Automation.Converters
-{
-    using System;
-    using System.Windows.Media;
-    using Catel.Logging;
+﻿namespace Orc.Automation.Converters;
 
-    public class SerializableColor
+using System;
+using System.Windows.Media;
+using Catel.Logging;
+
+public class SerializableColor
+{
+    public string? Color { get; set; }
+}
+
+public class ColorSerializationConverter : SerializationValueConverterBase<Color, SerializableColor>
+{
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        
+    private const char ArgbSeparator = ';';
+
+    public override object? ConvertFrom(Color value)
     {
-        public string? Color { get; set; }
+        return new SerializableColor { Color = $"{value.A}{ArgbSeparator}{value.R}{ArgbSeparator}{value.G}{ArgbSeparator}{value.B}" };
     }
 
-    public class ColorSerializationConverter : SerializationValueConverterBase<Color, SerializableColor>
+    public override object? ConvertTo(SerializableColor value)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        
-        private const char ArgbSeparator = ';';
+        var color = value.Color;
 
-        public override object? ConvertFrom(Color value)
+        try
         {
-            return new SerializableColor { Color = $"{value.A}{ArgbSeparator}{value.R}{ArgbSeparator}{value.G}{ArgbSeparator}{value.B}" };
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorParts = color.Split(ArgbSeparator);
+
+                return Color.FromArgb(System.Convert.ToByte(colorParts[0]), System.Convert.ToByte(colorParts[1]),
+                    System.Convert.ToByte(colorParts[2]), System.Convert.ToByte(colorParts[3]));
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Cannot modify '{0}' to a color", color);
         }
 
-        public override object? ConvertTo(SerializableColor value)
-        {
-            var color = value.Color;
-
-            try
-            {
-                if (!string.IsNullOrEmpty(color))
-                {
-                    var colorParts = color.Split(ArgbSeparator);
-
-                    return Color.FromArgb(System.Convert.ToByte(colorParts[0]), System.Convert.ToByte(colorParts[1]),
-                        System.Convert.ToByte(colorParts[2]), System.Convert.ToByte(colorParts[3]));
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Cannot modify '{0}' to a color", color);
-            }
-
-            return default(Color);
-        }
+        return default(Color);
     }
 }

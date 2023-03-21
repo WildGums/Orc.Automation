@@ -1,16 +1,15 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System.Windows.Automation;
+using Controls;
+
+[Control(ClassName = "DataGridCell")]
+public class DataGridCell : FrameworkElement<DataGridCellModel>
 {
-    using System.Windows.Automation;
-    using Controls;
-
-    [Control(ClassName = "DataGridCell")]
-    public class DataGridCell : FrameworkElement<DataGridCellModel>
+    public DataGridCell(AutomationElement element) 
+        : base(element)
     {
-        public DataGridCell(AutomationElement element) 
-            : base(element)
-        {
-        }
-
-        public string Text => Element.TryGetDisplayText();
     }
+
+    public string Text => Element.TryGetDisplayText();
 }

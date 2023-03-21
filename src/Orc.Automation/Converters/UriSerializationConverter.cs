@@ -1,32 +1,31 @@
-﻿namespace Orc.Automation.Converters
-{
-    using System;
+﻿namespace Orc.Automation.Converters;
 
-    public class SerializableUri
+using System;
+
+public class SerializableUri
+{
+    public string? UriString { get; set; }
+    public UriKind Kind { get; set; }
+}
+
+public class UriSerializationConverter : SerializationValueConverterBase<Uri, SerializableUri>
+{
+    public override object? ConvertFrom(Uri value)
     {
-        public string? UriString { get; set; }
-        public UriKind Kind { get; set; }
+        return new SerializableUri
+        {
+            Kind = value.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative,
+            UriString = value.ToString(),
+        };
     }
 
-    public class UriSerializationConverter : SerializationValueConverterBase<Uri, SerializableUri>
+    public override object? ConvertTo(SerializableUri value)
     {
-        public override object? ConvertFrom(Uri value)
+        if (string.IsNullOrEmpty(value.UriString))
         {
-            return new SerializableUri
-            {
-                Kind = value.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative,
-                UriString = value.ToString(),
-            };
+            return null;
         }
 
-        public override object? ConvertTo(SerializableUri value)
-        {
-            if (string.IsNullOrEmpty(value.UriString))
-            {
-                return null;
-            }
-
-            return new Uri(value.UriString, value.Kind);
-        }
+        return new Uri(value.UriString, value.Kind);
     }
 }

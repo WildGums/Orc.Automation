@@ -1,78 +1,87 @@
-﻿namespace Orc.Automation.Controls
+namespace Orc.Automation.Controls;
+
+using System;
+using System.Windows.Automation;
+using Catel.IoC;
+using Catel.Reflection;
+using Services;
+
+[Control(ControlTypeName = nameof(ControlType.Window))]
+public class Window : Window<WindowModel>
 {
-    using System;
-    using System.Windows.Automation;
-    using Catel.IoC;
-    using Catel.Reflection;
-    using Services;
+    public static AutomationElement MainWindow => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
+        ?.MainWindow;
 
-    [Control(ControlTypeName = nameof(ControlType.Window))]
-    public class Window : Window<WindowModel>
+    public static TWindow WaitForWindow<TWindow>(string? id = null, string? name = null, int numberOfWaits = 10)
+        where TWindow : AutomationControl, IWindow
     {
-        public static AutomationElement MainWindow => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
-            ?.MainWindow;
+        var window = MainWindow?.Find<TWindow>(id: id, name: name, numberOfWaits: numberOfWaits);
 
-        public static TWindow WaitForWindow<TWindow>(string? id = null, string? name = null, int numberOfWaits = 10)
-            where TWindow : AutomationControl, IWindow
-        {
-            var window = MainWindow?.Find<TWindow>(id: id, name: name, numberOfWaits: numberOfWaits);
-
-            return window;
-        }
-
-        public Window(AutomationElement element)
-            : base(element)
-        {
-        }
+        return window;
     }
 
-    public abstract class Window<TModel, TMap> : Window<TModel>
-        where TModel : WindowModel
-        where TMap : AutomationBase
+    public Window(AutomationElement element)
+        : base(element)
     {
-        public Window(AutomationElement element)
-            : base(element)
-        {
-        }
+    }
+}
 
-        protected TMap Map => Map<TMap>();
-
-        protected TValue? GetMapValue<TValue>(object? source, string propertyName)
-        {
-            return Map.GetMapValue<TValue>(source, propertyName);
-        }
-
-        protected void SetMapValue<TValue>(object? source, string propertyName, TValue value)
-        {
-            Map.SetMapValue<TValue>(source, propertyName, value);
-        }
+public abstract class Window<TModel, TMap> : Window<TModel>
+    where TModel : WindowModel
+    where TMap : AutomationBase
+{
+    public Window(AutomationElement element)
+        : base(element)
+    {
     }
 
-    public abstract class Window<TModel> : FrameworkElement<TModel>, IWindow
-        where TModel : WindowModel
+    protected TMap Map => Map<TMap>();
+
+    protected TValue? GetMapValue<TValue>(object? source, string propertyName)
     {
-        public Window(AutomationElement element)
-            : base(element, ControlType.Window)
+        if (source is null)
         {
-            Automation.AddAutomationEventHandler(WindowPattern.WindowOpenedEvent, Element, TreeScope.Subtree, OnDialogOpened);
+            return default;
         }
 
-        private void OnDialogOpened(object? sender, AutomationEventArgs e)
+        return PropertyHelper.GetPropertyValue<TValue>(source, propertyName);
+    }
+
+    protected void SetMapValue<TValue>(object? source, string propertyName, TValue value)
+    {
+        if (source is null)
         {
-            DialogOpened?.Invoke(sender, e);
+            return;
         }
 
-        /// <summary>
-        /// Close window
-        /// </summary>
-        public virtual void Close() => Element.CloseWindow();
-
-        public event EventHandler<AutomationEventArgs>? DialogOpened;
+        PropertyHelper.SetPropertyValue(source, propertyName, value);
     }
+}
 
-    public interface IWindow
+public abstract class Window<TModel> : FrameworkElement<TModel>, IWindow
+    where TModel : WindowModel
+{
+    public Window(AutomationElement element)
+        : base(element, ControlType.Window)
     {
-        void Close();
-        event EventHandler<AutomationEventArgs>? DialogOpened;
+        Automation.AddAutomationEventHandler(WindowPattern.WindowOpenedEvent, Element, TreeScope.Subtree, OnDialogOpened);
     }
+
+    private void OnDialogOpened(object? sender, AutomationEventArgs e)
+    {
+        DialogOpened?.Invoke(sender, e);
+    }
+
+    /// <summary>
+    /// Close window
+    /// </summary>
+    public virtual void Close() => Element.CloseWindow();
+
+    public event EventHandler<AutomationEventArgs>? DialogOpened;
+}
+
+public interface IWindow
+{
+    void Close();
+    event EventHandler<AutomationEventArgs>? DialogOpened;
 }

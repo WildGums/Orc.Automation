@@ -1,59 +1,58 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using Catel.Reflection;
+
+[Serializable]
+public class AutomationValue
 {
-    using System;
-    using Catel.Reflection;
+    public static AutomationValue NotSetValue = new () { Data = "This value is not set" };
 
-    [Serializable]
-    public class AutomationValue
+    [NonSerialized]
+    private readonly Type? _dataType;
+
+    public static AutomationValue? FromValue(object? value, Type? valueType = null)
     {
-        public static AutomationValue NotSetValue = new () { Data = "This value is not set" };
-
-        [NonSerialized]
-        private readonly Type? _dataType;
-
-        public static AutomationValue? FromValue(object? value, Type? valueType = null)
+        if (value is null)
         {
-            if (value is null)
-            {
-                return null;
-            }
-
-            var dataSourceXml = XmlSerializerHelper.SerializeValue(value);
-
-            return new AutomationValue(valueType ?? value.GetType())
-            {
-                Data = dataSourceXml
-            };
+            return null;
         }
 
-        protected AutomationValue()
+        var dataSourceXml = XmlSerializerHelper.SerializeValue(value);
+
+        return new AutomationValue(valueType ?? value.GetType())
         {
-            DataTypeFullName = string.Empty;
-            Data = string.Empty;
-        }
+            Data = dataSourceXml
+        };
+    }
 
-        private AutomationValue(Type dataType)
-        {
-            ArgumentNullException.ThrowIfNull(dataType);
+    protected AutomationValue()
+    {
+        DataTypeFullName = string.Empty;
+        Data = string.Empty;
+    }
 
-            _dataType = dataType;
-            DataTypeFullName = _dataType.GetSafeFullName();
-            Data = string.Empty;
-        }
+    private AutomationValue(Type dataType)
+    {
+        ArgumentNullException.ThrowIfNull(dataType);
 
-        public string DataTypeFullName { get; set; }
+        _dataType = dataType;
+        DataTypeFullName = _dataType.GetSafeFullName();
+        Data = string.Empty;
+    }
 
-        public string Data { get; set; }
+    public string DataTypeFullName { get; set; }
 
-        public object? ExtractValue()
-        {
-            var dataTypeFullName = DataTypeFullName;
+    public string Data { get; set; }
 
-            var type = _dataType
-                       ?? Catel.Reflection.TypeCache.GetType(dataTypeFullName)
-                       ?? TypeHelper.GetTypeByName(dataTypeFullName);
+    public object? ExtractValue()
+    {
+        var dataTypeFullName = DataTypeFullName;
 
-            return XmlSerializerHelper.DeserializeValue(Data, type);
-        }
+        var type = _dataType
+                   ?? Catel.Reflection.TypeCache.GetType(dataTypeFullName)
+                   ?? TypeHelper.GetTypeByName(dataTypeFullName);
+
+        return XmlSerializerHelper.DeserializeValue(Data, type);
     }
 }

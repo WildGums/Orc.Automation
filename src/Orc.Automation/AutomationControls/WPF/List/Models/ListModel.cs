@@ -1,17 +1,16 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System.Collections;
+using System.Windows.Controls;
+
+[ActiveAutomationModel]
+public class ListModel : SelectorModel
 {
-    using System.Collections;
-    using System.Windows.Controls;
-
-    [ActiveAutomationModel]
-    public class ListModel : SelectorModel
+    public ListModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public ListModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
-
-        public SelectionMode SelectionMode { get; set; }
-        public IList SelectedItems { get; set; }
     }
+
+    public SelectionMode SelectionMode { get; set; }
+    public IList SelectedItems { get; set; }
 }

@@ -1,64 +1,63 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Catel.Reflection;
+
+public static class TypeExtensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Catel.Reflection;
-
-    public static class TypeExtensions
+    public static IReadOnlyDictionary<PropertyInfo, TAttribute> GetPropertiesDecoratedWith<TAttribute>(this Type type)
+        where TAttribute : Attribute
     {
-        public static IReadOnlyDictionary<PropertyInfo, TAttribute> GetPropertiesDecoratedWith<TAttribute>(this Type type)
-            where TAttribute : Attribute
+        return type
+            .GetProperties()
+            .Where(prop => Attribute.IsDefined(prop, typeof(TAttribute)))
+            .ToDictionary(x => x, x => x.GetAttribute<TAttribute>()!);
+    }
+
+    public static Type? FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly? assembly = null)
+    {
+        ArgumentNullException.ThrowIfNull(singleGenericTypeArgument);
+
+        var types = from type in (assembly ?? Assembly.GetExecutingAssembly()).GetTypesEx()
+            where !type.IsAbstract && typeof(TBaseType).IsAssignableFromEx(type)
+            let baseTypeLocal = type.BaseType
+            let genericArgs = baseTypeLocal.GetGenericArguments()
+            where genericArgs.Contains(singleGenericTypeArgument)
+            select type;
+
+        var projectorType = types.FirstOrDefault();
+        if (projectorType is not null)
         {
-            return type
-                .GetProperties()
-                .Where(prop => Attribute.IsDefined(prop, typeof(TAttribute)))
-                .ToDictionary(x => x, x => x.GetAttribute<TAttribute>()!);
+            return projectorType;
         }
 
-        public static Type? FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly? assembly = null)
+        var baseType = singleGenericTypeArgument.GetBaseTypeEx();
+        return baseType is not null ? FindGenericTypeImplementation<TBaseType>(baseType) : null;
+    }
+
+    public static Type GetAnyElementType(this Type type)
+    {
+        // Type is Array
+        // short-circuit if you expect lots of arrays 
+        if (type.IsArray)
         {
-            ArgumentNullException.ThrowIfNull(singleGenericTypeArgument);
-
-            var types = from type in (assembly ?? Assembly.GetExecutingAssembly()).GetTypesEx()
-                where !type.IsAbstract && typeof(TBaseType).IsAssignableFromEx(type)
-                let baseTypeLocal = type.BaseType
-                let genericArgs = baseTypeLocal.GetGenericArguments()
-                where genericArgs.Contains(singleGenericTypeArgument)
-                select type;
-
-            var projectorType = types.FirstOrDefault();
-            if (projectorType is not null)
-            {
-                return projectorType;
-            }
-
-            var baseType = singleGenericTypeArgument.GetBaseTypeEx();
-            return baseType is not null ? FindGenericTypeImplementation<TBaseType>(baseType) : null;
+            return type.GetElementType() ?? typeof(object);
         }
 
-        public static Type GetAnyElementType(this Type type)
+        // type is IEnumerable<T>;
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
-            // Type is Array
-            // short-circuit if you expect lots of arrays 
-            if (type.IsArray)
-            {
-                return type.GetElementType() ?? typeof(object);
-            }
-
-            // type is IEnumerable<T>;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                return type.GetGenericArguments()[0];
-            }
-
-            // type implements/extends IEnumerable<T>;
-            var enumType = type.GetInterfaces()
-                .Where(t => t.IsGenericType &&
-                            t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                .Select(t => t.GenericTypeArguments[0]).FirstOrDefault();
-            return enumType ?? type;
+            return type.GetGenericArguments()[0];
         }
+
+        // type implements/extends IEnumerable<T>;
+        var enumType = type.GetInterfaces()
+            .Where(t => t.IsGenericType &&
+                        t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            .Select(t => t.GenericTypeArguments[0]).FirstOrDefault();
+        return enumType ?? type;
     }
 }

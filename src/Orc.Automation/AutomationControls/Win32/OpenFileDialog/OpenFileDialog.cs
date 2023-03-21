@@ -1,47 +1,46 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Automation;
+
+[Control(ClassName = Win32AutomationDialogsClassNames.OpenFileDialogClassName)]
+public class OpenFileDialog : Window<WindowModel, OpenFileDialogMap>
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Automation;
-
-    [Control(ClassName = Win32AutomationDialogsClassNames.OpenFileDialogClassName)]
-    public class OpenFileDialog : Window<WindowModel, OpenFileDialogMap>
+    public static void WaitAccept(string fileName)
     {
-        public static void WaitAccept(string fileName)
-        {
-            var openFileDialog = Wait();
-            openFileDialog.FilePath = fileName;
+        var openFileDialog = Wait();
+        openFileDialog.FilePath = fileName;
 
-            openFileDialog.Accept();
-        }
+        openFileDialog.Accept();
+    }
 
-        public static OpenFileDialog Wait() => Window.WaitForWindow<OpenFileDialog>();
+    public static OpenFileDialog Wait() => Window.WaitForWindow<OpenFileDialog>();
 
 
-        public OpenFileDialog(AutomationElement element)
-            : base(element)
-        {
-        }
+    public OpenFileDialog(AutomationElement element)
+        : base(element)
+    {
+    }
 
-        public string? FilePath
-        {
-            get => Map.FilePathCombobox.Text;
-            set => Map.FilePathCombobox.Text = value;
-        }
+    public string? FilePath
+    {
+        get => Map.FilePathCombobox.Text;
+        set => Map.FilePathCombobox.Text = value;
+    }
 
-        public List<string> Filters
-        {
-            get => Map.FiltersCombobox?.Items.Select(x => x.Current.Name).ToList() ?? new List<string>();
-        }
+    public List<string> Filters
+    {
+        get => Map.FiltersCombobox?.Items.Select(x => x.Current.Name).ToList() ?? new List<string>();
+    }
 
-        public void Accept()
-        {
-            Map.AcceptButton?.Click();
-        }
+    public void Accept()
+    {
+        Map.AcceptButton?.Click();
+    }
 
-        public void Cancel()
-        {
-            Map.CancelButton?.Click();
-        }
+    public void Cancel()
+    {
+        Map.CancelButton?.Click();
     }
 }

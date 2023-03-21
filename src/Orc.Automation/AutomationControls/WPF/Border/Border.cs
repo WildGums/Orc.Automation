@@ -1,14 +1,13 @@
-﻿namespace Orc.Automation.Controls
-{
-    using System.Windows.Automation;
+﻿namespace Orc.Automation.Controls;
 
-    [Raw]
-    [Control(Class = typeof(System.Windows.Controls.Border))]
-    public class Border : FrameworkElement<BorderModel>
+using System.Windows.Automation;
+
+[Raw]
+[Control(Class = typeof(System.Windows.Controls.Border))]
+public class Border : FrameworkElement<BorderModel>
+{
+    public Border(AutomationElement element)
+        : base(element)
     {
-        public Border(AutomationElement element)
-            : base(element)
-        {
-        }
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+public class AutomatedControlAttribute : ControlAttribute
 {
-    public class AutomatedControlAttribute : ControlAttribute
+    public override string ClassName
     {
-        public override string ClassName
-        {
-            get =>  $"{base.ClassName}{NameConventions.ActiveModelControlClassNameSuffix}";
-            set => base.ClassName = value;
-        }
+        get =>  $"{base.ClassName}{NameConventions.ActiveModelControlClassNameSuffix}";
+        set => base.ClassName = value;
     }
 }

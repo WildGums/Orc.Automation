@@ -1,57 +1,56 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Automation;
+
+
+[Control(ControlTypeName = nameof(ControlType.DataGrid), ClassName = "ListView")]
+public class GridList : List
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Automation;
-
-
-    [Control(ControlTypeName = nameof(ControlType.DataGrid), ClassName = "ListView")]
-    public class GridList : List
+    public GridList(AutomationElement element)
+        : base(element, ControlType.DataGrid)
     {
-        public GridList(AutomationElement element)
-            : base(element, ControlType.DataGrid)
-        {
-        }
+    }
+}
+
+[Control(ControlTypeName = nameof(ControlType.List), ClassName = "ListBox")]
+public class ListBox : List
+{
+    public ListBox(AutomationElement element)
+        : base(element)
+    {
+    }
+}
+
+[Control(ControlTypeName = nameof(ControlType.List), ClassName = "ListView")]
+public class List : FrameworkElement<ListModel>
+{
+    public List(AutomationElement element) 
+        : base(element, ControlType.List)
+    {
     }
 
-    [Control(ControlTypeName = nameof(ControlType.List), ClassName = "ListBox")]
-    public class ListBox : List
+    protected List(AutomationElement element, ControlType controlType)
+        : base(element, controlType)
     {
-        public ListBox(AutomationElement element)
-            : base(element)
-        {
-        }
     }
 
-    [Control(ControlTypeName = nameof(ControlType.List), ClassName = "ListView")]
-    public class List : FrameworkElement<ListModel>
+
+    public IReadOnlyList<ListItem> Items => By.Many<ListItem>();
+
+    public IReadOnlyList<TItem> GetItemsOfType<TItem>() => By.Many<TItem>();
+
+    public bool CanSelectMultiply => Element.CanSelectMultiple();
+
+    public AutomationElement SelectedItem
     {
-        public List(AutomationElement element) 
-            : base(element, ControlType.List)
-        {
-        }
+        get => Element.GetSelection()?.FirstOrDefault();
+        set => value?.Select();
+    }
 
-        protected List(AutomationElement element, ControlType controlType)
-            : base(element, controlType)
-        {
-        }
-
-
-        public IReadOnlyList<ListItem> Items => By.Many<ListItem>();
-
-        public IReadOnlyList<TItem> GetItemsOfType<TItem>() => By.Many<TItem>();
-
-        public bool CanSelectMultiply => Element.CanSelectMultiple();
-
-        public AutomationElement SelectedItem
-        {
-            get => Element.GetSelection()?.FirstOrDefault();
-            set => value?.Select();
-        }
-
-        public AutomationElement Select(int index)
-        {
-            return Element.TrySelectItem(index, out var element) ? element : null;
-        }
+    public AutomationElement Select(int index)
+    {
+        return Element.TrySelectItem(index, out var element) ? element : null;
     }
 }

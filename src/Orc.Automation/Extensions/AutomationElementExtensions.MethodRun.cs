@@ -1,124 +1,123 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Windows.Automation;
+
+public static partial class AutomationElementExtensions
 {
-    using System;
-    using System.Windows.Automation;
-
-    public static partial class AutomationElementExtensions
+    public static bool TryGetPropertyValue<TPropertyValueType>(this AutomationElement element, string propertyName, out TPropertyValueType value)
     {
-        public static bool TryGetPropertyValue<TPropertyValueType>(this AutomationElement element, string propertyName, out TPropertyValueType value)
+        value = default;
+
+        if (!TryGetPropertyValue(element, propertyName, out var propertyValue))
         {
-            value = default;
-
-            if (!TryGetPropertyValue(element, propertyName, out var propertyValue))
-            {
-                return false;
-            }
-
-            value = (TPropertyValueType)propertyValue;
-            return true;
-
+            return false;
         }
 
-        public static bool TryGetPropertyValue(this AutomationElement element, string propertyName, out object value)
+        value = (TPropertyValueType)propertyValue;
+        return true;
+
+    }
+
+    public static bool TryGetPropertyValue(this AutomationElement element, string propertyName, out object value)
+    {
+        value = null;
+
+        try
         {
-            value = null;
+            var commandAutomationElement = new AutomationElementAccessor(element);
+            value = commandAutomationElement.GetValue(propertyName);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
 
-            try
-            {
-                var commandAutomationElement = new AutomationElementAccessor(element);
-                value = commandAutomationElement.GetValue(propertyName);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        public static bool TrySetPropertyValue(this AutomationElement element, string propertyName, object value)
+        return true;
+    }
+
+    public static bool TrySetPropertyValue(this AutomationElement element, string propertyName, object value)
+    {
+        try
         {
-            try
-            {
-                var commandAutomationElement = new AutomationElementAccessor(element);
-                commandAutomationElement.SetValue(propertyName, value);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+            var commandAutomationElement = new AutomationElementAccessor(element);
+            commandAutomationElement.SetValue(propertyName, value);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
 
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        public static bool TryExecute<TResult>(this AutomationElement element, string methodName, object parameter, out TResult result)
+        return true;
+    }
+
+    public static bool TryExecute<TResult>(this AutomationElement element, string methodName, object parameter, out TResult result)
+    {
+        result = default;
+
+        if (!TryExecute(element, methodName, parameter, out var objResult))
         {
-            result = default;
-
-            if (!TryExecute(element, methodName, parameter, out var objResult))
-            {
-                return false;
-            }
-
-            result = (TResult)objResult;
-
-            return true;
+            return false;
         }
 
-        public static bool TryExecute<TResult>(this AutomationElement element, string methodName, out TResult result)
+        result = (TResult)objResult;
+
+        return true;
+    }
+
+    public static bool TryExecute<TResult>(this AutomationElement element, string methodName, out TResult result)
+    {
+        result = default;
+
+        if (!TryExecute(element, methodName, out var objResult))
         {
-            result = default;
-
-            if (!TryExecute(element, methodName, out var objResult))
-            {
-                return false;
-            }
-
-            result = (TResult)objResult;
-
-            return true;
+            return false;
         }
 
-        public static bool TryExecute(this AutomationElement element, string methodName, object parameter, out object result)
+        result = (TResult)objResult;
+
+        return true;
+    }
+
+    public static bool TryExecute(this AutomationElement element, string methodName, object parameter, out object result)
+    {
+        result = null;
+
+        try
         {
-            result = null;
+            var commandAutomationElement = new AutomationElementAccessor(element);
+            result = commandAutomationElement.Execute(methodName, parameter);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
 
-            try
-            {
-                var commandAutomationElement = new AutomationElementAccessor(element);
-                result = commandAutomationElement.Execute(methodName, parameter);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        public static bool TryExecute(this AutomationElement element, string methodName, out object result)
+        return true;
+    }
+
+    public static bool TryExecute(this AutomationElement element, string methodName, out object result)
+    {
+        result = null;
+
+        try
         {
-            result = null;
-
-            try
-            {
-                var testHostCommand = new AutomationElementAccessor(element);
-                result = testHostCommand.Execute(methodName);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-
-                return false;
-            }
-
-            return true;
+            var testHostCommand = new AutomationElementAccessor(element);
+            result = testHostCommand.Execute(methodName);
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+            return false;
+        }
+
+        return true;
     }
 }

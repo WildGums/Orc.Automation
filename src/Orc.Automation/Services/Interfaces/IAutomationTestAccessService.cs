@@ -1,7 +1,6 @@
-﻿namespace Orc.Automation.Services
+﻿namespace Orc.Automation.Services;
+
+public interface IAutomationTestAccessService
 {
-    public interface IAutomationTestAccessService
-    {
-        bool HasAccess();
-    }
+    bool HasAccess();
 }

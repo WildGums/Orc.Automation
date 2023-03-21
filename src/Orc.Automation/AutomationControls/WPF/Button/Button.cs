@@ -1,20 +1,19 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Windows.Automation;
+
+[Control(ControlTypeName = nameof(ControlType.Button))]
+public class Button : FrameworkElement<ButtonModel>
 {
-    using System.Windows.Automation;
-
-    [Control(ControlTypeName = nameof(ControlType.Button))]
-    public class Button : FrameworkElement<ButtonModel>
+    public Button(AutomationElement element) 
+        : base(element, ControlType.Button)
     {
-        public Button(AutomationElement element) 
-            : base(element, ControlType.Button)
-        {
-        }
+    }
 
-        public string Content => Element.Current.Name;
+    public string Content => Element.Current.Name;
 
-        public bool Click()
-        {
-            return Element.TryInvoke();
-        }
+    public bool Click()
+    {
+        return Element.TryInvoke();
     }
 }
