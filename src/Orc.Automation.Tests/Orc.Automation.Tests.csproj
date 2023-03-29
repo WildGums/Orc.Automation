@@ -36,10 +36,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.0" PrivateAssets="all" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
-  </ItemGroup>
 
   <!-- Theming -->
   <ItemGroup>
@@ -51,6 +47,9 @@
     <None Remove="**/GeneratorParameters.json" />
     <None Remove="StyleAsserters\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
