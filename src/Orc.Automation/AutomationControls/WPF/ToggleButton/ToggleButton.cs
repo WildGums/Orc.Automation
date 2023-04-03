@@ -18,9 +18,9 @@ public class ToggleButton : FrameworkElement<ToggleButtonModel>
     /// <summary>
     /// Get Is button is toggled
     /// </summary>
-    public bool IsToggled
+    public bool? IsToggled
     {
-        get => Element.GetToggleState() == true;
+        get => Element.GetToggleState();
         set => Element.TrySetToggleState(value);
     }
 
