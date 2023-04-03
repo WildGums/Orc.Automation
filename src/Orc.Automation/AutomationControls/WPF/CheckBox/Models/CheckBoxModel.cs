@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation.Controls;
+﻿namespace Orc.Automation;
 
 [ActiveAutomationModel]
 public class CheckBoxModel : ToggleButtonModel
