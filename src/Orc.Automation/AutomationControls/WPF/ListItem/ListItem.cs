@@ -22,4 +22,9 @@ public class ListItem : FrameworkElement<ListItemModel>
     {
         Element.Select();
     }
+
+    public virtual void ScrollIntoView()
+    {
+        Element.ScrollIntoView();
+    }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using Catel;
 
 #pragma warning disable IDE1006 // Naming Styles
 // https://gist.github.com/DrustZ/640912b9d5cb745a3a56971c9bd58ac7
@@ -352,11 +353,15 @@ public static class MouseInput
 /// the left shift key is being held down.
 public static class KeyboardInput
 {
-    #region Public Members
     public static void PressRelease(Key key)
     {
         Press(key);
         Release(key);
+    }
+
+    public static IDisposable InvokeInPressReleaseKeyScope(Key key)
+    {
+        return new DisposableToken(key, _ => Press(key), _ => Release(key));
     }
 
     /// <summary>
@@ -428,8 +433,6 @@ public static class KeyboardInput
             }
         }
     }
-
-    #endregion
 
     #region Private Members
 

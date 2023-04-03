@@ -561,6 +561,15 @@ public static partial class AutomationElementExtensions
     }
     #endregion
 
+    #region Scroll
+    public static void ScrollIntoView(this AutomationElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
+
+        element.RunPatternFunc<ScrollItemPattern>(x => x.ScrollIntoView());
+    }
+    #endregion
+
     /// <summary>
     /// Try to Invoke, Toggle, Select...if this patterns not implemented, depends on useMouse parameter use Mouse Input
     /// </summary>
