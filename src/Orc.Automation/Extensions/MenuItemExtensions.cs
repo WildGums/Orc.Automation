@@ -2,17 +2,23 @@
 
 using System;
 using System.Linq;
-using Orc.Automation.Controls;
+using Controls;
 
 public static class MenuItemExtensions
 {
-    public static void Select(this MenuItem menuItem, string header)
+    public static MenuItem Select(this MenuItem menuItem, string header)
+    {
+        return Select(menuItem, x => Equals(x.Element.TryGetDisplayText(), header));
+    }
+
+    public static MenuItem Select(this MenuItem menuItem, Func<MenuItem, bool> predicate)
     {
         ArgumentNullException.ThrowIfNull(menuItem);
-
         var items = menuItem.Items;
 
-        var childMenuItem = items?.FirstOrDefault(x => Equals(x.Element.TryGetDisplayText(), header));
+        var childMenuItem = items?.FirstOrDefault(predicate);
         childMenuItem?.Click();
+
+        return childMenuItem;
     }
 }
