@@ -42,10 +42,3 @@ public class TestCaseGenericAttribute : TestCaseAttribute, ITestBuilder
         return base.BuildFrom(genMethod, suite);
     }
 }
-
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public class TestCaseAttribute<T> : TestCaseGenericAttribute
-{
-    public TestCaseAttribute(params object[] arguments)
-        : base(arguments) => TypeArguments = new[] { typeof(T) };
-}
