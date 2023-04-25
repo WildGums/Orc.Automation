@@ -2,10 +2,9 @@
 
 using System;
 using System.Windows.Automation;
-using Catel;
 using Catel.IoC;
 
-public static partial class AutomationElementExtensions
+public partial class AutomationElementExtensions
 {
     public static TAutomationControl As<TAutomationControl>(this AutomationElement element)
     {

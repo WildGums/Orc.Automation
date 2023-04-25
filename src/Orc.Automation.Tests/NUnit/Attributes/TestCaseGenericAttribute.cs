@@ -4,12 +4,11 @@ namespace Orc.Automation.Tests;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal.Builders;
 using NUnit.Framework.Internal;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public class TestCaseGenericAttribute : TestCaseAttribute, ITestBuilder
+public class TestCaseGenericAttribute : NUnit.Framework.TestCaseAttribute, ITestBuilder
 {
     public TestCaseGenericAttribute(params object[] arguments)
         : base(arguments)

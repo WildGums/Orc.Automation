@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
+using Tests;
 
-public static partial class AutomationElementExtensions
+public partial class AutomationElementExtensions
 {
     #region Get Value
     public static T GetValue<T>(this AutomationElement element)
@@ -380,6 +381,7 @@ public static partial class AutomationElementExtensions
         throw new AutomationException("Can't toggle, pattern not available");
     }
 
+    [UserInteraction("Try set toggle state")]
     public static bool TrySetToggleState(this AutomationElement element, bool? newState)
     {
         if (!TryGetToggleState(element, out var toggleState))

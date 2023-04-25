@@ -5,7 +5,7 @@ using System.Windows.Automation;
 using System.Windows.Input;
 using Catel;
 
-public static partial class AutomationElementExtensions
+public partial class AutomationElementExtensions
 {
     public static void MouseClick(this AutomationElement element, MouseButton mouseButton = MouseButton.Left)
     {
