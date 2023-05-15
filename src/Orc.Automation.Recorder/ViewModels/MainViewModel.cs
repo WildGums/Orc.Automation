@@ -3,13 +3,22 @@
     using System;
     using System.Linq;
     using System.Collections.Generic;
+    using System.Net.Mime;
+    using System.Windows;
     using System.Windows.Automation;
+    using System.Windows.Input;
+    using System.Windows.Threading;
     using Automation;
     using Catel.MVVM;
+    using Services;
 
     public class MainViewModel : ViewModelBase
     {
         private bool _inProcess = false;
+        private AutomationElement _window
+            ;
+
+        private IntPtr _handler;
 
         public MainViewModel()
         {
@@ -32,7 +41,6 @@
         public Command Start { get; }
         public Command Pause { get; }
         public Command Stop { get; }
-
         public Command Send { get; }
         public Command Comment { get; }
         public Command RefreshCandidatesList { get; }
@@ -51,12 +59,14 @@
         {
             CandidateList = new List<int>();
 
+            var searchClassName = AutomationHelper.GetActiveControlClassName(typeof(Controls.AutomationInformer));
+
             //TODO: Use Find<> function...but this is faster for now
             foreach (var element in AutomationElement.RootElement.GetChildElements()
                          .Where(x => x.Current.FrameworkId == "WPF"))
             {
                 var children = element.GetChildElements().ToList();
-                if (children.Any(x => x.Current.ClassName == "Orc.Automation.Controls.AutomationInformer"))
+                if (children.Any(x => x.Current.ClassName == searchClassName))
                 {
                     CandidateList.Add(element.Current.NativeWindowHandle);
                 }
@@ -73,12 +83,12 @@
 
             _inProcess = true;
 
-            var handler = new IntPtr(selectedCandidateHandler.Value);
-            var window = AutomationElement.FromHandle(handler);
-            var informer = window.Find<AutomationInformer>();
+            _handler = new IntPtr(selectedCandidateHandler.Value);
+            _window = AutomationElement.FromHandle(_handler);
+            var informer = _window.Find<AutomationInformer>();
             informer.StartRecord();
 
-            var items = informer.Element.FindAll(controlType: ControlType.Button).ToList();
+            BuildTree(informer);
 
             RaiseCanExecute();
         }
@@ -86,6 +96,12 @@
         private bool CanStart()
         {
             return !_inProcess && SelectedCandidateHandler is not null;
+        }
+
+        private void BuildTree(AutomationInformer informer)
+        {
+            var service = new TreeBuilderService();
+            service.Build(informer);
         }
 
         private void OnPause()

@@ -65,6 +65,7 @@ public partial class AutomationElementExtensions
     #endregion
 
     #region Set Value
+    [UserInteraction("Set value to: {0}")]
     public static void SetValue(this AutomationElement element, double value)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -72,6 +73,7 @@ public partial class AutomationElementExtensions
         element.RunPatternFunc<RangeValuePattern>(x => x.SetValue(value));
     }
 
+    [UserInteraction("Set value to: {0}")]
     public static void SetValue(this AutomationElement element, string value)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -79,6 +81,7 @@ public partial class AutomationElementExtensions
         element.RunPatternFunc<ValuePattern>(x => x.SetValue(value));
     }
 
+    [UserInteraction("Set value to: {0}", true)]
     public static bool TrySetValue(this AutomationElement element, double value)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -86,6 +89,7 @@ public partial class AutomationElementExtensions
         return element.TryRunPatternFunc<RangeValuePattern>(x => x.SetValue(value));
     }
 
+    [UserInteraction("Set value to: {0}", true)] 
     public static bool TrySetValue(this AutomationElement element, string value)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -161,6 +165,8 @@ public partial class AutomationElementExtensions
     #endregion
 
     #region Select
+
+    [UserInteraction]
     public static void Select(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -209,6 +215,7 @@ public partial class AutomationElementExtensions
         return element.RunPatternFunc<SelectionItemPattern, AutomationElement>(x => x.Current.SelectionContainer);
     }
 
+    [UserInteraction(isTryInteraction:true)]
     public static bool TryAddToSelection(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -216,6 +223,7 @@ public partial class AutomationElementExtensions
         return element.TryRunPatternFunc<SelectionItemPattern>(x => x.AddToSelection());
     }
 
+    [UserInteraction(isTryInteraction: true)]
     public static bool TrySelect(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -223,6 +231,7 @@ public partial class AutomationElementExtensions
         return element.TryRunPatternFunc<SelectionItemPattern>(x => x.Select());
     }
 
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryDeselect(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -271,12 +280,14 @@ public partial class AutomationElementExtensions
     }
     #endregion
 
-    #region Invoke
+    #region Invoke 
+    [UserInteraction]
     public static void Invoke(this AutomationElement element)
     {
         element.RunPatternFunc<InvokePattern>(x => x.Invoke());
     }
 
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryInvoke(this AutomationElement element)
     {
         return element.TryRunPatternFunc<InvokePattern>(x => x.Invoke());
@@ -319,8 +330,9 @@ public partial class AutomationElementExtensions
         return element.RunPatternFunc<TablePattern, AutomationElement>(x => x.GetItem(row, column));
     }
     #endregion
-        
+
     #region Transform
+    [UserInteraction]
     public static void Resize(this AutomationElement element, double newWidth, double newHeight)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -334,6 +346,7 @@ public partial class AutomationElementExtensions
         });
     }
 
+    [UserInteraction]
     public static void Move(this AutomationElement element, double newX, double newY)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -347,6 +360,7 @@ public partial class AutomationElementExtensions
         });
     }
 
+    [UserInteraction]
     public static void Rotate(this AutomationElement element, double degrees)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -381,7 +395,6 @@ public partial class AutomationElementExtensions
         throw new AutomationException("Can't toggle, pattern not available");
     }
 
-    [UserInteraction("Try set toggle state")]
     public static bool TrySetToggleState(this AutomationElement element, bool? newState)
     {
         if (!TryGetToggleState(element, out var toggleState))
@@ -428,11 +441,13 @@ public partial class AutomationElementExtensions
         throw new AutomationException("Can't get toggle state");
     }
 
+    [UserInteraction(isTryInteraction:true)]
     public static bool TryToggle(this AutomationElement element)
     {
         return element.TryRunPatternFunc<TogglePattern>(x => x.Toggle());
     }
 
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryToggle(this AutomationElement element, out bool? toggleState)
     {
         toggleState = null;
@@ -463,6 +478,7 @@ public partial class AutomationElementExtensions
     /// 
     /// </summary>
     /// <param name="element"></param>
+    [UserInteraction]
     public static void Expand(this AutomationElement element)
     {
         element.RunPatternFunc<ExpandCollapsePattern>(x => x.Expand());
@@ -472,6 +488,7 @@ public partial class AutomationElementExtensions
     /// 
     /// </summary>
     /// <param name="element"></param>
+    [UserInteraction]
     public static void Collapse(this AutomationElement element)
     {
         element.RunPatternFunc<ExpandCollapsePattern>(x => x.Collapse());
@@ -500,11 +517,13 @@ public partial class AutomationElementExtensions
         }
     }
 
+    [UserInteraction(isTryInteraction:true)]
     public static bool TryExpand(this AutomationElement element)
     {
         return element.TryRunPatternFunc<ExpandCollapsePattern>(x => x.Expand());
     }
 
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryCollapse(this AutomationElement element)
     {
         return element.TryRunPatternFunc<ExpandCollapsePattern>(x => x.Collapse());
@@ -512,6 +531,7 @@ public partial class AutomationElementExtensions
     #endregion
 
     #region MultipleViewPattern
+    [UserInteraction]
     public static void SelectView(this AutomationElement element, int viewIndex)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -543,11 +563,14 @@ public partial class AutomationElementExtensions
     #endregion
 
     #region Window
+  
+    [UserInteraction]
     public static void CloseWindow(this AutomationElement element)
     {
         element.RunPatternFunc<WindowPattern>(x => x.Close());
     }
 
+    [UserInteraction(isTryInteraction:true)]
     public static bool TryCloseWindow(this AutomationElement element)
     {
         return element.TryRunPatternFunc<WindowPattern>(x => x.Close());
@@ -564,6 +587,7 @@ public partial class AutomationElementExtensions
     #endregion
 
     #region Scroll
+    [UserInteraction("Scroll to item")]
     public static void ScrollIntoView(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -627,13 +651,14 @@ public partial class AutomationElementExtensions
 
         functionResult = default;
         TResult localFuncResult = default;
-        if (TryRunPatternFunc(element, (TPattern pattern) => localFuncResult = func(pattern)))
+        if (!TryRunPatternFunc(element, (TPattern pattern) => localFuncResult = func(pattern)))
         {
-            functionResult = localFuncResult;
-            return true;
+            return false;
         }
 
-        return false;
+        functionResult = localFuncResult;
+        return true;
+
     }
 
     public static bool TryRunPatternFunc<TPattern>(this AutomationElement element, Action<TPattern> action)
@@ -649,7 +674,7 @@ public partial class AutomationElementExtensions
 
         try
         {
-            action?.Invoke(automationPattern);
+            action.Invoke(automationPattern);
         }
         catch (Exception e)
         {

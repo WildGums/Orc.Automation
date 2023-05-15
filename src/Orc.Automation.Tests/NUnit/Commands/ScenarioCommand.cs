@@ -2,9 +2,9 @@
 
 using System;
 using Catel;
-using Gum.Controls.Automation.Tests;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Commands;
+using ScenarioManagement;
 
 public class ScenarioCommand : DelegatingTestCommand
 {

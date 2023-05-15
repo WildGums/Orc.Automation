@@ -1,4 +1,4 @@
-namespace Orc.Automation;
+﻿namespace Orc.Automation;
 
 using System;
 
@@ -9,6 +9,6 @@ public static class AutomationBaseExtensions
         ArgumentNullException.ThrowIfNull(element);
 
         //Automation can't find element if it's not visible, so no checks for null
-        return element is not null && element.Element.IsVisible();
+        return element.Element.IsVisible();
     }
 }

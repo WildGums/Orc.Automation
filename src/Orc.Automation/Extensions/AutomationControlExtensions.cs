@@ -4,11 +4,12 @@ using System;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
-using Catel;
 using Catel.IoC;
+using Tests;
 
 public static class AutomationControlExtensions
 {
+    [UserInteraction]
     public static void DragAndDrop(this AutomationControl control, Point destinationPoint)
     {
         ArgumentNullException.ThrowIfNull(control);
@@ -28,6 +29,7 @@ public static class AutomationControlExtensions
         MouseInput.Up();
     }
 
+    [UserInteraction]
     public static void DragAndDrop(this AutomationControl control, double deltaX, double deltaY)
     {
         ArgumentNullException.ThrowIfNull(control);
@@ -56,6 +58,7 @@ public static class AutomationControlExtensions
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
     }
 
+    [UserInteraction("Move mouse over")]
     public static void MouseHover(this AutomationControl control)
     {
         ArgumentNullException.ThrowIfNull(control);
@@ -65,6 +68,7 @@ public static class AutomationControlExtensions
         MouseInput.MoveTo(rect.GetClickablePoint());
     }
 
+    [UserInteraction("Move mouse out")]
     public static void MouseOut(this AutomationControl control)
     {
         ArgumentNullException.ThrowIfNull(control);
@@ -82,7 +86,7 @@ public static class AutomationControlExtensions
 
         control.Element.MouseClick(mouseButton);
     }
-
+ 
     public static object GetLeftTop(this AutomationControl control)
     {
         ArgumentNullException.ThrowIfNull(control);

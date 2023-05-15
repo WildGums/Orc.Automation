@@ -2,36 +2,69 @@
 
 using System;
 using System.Linq;
-using Gum.Controls.Automation.Tests;
+using System.Windows.Automation;
 using MethodBoundaryAspect.Fody.Attributes;
+using ScenarioManagement;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class UserInteractionAttribute : OnMethodBoundaryAspect
 {
     private readonly string _name;
+    private readonly bool _isTryInteraction;
 
-    public UserInteractionAttribute(string name)
+    private UserInteraction? _interaction;
+
+    public UserInteractionAttribute(string name = "", bool isTryInteraction = false)
     {
         _name = name;
+        _isTryInteraction = isTryInteraction;
     }
 
     public override void OnEntry(MethodExecutionArgs arg)
     {
-        if (arg.Instance is not AutomationControl element)
+        Wait.UntilResponsive();
+
+        AutomationElement? element = null;
+        if (arg.Instance is not AutomationControl control)
         {
-            element = arg.Arguments.FirstOrDefault() as AutomationControl;
-            if (element is null)
+            control = arg.Arguments.FirstOrDefault() as AutomationControl;
+            element = control?.Element;
+            if (control is null)
             {
-                return;
+                element = arg.Arguments.FirstOrDefault() as AutomationElement;
             }
         }
 
-        var interaction = new UserInteraction(_name, element.Element, element);
-        ScenarioManager.InvokeInteraction(interaction);
+        if (element is null)
+        {
+            return;
+        }
+
+        var methodName = arg.Method.Name;
+        if (_isTryInteraction)
+        {
+            methodName = methodName.Replace("Try", string.Empty);
+        }
+
+        var format = string.IsNullOrWhiteSpace(_name)
+            ? FunctionNameFormatHelper.FormatMethodName(methodName, arg.Arguments)
+            : _name;
+        var name = string.Format(format, arg.Arguments);
+        _interaction = new UserInteraction(name, element, control);
+        ScenarioManager.InvokeBeforeInteraction(_interaction);
     }
 
     public override void OnExit(MethodExecutionArgs arg)
     {
-        ScenarioManager.FinishCurrentStep();
+        if (_interaction is null)
+        {
+            return;
+        }
+
+        if (!_isTryInteraction || (_isTryInteraction && Equals(arg.ReturnValue, true)))
+        {
+            ScenarioManager.InvokeAfterInteraction(_interaction);
+            Wait.UntilResponsive();
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace Orc.Automation;
 
+using System;
 using System.Windows;
+using System.Windows.Interop;
 
 public static class DpiHelper
 {
@@ -11,5 +13,19 @@ public static class DpiHelper
         var dpi = resHeight / actualHeight;
 
         return dpi;
+    }
+
+    public static Point DevicePixelsToLogical(POINT devicePoint, IntPtr hwnd)
+    {
+        return DevicePixelsToLogical(new Point(devicePoint.X, devicePoint.Y), hwnd);
+    }
+
+    public static Point DevicePixelsToLogical(Point devicePoint, IntPtr hwnd)
+    {
+        var hwndSource = HwndSource.FromHwnd(hwnd);
+
+        return hwndSource?.CompositionTarget is null
+            ? devicePoint
+            : hwndSource.CompositionTarget.TransformFromDevice.Transform(devicePoint);
     }
 }

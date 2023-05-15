@@ -1,6 +1,10 @@
 ﻿namespace Orc.Automation;
 
+using System.Reflection;
+using System;
+using System.IO;
 using Recording;
+using System.Collections.Generic;
 
 public class AutomationInformerPeer : AutomationControlPeerBase<Controls.AutomationInformer>
 {

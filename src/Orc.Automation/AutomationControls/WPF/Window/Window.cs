@@ -1,4 +1,4 @@
-namespace Orc.Automation.Controls;
+﻿namespace Orc.Automation.Controls;
 
 using System;
 using System.Windows.Automation;
@@ -9,7 +9,7 @@ using Services;
 [Control(ControlTypeName = nameof(ControlType.Window))]
 public class Window : Window<WindowModel>
 {
-    public static AutomationElement MainWindow => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
+    public static AutomationElement? MainWindow => ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
         ?.MainWindow;
 
     public static TWindow WaitForWindow<TWindow>(string? id = null, string? name = null, int numberOfWaits = 10)

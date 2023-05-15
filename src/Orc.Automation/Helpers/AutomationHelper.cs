@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Automation;
 using Catel.IoC;
+using Catel.Reflection;
 
 public static class AutomationHelper
 {
@@ -18,7 +19,12 @@ public static class AutomationHelper
 
         return element.Current.ClassName.Contains(NameConventions.ActiveModelControlClassNameSuffix);
     }
-        
+
+    public static string GetActiveControlClassName(Type controlType)
+    {
+        return $"{controlType.GetSafeFullName()}{NameConventions.ActiveModelControlClassNameSuffix}";
+    }
+
     public static ControlType? GetControlType(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);

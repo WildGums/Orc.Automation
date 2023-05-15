@@ -1,34 +1,69 @@
-﻿namespace Orc.Automation.Tests;
+﻿#nullable enable
+namespace Orc.Automation.Tests;
 
 using System;
 using System.Linq;
-using Gum.Controls.Automation.Tests;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal.Commands;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
+using ScenarioManagement;
 
-public class ScenarioAttribute : NUnitAttribute, IWrapSetUpTearDown
+[AttributeUsage(AttributeTargets.Method)]
+public class ScenarioTestCaseAttribute : TestCaseAttribute, IWrapTestMethod
 {
     private readonly string _scenarioName;
-    private readonly string _description;
-    private readonly Type[] _loggerTypes;
 
-    public ScenarioAttribute(string scenarioName, string description = "", params Type[] loggerTypes)
+    public ScenarioTestCaseAttribute(string scenarioName, params object[] arguments)
+        : base(arguments)
     {
         _scenarioName = scenarioName;
-        _description = description;
-        _loggerTypes = loggerTypes;
     }
+
+    public string? ScenarioSuite { get; set; }
 
     public TestCommand Wrap(TestCommand command)
     {
-        var loggers = _loggerTypes?.Select(x => (IAutomationScenarioLogger)Activator.CreateInstance(x)).ToArray()
-                      ?? Array.Empty<IAutomationScenarioLogger>();
+        const string scenarioAlreadyRunKey = "ScenarioAlreadyRun";
 
-        var scenario = new AutomationScenario(_scenarioName, _description)
+        var testProperties = command.Test.Parent?.Properties;
+        if (testProperties?.ContainsKey(scenarioAlreadyRunKey) == true)
         {
-            Loggers = loggers
+            return command;
+        }
+
+        var description = string.Empty;
+        var loggers = Array.Empty<IAutomationScenarioLogger>();
+
+        if (testProperties is not null)
+        {
+            if (testProperties.ContainsKey(PropertyNames.Description))
+            {
+                description = testProperties[PropertyNames.Description]
+                    .OfType<string>()
+                    .FirstOrDefault() ?? string.Empty;
+            }
+
+            var logScenarioKey = typeof(LogScenarioAttribute<>).Name;
+            if (testProperties.ContainsKey(logScenarioKey))
+            {
+                loggers = testProperties[logScenarioKey]
+                    .OfType<IAutomationScenarioLogger>()
+                    .ToArray();
+            }
+
+            testProperties.Add(scenarioAlreadyRunKey, true);
+        }
+
+        var scenario = new AutomationScenario(_scenarioName, description)
+        {
+            Suite = ScenarioSuite
         };
+
+        foreach (var logger in loggers)
+        {
+            scenario.AddLogger(logger);
+        }
 
         return new ScenarioCommand(command, scenario);
     }
