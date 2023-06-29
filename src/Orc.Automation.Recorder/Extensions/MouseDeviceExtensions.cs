@@ -32,18 +32,6 @@ public static class MouseDeviceExtensions
         elementFromFilter = null;
         elementFromResult = null;
 
-        //var windowHandleUnderMouse = NativeMethods1.GetWindowUnderMouse();
-        //var windowUnderMouse = WindowHelper.GetVisibleWindow(windowHandleUnderMouse, dispatcher);
-
-        //if (windowUnderMouse is null)
-        //{
-        //    return false;
-        //}
-
-        //var mousePosition = NativeMethods1.TryGetRelativeMousePosition(windowHandleUnderMouse, out var nativeMousePosition)
-        //    ? DpiHelper.DevicePixelsToLogical(nativeMousePosition, windowHandleUnderMouse)
-        //    : Mouse.GetPosition(windowUnderMouse);
-
         var pointHitTestParameters = new PointHitTestParameters(mousePosition);
 
         UIElement? elementFromFilterLocal = null;
