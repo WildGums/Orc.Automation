@@ -12,10 +12,7 @@ public class TextAutomationScenarioLogger : IAutomationScenarioLogger
     public TextAutomationScenarioLogger()
     {
         _logRootDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "ScenarioLog");
-        if (!Directory.Exists(_logRootDirectory))
-        {
-            Directory.CreateDirectory(_logRootDirectory);
-        }
+        Directory.CreateDirectory(_logRootDirectory);
     }
 
     public void LogScenarioStart(AutomationScenario scenario)
@@ -30,7 +27,7 @@ public class TextAutomationScenarioLogger : IAutomationScenarioLogger
             File.Delete(logFilePath);
         }
             
-        File.AppendAllText(logFilePath, $"START: {scenario.Name}\r\n");
+        File.WriteAllText(logFilePath, $"START: {scenario.Name}\r\n");
     }
 
     public void LogScenarioFinish(AutomationScenario scenario)

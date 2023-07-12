@@ -1,26 +1,30 @@
 ﻿namespace Orc.Automation;
 
 using System.Linq;
+using System.Text;
 using Catel;
 
 public static class FunctionNameFormatHelper
 {
     public static string FormatMethodName(string methodName, params object[] args)
     {
-        var stepNameFormat = methodName.SplitCamelCase();
+        var stepNameBuilder = new StringBuilder(methodName.SplitCamelCase());
 
         if (args.Length > 0)
         {
-            stepNameFormat += " (";
+            stepNameBuilder.Append(" (");
         }
 
-        stepNameFormat += string.Join(",", Enumerable.Range(0, args.Length).Select(index => $"'{{{index}}}'"));
+        var argIndices = Enumerable.Range(0, args.Length)
+            .Select(index => $"'{{{index}}}'");
+
+        stepNameBuilder.AppendJoin(',', argIndices);
 
         if (args.Length > 0)
         {
-            stepNameFormat += ")";
+            stepNameBuilder.Append(")");
         }
 
-        return stepNameFormat;
+        return stepNameBuilder.ToString();
     }
 }

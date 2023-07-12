@@ -3,6 +3,7 @@
 using System;
 using System.Windows;
 using System.Windows.Interop;
+using Win32;
 
 public static class DpiHelper
 {

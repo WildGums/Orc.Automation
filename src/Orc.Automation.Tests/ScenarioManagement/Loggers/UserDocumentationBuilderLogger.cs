@@ -15,16 +15,14 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
 {
 #pragma warning disable IDISP006 // Implement IDisposable
     private readonly string _documentationRootDirectory;
+
     private Bitmap? _bitmap;
 #pragma warning restore IDISP006 // Implement IDisposable
 
     public UserDocumentationBuilderLogger()
     {
         _documentationRootDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "GeneratedDocumentation");
-        if (!Directory.Exists(_documentationRootDirectory))
-        {
-            Directory.CreateDirectory(_documentationRootDirectory);
-        }
+        Directory.CreateDirectory(_documentationRootDirectory);
     }
 
     public void LogScenarioStart(AutomationScenario scenario)
@@ -147,7 +145,7 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
         }
         catch (Exception ex)
         {
-            Console.Write(ex.ToString());
+            TestContext.Out.WriteLine(ex.ToString());
         }
 
         return null;
@@ -159,10 +157,7 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
             ? _documentationRootDirectory
             : Path.Combine(_documentationRootDirectory, scenario.Suite);
 
-        if (!Directory.Exists(scenarioGroupDirectory))
-        {
-            Directory.CreateDirectory(scenarioGroupDirectory);
-        }
+        Directory.CreateDirectory(scenarioGroupDirectory);
 
         var scenarioDirectory = Path.Combine(scenarioGroupDirectory, scenario.Name);
         if (checkExistence && !Directory.Exists(scenarioDirectory))

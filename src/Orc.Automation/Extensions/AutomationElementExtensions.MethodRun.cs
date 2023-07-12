@@ -3,7 +3,7 @@
 using System;
 using System.Windows.Automation;
 
-public partial class AutomationElementExtensions
+public static partial class AutomationElementExtensions
 {
     public static bool TryGetPropertyValue<TPropertyValueType>(this AutomationElement element, string propertyName, out TPropertyValueType value)
     {

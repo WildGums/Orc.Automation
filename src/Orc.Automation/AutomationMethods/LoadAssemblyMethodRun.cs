@@ -63,22 +63,26 @@ public class LoadAssemblyMethodRun : NamedAutomationMethodRun
                 Console.WriteLine(ex);
 
                 //TODO
-                try
-                {
-                    if (!string.IsNullOrWhiteSpace(rootDirectory))
-                    {
-                        LoadAssembly(Path.Combine(rootDirectory, referencedAssembly.Name + ".dll"));
-                    }
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-
-                    return;
-                }
+                HandleLoadAssemblyException(rootDirectory, referencedAssembly);
+                return;
             }
 
             _loadedAssemblyNames.Add(assemblyName.FullName);
+        }
+    }
+
+    private void HandleLoadAssemblyException(string? rootDirectory, AssemblyName referencedAssembly)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(rootDirectory))
+            {
+                LoadAssembly(Path.Combine(rootDirectory, $"{referencedAssembly.Name}.dll"));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
         }
     }
 }

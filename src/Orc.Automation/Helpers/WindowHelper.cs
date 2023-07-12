@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using Win32;
 
 public static class WindowHelper
 {
@@ -44,5 +45,16 @@ public static class WindowHelper
         }
 
         return null;
+    }
+
+    public static IntPtr GetWindowUnderMouse()
+    {
+        var pt = default(POINT);
+        if (User32.GetCursorPos(out pt))
+        {
+            return User32.WindowFromPoint(pt);
+        }
+
+        return IntPtr.Zero;
     }
 }

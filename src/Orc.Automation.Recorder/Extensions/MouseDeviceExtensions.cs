@@ -6,6 +6,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows;
+using Win32;
+using System;
+using Orc.Automation.Helpers;
 
 public static class MouseDeviceExtensions
 {
@@ -14,7 +17,7 @@ public static class MouseDeviceExtensions
 
     public static UIElement? GetDirectlyOver(this MouseDevice mouseDevice)
     {
-        if (TryGetElementAtMousePos(mouseDevice.Dispatcher, out var elementFromFilter, out var elementFromResult))
+        if (TryGetElementAtMousePosition(mouseDevice.Dispatcher, out var elementFromFilter, out var elementFromResult))
         {
             return elementFromFilter
                    ?? elementFromResult;
@@ -45,12 +48,12 @@ public static class MouseDeviceExtensions
                || elementFromResult is not null;
     }
 
-    private static bool TryGetElementAtMousePos(Dispatcher dispatcher, out UIElement? elementFromFilter, out UIElement? elementFromResult)
+    private static bool TryGetElementAtMousePosition(Dispatcher dispatcher, out UIElement? elementFromFilter, out UIElement? elementFromResult)
     {
         elementFromFilter = null;
         elementFromResult = null;
 
-        var windowHandleUnderMouse = NativeMethods1.GetWindowUnderMouse();
+        var windowHandleUnderMouse = WindowHelper.GetWindowUnderMouse();
         var windowUnderMouse = WindowHelper.GetVisibleWindow(windowHandleUnderMouse, dispatcher);
 
         if (windowUnderMouse is null)
@@ -58,7 +61,7 @@ public static class MouseDeviceExtensions
             return false;
         }
 
-        var mousePosition = NativeMethods1.TryGetRelativeMousePosition(windowHandleUnderMouse, out var nativeMousePosition)
+        var mousePosition = MouseHelper.TryGetRelativeMousePosition(windowHandleUnderMouse, out var nativeMousePosition)
             ? DpiHelper.DevicePixelsToLogical(nativeMousePosition, windowHandleUnderMouse)
             : Mouse.GetPosition(windowUnderMouse);
 

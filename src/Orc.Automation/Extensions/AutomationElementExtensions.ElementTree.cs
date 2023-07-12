@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Automation;
 using Controls;
 
-public partial class AutomationElementExtensions
+public static partial class AutomationElementExtensions
 {
     public static string? TryGetDisplayText(this AutomationElement element)
     {

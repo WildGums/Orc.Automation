@@ -7,7 +7,7 @@ using System.Windows.Automation;
 using System.Windows.Automation.Text;
 using Tests;
 
-public partial class AutomationElementExtensions
+public static partial class AutomationElementExtensions
 {
     #region Get Value
     public static T GetValue<T>(this AutomationElement element)
@@ -215,7 +215,7 @@ public partial class AutomationElementExtensions
         return element.RunPatternFunc<SelectionItemPattern, AutomationElement>(x => x.Current.SelectionContainer);
     }
 
-    [UserInteraction(isTryInteraction:true)]
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryAddToSelection(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -441,7 +441,7 @@ public partial class AutomationElementExtensions
         throw new AutomationException("Can't get toggle state");
     }
 
-    [UserInteraction(isTryInteraction:true)]
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryToggle(this AutomationElement element)
     {
         return element.TryRunPatternFunc<TogglePattern>(x => x.Toggle());
@@ -517,7 +517,7 @@ public partial class AutomationElementExtensions
         }
     }
 
-    [UserInteraction(isTryInteraction:true)]
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryExpand(this AutomationElement element)
     {
         return element.TryRunPatternFunc<ExpandCollapsePattern>(x => x.Expand());
@@ -570,7 +570,7 @@ public partial class AutomationElementExtensions
         element.RunPatternFunc<WindowPattern>(x => x.Close());
     }
 
-    [UserInteraction(isTryInteraction:true)]
+    [UserInteraction(isTryInteraction: true)]
     public static bool TryCloseWindow(this AutomationElement element)
     {
         return element.TryRunPatternFunc<WindowPattern>(x => x.Close());

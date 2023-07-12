@@ -16,8 +16,8 @@ public class AutomationScenarioStep
 
         Name = name;
         Description = description;
-        AutomationElement = /*element ??*/ Orc.Automation.Controls.Window.MainWindow; 
-        InteractionArea = AutomationElement?.Current.BoundingRectangle ?? Rect.Empty; //TODO: if null take window bounds
+        AutomationElement = element; 
+        InteractionArea = Controls.Window.MainWindow?.Current.BoundingRectangle ?? Rect.Empty;
 
         _interactions = new List<UserInteraction>();
     }

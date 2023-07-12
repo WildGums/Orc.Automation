@@ -27,16 +27,16 @@ public class ScenarioTestCaseAttribute : TestCaseAttribute, IWrapTestMethod
         const string scenarioAlreadyRunKey = "ScenarioAlreadyRun";
 
         var testProperties = command.Test.Parent?.Properties;
-        if (testProperties?.ContainsKey(scenarioAlreadyRunKey) == true)
-        {
-            return command;
-        }
-
         var description = string.Empty;
         var loggers = Array.Empty<IAutomationScenarioLogger>();
 
         if (testProperties is not null)
         {
+            if (testProperties.ContainsKey(scenarioAlreadyRunKey))
+            {
+                return command;
+            }
+
             if (testProperties.ContainsKey(PropertyNames.Description))
             {
                 description = testProperties[PropertyNames.Description]

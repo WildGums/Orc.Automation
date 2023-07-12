@@ -54,7 +54,7 @@ public class AutomationScenario
 
         CurrentStep?.AddInteraction(userInteraction);
 
-        foreach (var logger in Loggers)
+        foreach (var logger in _loggers)
         {
             logger.LogBeforeUserInteraction(userInteraction);
         }
@@ -64,7 +64,7 @@ public class AutomationScenario
     {
         ArgumentNullException.ThrowIfNull(userInteraction);
 
-        foreach (var logger in Loggers)
+        foreach (var logger in _loggers)
         {
             logger.LogAfterUserInteraction(userInteraction);
         }
@@ -78,7 +78,7 @@ public class AutomationScenario
 
         _runningSteps.Push(step);
         
-        foreach (var logger in Loggers)
+        foreach (var logger in _loggers)
         {
             logger.LogStepStart(step);
         }
@@ -93,7 +93,7 @@ public class AutomationScenario
 
         var finishingStep = _runningSteps.Pop();
 
-        foreach (var logger in Loggers)
+        foreach (var logger in _loggers)
         {
             logger.LogStepFinish(finishingStep);
         }
@@ -103,7 +103,7 @@ public class AutomationScenario
 
     public void Start()
     {
-        foreach (var logger in Loggers)
+        foreach (var logger in _loggers)
         {
             logger.LogScenarioStart(this);
         }
@@ -111,7 +111,7 @@ public class AutomationScenario
 
     public void Finish()
     {
-        foreach (var logger in Loggers)
+        foreach (var logger in _loggers)
         {
             logger.LogScenarioFinish(this);
         }

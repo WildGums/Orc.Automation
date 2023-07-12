@@ -1,5 +1,6 @@
 ﻿namespace Orc.Automation.ScenarioManagement;
 
+using System;
 using System.Windows;
 using System.Windows.Automation;
 using Catel;
@@ -10,6 +11,7 @@ public class UserInteraction
     public UserInteraction(string name, AutomationElement automationElement, AutomationControl? control = null)
     {
         Argument.IsNotNullOrEmpty(() => name);
+        ArgumentNullException.ThrowIfNull(automationElement);
 
         Name = name;
 

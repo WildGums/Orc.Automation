@@ -2,7 +2,6 @@
 
 using System;
 using System.Threading;
-using System.Windows.Automation;
 using Catel.IoC;
 using Services;
 using Win32;
@@ -48,7 +47,7 @@ public static class Wait
 
     public static bool UntilResponsive(IntPtr hWnd, TimeSpan timeout)
     {
-        var ret = User32.SendMessageTimeout(hWnd, WindowsMessages.WM_NULL,
+        var ret = User32.SendMessageTimeout(hWnd, WindowMessages.WM_NULL,
             UIntPtr.Zero, IntPtr.Zero, SendMessageTimeoutFlags.SMTO_NORMAL, (uint)timeout.TotalMilliseconds, out _);
         // There might be other things going on so do a small sleep anyway...
         // Other sources: http://blogs.msdn.com/b/oldnewthing/archive/2014/02/13/10499047.aspx

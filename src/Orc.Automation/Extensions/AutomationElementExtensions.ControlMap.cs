@@ -4,7 +4,7 @@ using System;
 using System.Windows.Automation;
 using Catel.IoC;
 
-public partial class AutomationElementExtensions
+public static partial class AutomationElementExtensions
 {
     public static TTemplate CreateControlMap<TTemplate>(this AutomationElement element)
     {

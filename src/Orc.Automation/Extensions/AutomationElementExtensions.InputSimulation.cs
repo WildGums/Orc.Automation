@@ -5,7 +5,7 @@ using System.Windows.Automation;
 using System.Windows.Input;
 using Tests;
 
-public partial class AutomationElementExtensions
+public static partial class AutomationElementExtensions
 {
     [UserInteraction]
     public static void MouseClick(this AutomationElement element, MouseButton mouseButton = MouseButton.Left)

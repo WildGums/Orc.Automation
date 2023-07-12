@@ -3,7 +3,6 @@
 using System;
 using System.Linq;
 using System.Windows.Automation;
-using Catel;
 using MethodBoundaryAspect.Fody.Attributes;
 using Orc.Automation;
 using ScenarioManagement;
@@ -27,7 +26,7 @@ public class ScenarioStepAttribute : OnMethodBoundaryAspect
     {
         Wait.UntilInputProcessed(EntryTimeOut);
 
-        AutomationElement? element = null;
+        AutomationElement? element;
         if (arg.Instance is not AutomationControl control)
         {
             control = arg.Arguments.FirstOrDefault() as AutomationControl;
