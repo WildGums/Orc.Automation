@@ -1,22 +1,26 @@
-﻿namespace Orc.Automation.Helpers;
+﻿namespace Orc.Automation;
 
 using System;
 using System.Diagnostics;
+using System.Windows;
 using Win32;
 
 public static class MouseHelper
 {
-    public static bool TryGetRelativeMousePosition(IntPtr hWnd, out POINT point)
+    public static bool TryGetRelativeMousePosition(IntPtr hWnd, out Point point)
     {
         point = default;
+        POINT devicePoint = default;
 
         var returnValue = hWnd != IntPtr.Zero
-                          && TryGetPhysicalCursorPos(out point);
+                          && TryGetPhysicalCursorPos(out devicePoint);
 
         if (returnValue)
         {
-            User32.ScreenToClient(hWnd, ref point);
+            User32.ScreenToClient(hWnd, ref devicePoint);
         }
+
+        point = new Point(devicePoint.X, devicePoint.Y);
 
         return returnValue;
     }

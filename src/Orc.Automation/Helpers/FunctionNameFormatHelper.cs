@@ -18,7 +18,7 @@ public static class FunctionNameFormatHelper
         var argIndices = Enumerable.Range(0, args.Length)
             .Select(index => $"'{{{index}}}'");
 
-        stepNameBuilder.AppendJoin(',', argIndices);
+        stepNameBuilder.AppendJoin(", ", argIndices);
 
         if (args.Length > 0)
         {

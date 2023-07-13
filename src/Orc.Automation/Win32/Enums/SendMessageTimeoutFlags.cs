@@ -3,7 +3,7 @@
 using System;
 
 [Flags]
-public enum SendMessageTimeoutFlags : uint
+internal enum SendMessageTimeoutFlags : uint
 {
     SMTO_NORMAL = 0x0,
     SMTO_BLOCK = 0x1,

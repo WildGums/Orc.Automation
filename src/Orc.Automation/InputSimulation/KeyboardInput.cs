@@ -17,6 +17,8 @@ using Win32;
 /// the left shift key is being held down.
 public static class KeyboardInput
 {
+    private static readonly Key[] UppercaseModifiers = { Key.LeftShift };
+
     public static void PressRelease(Key key)
     {
         Press(key);
@@ -89,7 +91,7 @@ public static class KeyboardInput
 
             if (keyIsShifted)
             {
-                Type(key, new[] { Key.LeftShift });
+                Type(key, UppercaseModifiers);
             }
             else
             {

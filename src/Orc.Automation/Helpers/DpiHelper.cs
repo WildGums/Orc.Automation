@@ -16,11 +16,6 @@ public static class DpiHelper
         return dpi;
     }
 
-    public static Point DevicePixelsToLogical(POINT devicePoint, IntPtr hwnd)
-    {
-        return DevicePixelsToLogical(new Point(devicePoint.X, devicePoint.Y), hwnd);
-    }
-
     public static Point DevicePixelsToLogical(Point devicePoint, IntPtr hwnd)
     {
         var hwndSource = HwndSource.FromHwnd(hwnd);

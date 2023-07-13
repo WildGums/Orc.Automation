@@ -3,7 +3,7 @@
 using System;
 
 [Flags]
-public enum SendMouseInputFlags
+internal enum SendMouseInputFlags
 {
     Move = 0x0001,
     LeftDown = 0x0002,

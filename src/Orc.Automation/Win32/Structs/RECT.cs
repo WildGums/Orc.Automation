@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
-public struct RECT
+internal struct RECT
 {
     public int Left;
     public int Top;

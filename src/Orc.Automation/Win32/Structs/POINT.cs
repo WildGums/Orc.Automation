@@ -10,7 +10,7 @@ using System.Windows;
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct POINT
+internal struct POINT
 {
     public int X;
     public int Y;

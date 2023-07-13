@@ -43,18 +43,23 @@ public static class MouseInput
             case MouseButton.Left:
                 SendMouseInput(0, 0, 0, SendMouseInputFlags.LeftDown);
                 break;
+
             case MouseButton.Right:
                 SendMouseInput(0, 0, 0, SendMouseInputFlags.RightDown);
                 break;
+
             case MouseButton.Middle:
                 SendMouseInput(0, 0, 0, SendMouseInputFlags.MiddleDown);
                 break;
+
             case MouseButton.XButton1:
                 SendMouseInput(0, 0, MouseInputTypes.XButton1, SendMouseInputFlags.XDown);
                 break;
+
             case MouseButton.XButton2:
                 SendMouseInput(0, 0, MouseInputTypes.XButton2, SendMouseInputFlags.XDown);
                 break;
+
             default:
                 throw new InvalidOperationException("Unsupported MouseButton input.");
         }

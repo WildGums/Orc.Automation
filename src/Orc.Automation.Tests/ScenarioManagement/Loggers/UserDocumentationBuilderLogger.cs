@@ -151,7 +151,7 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
         return null;
     }
 
-    private string GetScenarioDirectory(AutomationScenario scenario, bool checkExistence = true)
+    private string GetScenarioDirectory(AutomationScenario scenario, bool forceCreateScenarioDirectory = true)
     {
         var scenarioGroupDirectory = string.IsNullOrWhiteSpace(scenario.Suite)
             ? _documentationRootDirectory
@@ -160,7 +160,7 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
         Directory.CreateDirectory(scenarioGroupDirectory);
 
         var scenarioDirectory = Path.Combine(scenarioGroupDirectory, scenario.Name);
-        if (checkExistence && !Directory.Exists(scenarioDirectory))
+        if (forceCreateScenarioDirectory)
         {
             Directory.CreateDirectory(scenarioDirectory);
         }

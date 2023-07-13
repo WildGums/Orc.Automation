@@ -6,9 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows;
-using Win32;
-using System;
-using Orc.Automation.Helpers;
 
 public static class MouseDeviceExtensions
 {
