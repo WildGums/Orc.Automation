@@ -22,7 +22,7 @@ public class AutomationInformerPeer : AutomationControlPeerBase<Controls.Automat
 
         var items = EventListener.Events;
 
-        System.Windows.MessageBox.Show(items.Count.ToString() ?? string.Empty);
+        System.Windows.MessageBox.Show(items.Count.ToString());
 
         items.Clear();
     }

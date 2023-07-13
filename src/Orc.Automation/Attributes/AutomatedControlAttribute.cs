@@ -4,7 +4,7 @@ public class AutomatedControlAttribute : ControlAttribute
 {
     public override string ClassName
     {
-        get =>  $"{base.ClassName}{NameConventions.ActiveModelControlClassNameSuffix}";
+        get => $"{base.ClassName}{NameConventions.ActiveModelControlClassNameSuffix}";
         set => base.ClassName = value;
     }
 }

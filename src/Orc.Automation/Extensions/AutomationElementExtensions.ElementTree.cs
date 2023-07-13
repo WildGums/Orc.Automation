@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Automation;
 using Controls;
 
@@ -97,6 +98,25 @@ public static partial class AutomationElementExtensions
             yield return item;
 
             item = TreeWalker.ControlViewWalker.GetNextSibling(item);
+        }
+    }
+
+    public static IEnumerable<AutomationElement> GetDescendants(this AutomationElement containerElement)
+    {
+        ArgumentNullException.ThrowIfNull(containerElement);
+
+        var children = containerElement.GetChildElements().ToList();
+        while (children.Any())
+        {
+            var currentChild = children[0];
+            children.RemoveAt(0);
+
+            yield return currentChild;
+
+            foreach (var currentChildChild in currentChild.GetChildElements())
+            {
+                children.Add(currentChildChild);
+            }
         }
     }
 }

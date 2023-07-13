@@ -10,13 +10,11 @@ using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using Catel.Logging;
+using Win32;
 
 [TemplatePart(Name = "PART_HostGrid", Type = typeof(Grid))]
 public class TestHost : Control
 {
-    [DllImport("kernel32.dll")]
-    private static extern bool LoadLibraryA(string hModule);
-
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
     private readonly HashSet<string> _loadedAssemblyNames = new ();
@@ -83,7 +81,7 @@ public class TestHost : Control
 
     public void LoadUnmanaged(string path)
     {
-        LoadLibraryA(path);
+        Kernel32.LoadLibraryA(path);
     }
 
     public Assembly LoadAssembly(string assemblyPath)
@@ -130,7 +128,7 @@ public class TestHost : Control
                 {
                     if (!string.IsNullOrWhiteSpace(rootDirectory))
                     {
-                        LoadAssembly(Path.Combine(rootDirectory, referencedAssembly.Name + ".dll"));
+                        LoadAssembly(Path.Combine(rootDirectory, $"{referencedAssembly.Name}.dll"));
                     }
                 }
                 catch (Exception exception)

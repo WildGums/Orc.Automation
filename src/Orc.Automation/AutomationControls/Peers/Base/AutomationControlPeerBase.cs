@@ -23,7 +23,7 @@ public abstract class AutomationControlPeerBase<TControl> : AutomationControlPee
 
     protected override string GetClassNameCore()
     {
-        return $"{typeof(TControl).GetSafeFullName()}{NameConventions.ActiveModelControlClassNameSuffix}";
+        return AutomationHelper.GetActiveControlClassName(typeof(TControl));
     }
 
     [AutomationMethod]
