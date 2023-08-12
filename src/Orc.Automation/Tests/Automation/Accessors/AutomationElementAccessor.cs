@@ -65,7 +65,7 @@ public class AutomationElementAccessor
 
         if (_valuePattern is null)
         {
-            _accessElement = _accessElement.Find(className: typeof(Controls.AutomationInformer).FullName, scope:TreeScope.Parent);
+            _accessElement = _accessElement.Find(className: AutomationHelper.GetActiveControlClassName(typeof(Controls.AutomationInformer)), scope:TreeScope.Parent);
             _valuePattern = _accessElement?.TryGetPattern<ValuePattern>();
         }
 

@@ -244,7 +244,8 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
             {
                 currentTarget = _owner?.FindVisualDescendantWithAutomationId(handle) as FrameworkElement;
             }
-            else
+
+            if (currentTarget is null)
             {
                 var searchRectangle = method.SearchRectangle;
                 if (searchRectangle is not null)
