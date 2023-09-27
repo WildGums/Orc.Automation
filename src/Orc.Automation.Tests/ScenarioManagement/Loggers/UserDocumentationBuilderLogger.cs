@@ -10,6 +10,7 @@ using System.Windows;
 using Catel;
 using NUnit.Framework;
 using Orc.Automation;
+using Orc.Automation.Tests;
 
 public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
 {
@@ -36,8 +37,9 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
 
     public void LogStepStart(AutomationScenarioStep step)
     {
+        Wait.UntilResponsive(200);
 #pragma warning disable IDISP003 // Dispose previous before re-assigning
-        _bitmap = ScreenShot(step.InteractionArea);
+        _bitmap = ScreenshotHelper.CaptureScreen(step.InteractionArea);
 #pragma warning restore IDISP003 // Dispose previous before re-assigning
     }
 
@@ -88,7 +90,8 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
             }
         }
 
-        using var bitmap = ScreenShot(interactionArea);
+        Wait.UntilResponsive(200);
+        using var bitmap = ScreenshotHelper.CaptureScreen(interactionArea);
         var afterImagePath = Path.Combine(GetScenarioDirectory(currentScenario), $"after_{currentStepIndex}.jpg");
         bitmap?.Save(afterImagePath, ImageFormat.Jpeg);
     }
@@ -127,28 +130,6 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
 
         var indexHtmlPath = Path.Combine(GetScenarioDirectory(scenario), "Index.html");
         File.WriteAllText(indexHtmlPath, htmlStringBuilder.ToString());
-    }
-
-    private Bitmap? ScreenShot(Rect bounds)
-    {
-        try
-        {
-            Wait.UntilResponsive(200);
-
-            var captureBitmap = new Bitmap((int)bounds.Width, (int)bounds.Height, PixelFormat.Format32bppArgb);
-            var captureGraphics = Graphics.FromImage(captureBitmap);
-            captureGraphics.CopyFromScreen((int)bounds.X, (int)bounds.Y, 0, 0, new System.Drawing.Size((int)bounds.Width, (int)bounds.Height));
-
-            captureGraphics.Dispose();
-
-            return captureBitmap;
-        }
-        catch (Exception ex)
-        {
-            TestContext.Out.WriteLine(ex.ToString());
-        }
-
-        return null;
     }
 
     private string GetScenarioDirectory(AutomationScenario scenario, bool forceCreateScenarioDirectory = true)
