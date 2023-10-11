@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation;
 
 using System.Windows.Automation;
-using System.Windows.Markup;
 using Controls;
 
 [AutomatedControl(Class = typeof(Controls.AutomationInformer))]
