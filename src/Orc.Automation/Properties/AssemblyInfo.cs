@@ -11,8 +11,9 @@ using System.Windows.Markup;
 [assembly: NeutralResourcesLanguage("en-US")]
 
 [assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/automation", "orcautomation")]
+[assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/automation/controls", "orcautomationcontrols")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation")]
-[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation.Controls")]
+[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation/controls", "Orc.Automation.Controls")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation.Converters")]
 
 [assembly: ThemeInfo(
