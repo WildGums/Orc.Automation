@@ -1,32 +1,33 @@
 ﻿<Window x:Class="Orc.Automation.Host.Views.MainWindow"
-              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-              xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
-              xmlns:controls="clr-namespace:Orc.Automation.Controls;assembly=Orc.Automation"
-              Height="900" Width="1000"
-              AutomationProperties.AutomationId="AutomationHost"> 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
+        xmlns:controls="clr-namespace:Orc.Automation;assembly=Orc.Automation"
+        Height="900"
+        Width="1000"
+        AutomationProperties.AutomationId="AutomationHost">
 
-    <controls:AutomationInformer>
+    <orcautomation:AutomationInformer>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Button Content="Load..."
-                    Click="OnLoad"/>
+                    Click="OnLoad" />
 
-            <orcautomation:TestHost x:Name="TestHost"
-                                    Grid.Row="1"
-                                    AutomationProperties.AutomationId="TestHostId"/>
+            <controls:TestHost x:Name="TestHost"
+                               Grid.Row="1"
+                               AutomationProperties.AutomationId="TestHostId" />
 
             <TextBlock Grid.Row="2">
-                <Run x:Name="MouseXPositionRun"/>
-                <Run Text=" - "/>
-                <Run x:Name="MouseYPositionRun"/>
+                <Run x:Name="MouseXPositionRun" />
+                <Run Text=" - " />
+                <Run x:Name="MouseYPositionRun" />
             </TextBlock>
         </Grid>
-    </controls:AutomationInformer>
+    </orcautomation:AutomationInformer>
 
 </Window>
