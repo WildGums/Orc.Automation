@@ -25,7 +25,7 @@
             Setup = SetupAutomationService?.Setup(ExecutablePath, FindMainWindowCondition, Args);
 #pragma warning disable IDISP003 // Don't ignore created IDisposable.
 
-            Assert.IsNotNull(Setup);
+            Assert.That(Setup, Is.Not.Null);
         }
 
         [OneTimeTearDown]
