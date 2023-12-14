@@ -1,155 +1,164 @@
-﻿namespace Orc.Automation.Recorder.ViewModels
+﻿namespace Orc.Automation.Recorder.ViewModels;
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Automation;
+using Catel.MVVM;
+using Services;
+
+public class MainViewModel : ViewModelBase
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.Windows.Automation;
-    using Automation;
-    using Catel.MVVM;
+    private bool _inProcess = false;
+    private AutomationElement _window;
 
-    public class MainViewModel : ViewModelBase
+    private IntPtr _handler;
+
+    public MainViewModel()
     {
-        private bool _inProcess = false;
+        Start = new Command(OnStart, CanStart);
+        Pause = new Command(OnPause, CanPause);
+        Stop = new Command(OnStop, CanStop);
 
-        public MainViewModel()
+        Send = new Command(OnSend, CanSend);
+        Comment = new Command(OnComment, CanComment);
+
+        RefreshCandidatesList = new Command(OnRefreshCandidatesList);
+    }
+
+    public string Message { get; set; }
+    public string CommentText { get; set; }
+
+    public int? SelectedCandidateHandler { get; set; }
+    public List<int> CandidateList { get; private set; }
+
+    public Command Start { get; }
+    public Command Pause { get; }
+    public Command Stop { get; }
+    public Command Send { get; }
+    public Command Comment { get; }
+    public Command RefreshCandidatesList { get; }
+
+    private void OnMessageChanged()
+    {
+        Send?.RaiseCanExecuteChanged();
+    }
+
+    private void OnCommentTextChanged()
+    {
+        Comment?.RaiseCanExecuteChanged();
+    }
+
+    private void OnRefreshCandidatesList()
+    {
+        CandidateList = new List<int>();
+
+        var searchClassName = AutomationHelper.GetActiveControlClassName(typeof(Controls.AutomationInformer));
+
+        //TODO: Use Find<> function...but this is faster for now
+        foreach (var element in AutomationElement.RootElement.GetChildElements()
+                     .Where(x => x.Current.FrameworkId == "WPF"))
         {
-            Start = new Command(OnStart, CanStart);
-            Pause = new Command(OnPause, CanPause);
-            Stop = new Command(OnStop, CanStop);
-
-            Send = new Command(OnSend, CanSend);
-            Comment = new Command(OnComment, CanComment);
-
-            RefreshCandidatesList = new Command(OnRefreshCandidatesList);
-        }
-
-        public string Message { get; set; }
-        public string CommentText { get; set; }
-
-        public int? SelectedCandidateHandler { get; set; }
-        public List<int> CandidateList { get; private set; }
-
-        public Command Start { get; }
-        public Command Pause { get; }
-        public Command Stop { get; }
-
-        public Command Send { get; }
-        public Command Comment { get; }
-        public Command RefreshCandidatesList { get; }
-
-        private void OnMessageChanged()
-        {
-            Send?.RaiseCanExecuteChanged();
-        }
-
-        private void OnCommentTextChanged()
-        {
-            Comment?.RaiseCanExecuteChanged();
-        }
-
-        private void OnRefreshCandidatesList()
-        {
-            CandidateList = new List<int>();
-
-            //TODO: Use Find<> function...but this is faster for now
-            foreach (var element in AutomationElement.RootElement.GetChildElements()
-                         .Where(x => x.Current.FrameworkId == "WPF"))
+            var children = element.GetChildElements().ToList();
+            if (children.Any(x => x.Current.ClassName == searchClassName))
             {
-                var children = element.GetChildElements().ToList();
-                if (children.Any(x => x.Current.ClassName == "Orc.Automation.Controls.AutomationInformer"))
-                {
-                    CandidateList.Add(element.Current.NativeWindowHandle);
-                }
+                CandidateList.Add(element.Current.NativeWindowHandle);
             }
         }
+    }
 
-        private void OnStart()
+    private void OnStart()
+    {
+        var selectedCandidateHandler = SelectedCandidateHandler;
+        if (selectedCandidateHandler is null)
         {
-            var selectedCandidateHandler = SelectedCandidateHandler;
-            if (selectedCandidateHandler is null)
-            {
-                return;
-            }
-
-            _inProcess = true;
-
-            var handler = new IntPtr(selectedCandidateHandler.Value);
-            var window = AutomationElement.FromHandle(handler);
-            var informer = window.Find<AutomationInformer>();
-            informer.StartRecord();
-
-            var items = informer.Element.FindAll(controlType: ControlType.Button).ToList();
-
-            RaiseCanExecute();
+            return;
         }
 
-        private bool CanStart()
+        _inProcess = true;
+
+        _handler = new IntPtr(selectedCandidateHandler.Value);
+        _window = AutomationElement.FromHandle(_handler);
+        var informer = _window.Find<AutomationInformer>();
+        informer.StartRecord();
+
+        BuildTree(informer);
+
+        RaiseCanExecute();
+    }
+
+    private bool CanStart()
+    {
+        return !_inProcess && SelectedCandidateHandler is not null;
+    }
+
+    private void BuildTree(AutomationInformer informer)
+    {
+        var service = new TreeBuilderService();
+        service.Build(informer);
+    }
+
+    private void OnPause()
+    {
+        _inProcess = false;
+
+        RaiseCanExecute();
+    }
+
+    private bool CanPause()
+    {
+        return _inProcess;
+    }
+
+    private void OnStop()
+    {
+        _inProcess = false;
+
+        var selectedCandidateHandler = SelectedCandidateHandler;
+        if (selectedCandidateHandler is null)
         {
-            return !_inProcess && SelectedCandidateHandler is not null;
+            return;
         }
 
-        private void OnPause()
-        {
-            _inProcess = false;
+        var handler = new IntPtr(selectedCandidateHandler.Value);
 
-            RaiseCanExecute();
-        }
+        var window = AutomationElement.FromHandle(handler);
+        var informer = window.Find<AutomationInformer>();
 
-        private bool CanPause()
-        {
-            return _inProcess;
-        }
+        informer.StopRecord();
 
-        private void OnStop()
-        {
-            _inProcess = false;
+        RaiseCanExecute();
+    }
 
-            var selectedCandidateHandler = SelectedCandidateHandler;
-            if (selectedCandidateHandler is null)
-            {
-                return;
-            }
+    private bool CanStop()
+    {
+        return _inProcess;
+    }
 
-            var handler = new IntPtr(selectedCandidateHandler.Value);
-
-            var window = AutomationElement.FromHandle(handler);
-            var informer = window.Find<AutomationInformer>();
-
-            informer.StopRecord();
-
-            RaiseCanExecute();
-        }
-
-        private bool CanStop()
-        {
-            return _inProcess;
-        }
-
-        private void OnComment()
-        {
+    private void OnComment()
+    {
             
-        }
+    }
 
-        private bool CanComment()
-        {
-            return !string.IsNullOrWhiteSpace(CommentText);
-        }
+    private bool CanComment()
+    {
+        return !string.IsNullOrWhiteSpace(CommentText);
+    }
 
-        private void OnSend()
-        {
+    private void OnSend()
+    {
             
-        }
+    }
 
-        private bool CanSend()
-        {
-            return !string.IsNullOrWhiteSpace(Message);
-        }
+    private bool CanSend()
+    {
+        return !string.IsNullOrWhiteSpace(Message);
+    }
 
-        private void RaiseCanExecute()
-        {
-            Start.RaiseCanExecuteChanged();
-            Stop.RaiseCanExecuteChanged();
-            Pause.RaiseCanExecuteChanged();
-        }
+    private void RaiseCanExecute()
+    {
+        Start.RaiseCanExecuteChanged();
+        Stop.RaiseCanExecuteChanged();
+        Pause.RaiseCanExecuteChanged();
     }
 }

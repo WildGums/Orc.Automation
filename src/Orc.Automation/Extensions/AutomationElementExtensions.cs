@@ -1,36 +1,27 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Windows.Automation;
+using Catel.IoC;
+
+public static partial class AutomationElementExtensions
 {
-    using System.Windows.Automation;
-    using Catel;
-    using Catel.IoC;
-
-    public static partial class AutomationElementExtensions
+    public static TAutomationControl As<TAutomationControl>(this AutomationElement element)
     {
-        public static TAutomationControl As<TAutomationControl>(this AutomationElement element)
-        {
-            Argument.IsNotNull(() => element);
+        ArgumentNullException.ThrowIfNull(element);
 
-            return element.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TAutomationControl>(element);
-        }
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+        return element.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TAutomationControl>(element);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
+    }
 
-        public static bool IsVisible(this AutomationElement element)
-        {
-            if (element is null)
-            {
-                return false;
-            }
+    public static bool IsVisible(this AutomationElement element)
+    {
+        return !IsOffscreen(element);
+    }
 
-            return !IsOffscreen(element);
-        }
-
-        public static bool IsOffscreen(this AutomationElement element)
-        {
-            if (element is null)
-            {
-                return true;
-            }
-
-            return (bool)element.GetCurrentPropertyValue(AutomationElement.IsOffscreenProperty);
-        }
+    public static bool IsOffscreen(this AutomationElement element)
+    {
+        return (bool)element.GetCurrentPropertyValue(AutomationElement.IsOffscreenProperty);
     }
 }

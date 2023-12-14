@@ -1,11 +1,14 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+
+public static class AutomationBaseExtensions
 {
-    public static class AutomationBaseExtensions
+    public static bool IsVisible(this AutomationBase element)
     {
-        public static bool IsVisible(this AutomationBase element)
-        {
-            //Automation can't find element if it's not visible, so no checks for null
-            return element is not null && element.Element.IsVisible();
-        }
+        ArgumentNullException.ThrowIfNull(element);
+
+        //Automation can't find element if it's not visible, so no checks for null
+        return element.Element.IsVisible();
     }
 }

@@ -1,17 +1,16 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Windows.Automation;
+
+[Control(ControlTypeName = nameof(ControlType.Tree))]
+public class Tree : FrameworkElement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Automation;
-
-    [Control(ControlTypeName = nameof(ControlType.Tree))]
-    public class Tree : FrameworkElement
+    public Tree(AutomationElement element)
+        : base(element, ControlType.Tree)
     {
-        public Tree(AutomationElement element)
-            : base(element, ControlType.Tree)
-        {
-        }
-
-        public IReadOnlyList<TreeItem> ChildItems => (IReadOnlyList<TreeItem>)By.Scope(TreeScope.Children).Many<TreeItem>() ?? Array.Empty<TreeItem>();
     }
+
+    public IReadOnlyList<TreeItem> ChildItems => (IReadOnlyList<TreeItem>)By.Scope(TreeScope.Children).Many<TreeItem>() ?? Array.Empty<TreeItem>();
 }

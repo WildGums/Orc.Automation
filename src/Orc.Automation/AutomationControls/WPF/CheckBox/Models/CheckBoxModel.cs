@@ -1,11 +1,10 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation;
+
+[ActiveAutomationModel]
+public class CheckBoxModel : ToggleButtonModel
 {
-    [ActiveAutomationModel]
-    public class CheckBoxModel : ToggleButtonModel
+    public CheckBoxModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public CheckBoxModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
     }
 }

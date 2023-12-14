@@ -1,146 +1,145 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Automation;
+using Catel;
+
+[Control(ControlTypeName = nameof(ControlType.ComboBox)/*, ClassName = "ComboBox"*/)]
+public class ComboBox : FrameworkElement<ComboBoxModel>
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Automation;
-    using Catel;
-
-    [Control(ControlTypeName = nameof(ControlType.ComboBox)/*, ClassName = "ComboBox"*/)]
-    public class ComboBox : FrameworkElement<ComboBoxModel>
+    public ComboBox(AutomationElement element) 
+        : base(element/*, ControlType.ComboBox*/)
     {
-        public ComboBox(AutomationElement element) 
-            : base(element/*, ControlType.ComboBox*/)
-        {
-        }
+    }
 
-        public string Text
+    public string Text
+    {
+        get
         {
-            get
+            if (Element.TryGetValue(out string value))
             {
-                if (Element.TryGetValue(out string value))
-                {
-                    return value;
-                }
-
-                return Element.TryGetDisplayText();
+                return value;
             }
 
-            set
+            return Element.TryGetDisplayText();
+        }
+
+        set
+        {
+            if (!Element.TrySetValue(value))
             {
-                if (!Element.TrySetValue(value))
-                {
-                    this.SelectValue(value);
-                }
+                this.SelectValue(value);
             }
         }
+    }
 
-        public int SelectedIndex
+    public int SelectedIndex
+    {
+        get
         {
-            get
+            var selectedItem = Items.FirstOrDefault(x => x.GetIsSelected());
+            if (selectedItem is null)
             {
-                var selectedItem = Items.FirstOrDefault(x => x.GetIsSelected());
-                if (selectedItem is null)
-                {
-                    return -1;
-                }
-
-                //TODO:It was quick solution, not all IReadOnlyLists should be ILists
-                return ((IList<AutomationElement>)Items).IndexOf(selectedItem);
+                return -1;
             }
 
-            set
+            //TODO:It was quick solution, not all IReadOnlyLists should be ILists
+            return ((IList<AutomationElement>)Items).IndexOf(selectedItem);
+        }
+
+        set
+        {
+            var items = Items;
+            if (value >= items.Count || value < 0)
             {
-                var items = Items;
-                if (value >= items.Count || value < 0)
-                {
-                    return;
-                }
-
-                var item = items[value];
-                InvokeInExpandState(() => item.Select());
-            }
-        }
-
-        public AutomationElement SelectedItem
-        {
-            get => InvokeInExpandState(() => Element.GetSelection()?.FirstOrDefault());
-            set => InvokeInExpandState(() => value?.Select());
-        }
-
-        public AutomationElement Select(int index)
-        {
-            return Element.TrySelectItem(index, out var element) ? element : null;
-        }
-
-        public bool IsExpanded
-        {
-            get => Element.GetIsExpanded();
-            set
-            {
-                var isExpanded = IsExpanded;
-                if (Equals(isExpanded, value))
-                {
-                    return;
-                }
-
-                if (value)
-                {
-                    Element.Expand();
-                }
-                else
-                {
-                    Element.Collapse();
-                }
-            }
-        }
-
-        public TResult InvokeInExpandState<TResult>(Func<TResult> func)
-        {
-            if (IsExpanded)
-            {
-                return func.Invoke();
+                return;
             }
 
-            using (new DisposableToken<ComboBox>(this, 
-                x =>
-                {
-                    x.Instance.IsExpanded = true;
-                    Wait.UntilResponsive();
-                }, 
-                x =>
-                {
-                    x.Instance.IsExpanded = false;
-                    Wait.UntilResponsive();
-                }))
+            var item = items[value];
+            InvokeInExpandState(() => item.Select());
+        }
+    }
+
+    public AutomationElement SelectedItem
+    {
+        get => InvokeInExpandState(() => Element.GetSelection()?.FirstOrDefault());
+        set => InvokeInExpandState(() => value?.Select());
+    }
+
+    public AutomationElement Select(int index)
+    {
+        return Element.TrySelectItem(index, out var element) ? element : null;
+    }
+
+    public bool IsExpanded
+    {
+        get => Element.GetIsExpanded();
+        set
+        {
+            var isExpanded = IsExpanded;
+            if (Equals(isExpanded, value))
             {
-                return func.Invoke();
+                return;
+            }
+
+            if (value)
+            {
+                Element.Expand();
+            }
+            else
+            {
+                Element.Collapse();
             }
         }
+    }
 
-        public void InvokeInExpandState(Action action)
+    public TResult InvokeInExpandState<TResult>(Func<TResult> func)
+    {
+        if (IsExpanded)
         {
-            InvokeInExpandState(() =>
-            {
-                action?.Invoke();
-                return true;
-            });
+            return func.Invoke();
         }
 
-        //TODO: Just return automation elements
-        public IReadOnlyList<AutomationElement> Items
+        using (new DisposableToken<ComboBox>(this, 
+                   x =>
+                   {
+                       x.Instance.IsExpanded = true;
+                       Wait.UntilResponsive();
+                   }, 
+                   x =>
+                   {
+                       x.Instance.IsExpanded = false;
+                       Wait.UntilResponsive();
+                   }))
         {
-            get
-            {
-                //To get items we need to expand combobox first, otherwise it won't work
-                return InvokeInExpandState(() => (IReadOnlyList<AutomationElement>)By.ControlType(ControlType.ListItem).Many());
-            }
+            return func.Invoke();
         }
+    }
 
-        public IReadOnlyList<T> GetItemsOfType<T>()
-            where T : AutomationControl
+    public void InvokeInExpandState(Action action)
+    {
+        InvokeInExpandState(() =>
         {
-            return InvokeInExpandState(() => By.Many<T>());
+            action?.Invoke();
+            return true;
+        });
+    }
+
+    //TODO: Just return automation elements
+    public IReadOnlyList<AutomationElement> Items
+    {
+        get
+        {
+            //To get items we need to expand combobox first, otherwise it won't work
+            return InvokeInExpandState(() => (IReadOnlyList<AutomationElement>)By.ControlType(ControlType.ListItem).Many());
         }
+    }
+
+    public IReadOnlyList<T> GetItemsOfType<T>()
+        where T : AutomationControl
+    {
+        return InvokeInExpandState(() => By.Many<T>());
     }
 }

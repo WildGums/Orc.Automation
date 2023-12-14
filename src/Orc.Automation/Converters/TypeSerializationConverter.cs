@@ -1,31 +1,31 @@
-﻿namespace Orc.Automation.Converters
-{
-    using System;
+﻿namespace Orc.Automation.Converters;
 
-    public class SerializableType
+using System;
+using Catel.Reflection;
+
+public class SerializableType
+{
+    public string FullName { get; set; }
+}
+
+public class TypeSerializationConverter : SerializationValueConverterBase<Type, SerializableType>
+{
+    public override object? ConvertFrom(Type value)
     {
-        public string FullName { get; set; }
+        return new SerializableType
+        {
+            FullName = value?.GetSafeFullName()
+        };
     }
 
-    public class TypeSerializationConverter : SerializationValueConverterBase<Type, SerializableType>
+    public override object? ConvertTo(SerializableType value)
     {
-        public override object ConvertFrom(Type value)
+        var fullName = value?.FullName;
+        if (string.IsNullOrWhiteSpace(fullName))
         {
-            return new SerializableType
-            {
-                FullName = value?.FullName
-            };
+            return null;
         }
 
-        public override object ConvertTo(SerializableType value)
-        {
-            var fullName = value?.FullName;
-            if (string.IsNullOrWhiteSpace(fullName))
-            {
-                return null;
-            }
-
-            return TypeHelper.GetTypeByName(fullName);
-        }
+        return Orc.Automation.TypeHelper.GetTypeByName(fullName);
     }
 }

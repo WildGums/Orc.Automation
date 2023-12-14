@@ -1,23 +1,30 @@
 ﻿namespace Orc.Automation;
 
+using System;
 using System.Windows;
 using Automation;
 
 public class SearchContextFinder : ConditionalPartFinderBase
 {
-    public static SearchContextFinder Create(SearchContext searchContext) => new()
+    private SearchContextFinder(FinderSearchContext finderSearchContext)
     {
-        SearchContext = new FinderSearchContext
-        {
-            Name = searchContext.Name,
-            ClassName = searchContext.ClassName
-        }
-    };
+        ArgumentNullException.ThrowIfNull(finderSearchContext);
+
+        SearchContext = finderSearchContext;
+    }
+
+    public static SearchContextFinder Create(SearchContext searchContext) => new(new FinderSearchContext
+    {
+        Name = searchContext.Name,
+        ClassName = searchContext.ClassName
+    });
 
     public FinderSearchContext SearchContext { get; set; }
 
     protected override bool IsMatch(object descendant)
     {
+        ArgumentNullException.ThrowIfNull(descendant);
+
         var isMatch = true;
 
         var name = SearchContext.Name;

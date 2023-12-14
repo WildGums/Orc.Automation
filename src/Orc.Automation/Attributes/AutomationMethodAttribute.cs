@@ -1,9 +1,8 @@
-﻿namespace Orc.Automation
-{
-    using System;
+﻿namespace Orc.Automation;
 
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AutomationMethodAttribute : Attribute
-    {
-    }
+using System;
+
+[AttributeUsage(AttributeTargets.Method)]
+public class AutomationMethodAttribute : Attribute
+{
 }

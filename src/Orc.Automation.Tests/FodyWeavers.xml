@@ -15,4 +15,5 @@
   <MethodTimer />
   <Obsolete />
   <Catel />
+  <MethodBoundaryAspect/>
 </Weavers>

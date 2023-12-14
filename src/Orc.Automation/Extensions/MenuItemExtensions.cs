@@ -1,19 +1,24 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Linq;
+using Controls;
+
+public static class MenuItemExtensions
 {
-    using System.Linq;
-    using Catel;
-    using Orc.Automation.Controls;
-
-    public static class MenuItemExtensions
+    public static MenuItem Select(this MenuItem menuItem, string header)
     {
-        public static void Select(this MenuItem menuItem, string header)
-        {
-            Argument.IsNotNull(() => menuItem);
+        return Select(menuItem, x => Equals(x.Element.TryGetDisplayText(), header));
+    }
 
-            var items = menuItem.Items;
+    public static MenuItem Select(this MenuItem menuItem, Func<MenuItem, bool> predicate)
+    {
+        ArgumentNullException.ThrowIfNull(menuItem);
+        var items = menuItem.Items;
 
-            var childMenuItem = items?.FirstOrDefault(x => Equals(x.Element.TryGetDisplayText(), header));
-            childMenuItem?.Click();
-        }
+        var childMenuItem = items?.FirstOrDefault(predicate);
+        childMenuItem?.Click();
+
+        return childMenuItem;
     }
 }

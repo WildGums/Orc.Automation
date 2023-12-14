@@ -1,31 +1,37 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows;
+
+public class AttachBehaviorMethodRun : IAutomationMethodRun
 {
-    using System;
-    using System.Windows;
+    public const string AttachBehaviorMethodPrefix = "AttachBehavior";
 
-    public class AttachBehaviorMethodRun : IAutomationMethodRun
+    public bool IsMatch(FrameworkElement owner, AutomationMethod method)
     {
-        public const string AttachBehaviorMethodPrefix = "AttachBehavior";
+        ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(method);
 
-        public bool IsMatch(FrameworkElement owner, AutomationMethod method)
-        {
-            var commandName = method?.Name;
-            return commandName?.StartsWith(AttachBehaviorMethodPrefix) ?? false;
-        }
+        var commandName = method.Name;
+        return commandName.StartsWith(AttachBehaviorMethodPrefix);
+    }
 
-        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
-        {
-            var value = method.Parameters[0].ExtractValue() as Type;
+    public bool TryInvoke(FrameworkElement owner, AutomationMethod method, [NotNullWhen(true)]out AutomationValue? result)
+    {
+        ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(method);
 
-            //TODO:Vladimir: just create non generic method in orc.theming
-            var methodInfo = typeof(FrameworkElementExtensions).GetMethod("AttachBehavior");
+        var value = method.Parameters[0].ExtractValue() as Type;
 
-            var genericMethod = methodInfo.MakeGenericMethod(value);
-            genericMethod.Invoke(null, new[] { owner }); // No target, no arguments
+        //TODO:Vladimir: just create non generic method in orc.theming
+        var methodInfo = typeof(FrameworkElementExtensions).GetMethod("AttachBehavior");
 
-            result = null;
+        var genericMethod = methodInfo.MakeGenericMethod(value);
+        genericMethod.Invoke(null, new[] { owner }); // No target, no arguments
 
-            return true;
-        }
+        result = null;
+
+        return true;
     }
 }

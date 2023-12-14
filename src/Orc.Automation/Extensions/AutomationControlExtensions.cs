@@ -1,99 +1,111 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Automation;
+
+using System;
+using System.Windows;
+using System.Windows.Automation;
+using System.Windows.Input;
+using Catel.IoC;
+using Tests;
+
+public static class AutomationControlExtensions
 {
-    using System.Windows;
-    using System.Windows.Automation;
-    using System.Windows.Input;
-    using Catel;
-    using Catel.IoC;
-
-    public static class AutomationControlExtensions
+    [UserInteraction]
+    public static void DragAndDrop(this AutomationControl control, Point destinationPoint)
     {
-        public static void DragAndDrop(this AutomationControl control, Point destinationPoint)
-        {
-            control.MouseHover();
+        ArgumentNullException.ThrowIfNull(control);
 
-            Wait.UntilResponsive(500);
+        control.MouseHover();
 
-            MouseInput.Down();
+        Wait.UntilResponsive(500);
 
-            Wait.UntilResponsive(500);
+        MouseInput.Down();
 
-            MouseInput.MoveTo(destinationPoint);
+        Wait.UntilResponsive(500);
 
-            Wait.UntilResponsive(500);
+        MouseInput.MoveTo(destinationPoint);
 
-            MouseInput.Up();
-        }
+        Wait.UntilResponsive(500);
 
-        public static void DragAndDrop(this AutomationControl control, double deltaX, double deltaY)
-        {
-            control.MouseHover();
+        MouseInput.Up();
+    }
 
-            Wait.UntilResponsive(500);
+    [UserInteraction]
+    public static void DragAndDrop(this AutomationControl control, double deltaX, double deltaY)
+    {
+        ArgumentNullException.ThrowIfNull(control);
 
-            MouseInput.Down();
+        control.MouseHover();
 
-            Wait.UntilResponsive(500);
+        Wait.UntilResponsive(500);
 
-            MouseInput.Move(deltaX, deltaY);
+        MouseInput.Down();
 
-            Wait.UntilResponsive(500);
+        Wait.UntilResponsive(500);
 
-            MouseInput.Up();
-        }
+        MouseInput.Move(deltaX, deltaY);
 
-        public static TAutomationControl As<TAutomationControl>(this AutomationControl control)
-        {
-            Argument.IsNotNull(() => control);
+        Wait.UntilResponsive(500);
 
-            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TAutomationControl>(control.Element);
-        }
+        MouseInput.Up();
+    }
 
-        public static void MouseHover(this AutomationControl control)
-        {
-            Argument.IsNotNull(() => control);
+    public static TAutomationControl As<TAutomationControl>(this AutomationControl control)
+    {
+        ArgumentNullException.ThrowIfNull(control);
 
-            var rect = control.BoundingRectangle;
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+        return control.GetTypeFactory().CreateRequiredInstanceWithParametersAndAutoCompletion<TAutomationControl>(control.Element);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
+    }
 
-            MouseInput.MoveTo(rect.GetClickablePoint());
-        }
+    [UserInteraction("Move mouse over")]
+    public static void MouseHover(this AutomationControl control)
+    {
+        ArgumentNullException.ThrowIfNull(control);
 
-        public static void MouseOut(this AutomationControl control)
-        {
-            Argument.IsNotNull(() => control);
+        var rect = control.BoundingRectangle;
 
-            var rect = control.BoundingRectangle;
+        MouseInput.MoveTo(rect.GetClickablePoint());
+    }
 
-            var pointOut = rect.GetPointOut();
+    [UserInteraction("Move mouse out")]
+    public static void MouseOut(this AutomationControl control)
+    {
+        ArgumentNullException.ThrowIfNull(control);
 
-            MouseInput.MoveTo(pointOut);
-        }
+        var rect = control.BoundingRectangle;
 
-        public static void MouseClick(this AutomationControl control, MouseButton mouseButton = MouseButton.Left)
-        {
-            control.Element.MouseClick(mouseButton);
-        }
+        var pointOut = rect.GetPointOut();
 
-        public static object GetLeftTop(this AutomationControl control)
-        {
-            Argument.IsNotNull(() => control);
+        MouseInput.MoveTo(pointOut);
+    }
 
-            return control.Execute<GetLeftTopMethodRun>();
-        }
+    public static void MouseClick(this AutomationControl control, MouseButton mouseButton = MouseButton.Left)
+    {
+        ArgumentNullException.ThrowIfNull(control);
 
-        public static AutomationElement Find(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
-        {
-            Argument.IsNotNull(() => parent);
+        control.Element.MouseClick(mouseButton);
+    }
+ 
+    public static object GetLeftTop(this AutomationControl control)
+    {
+        ArgumentNullException.ThrowIfNull(control);
 
-            return parent.Element.Find(id, name, className, isRaw, controlType, scope, numberOfWaits);
-        }
+        return control.Execute<GetLeftTopMethodRun>();
+    }
 
-        public static TElement Find<TElement>(this AutomationControl parent, string id = null, string name = null, string className = null, bool isRaw = false, ControlType controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
-            where TElement : AutomationControl
-        {
-            Argument.IsNotNull(() => parent);
+    public static AutomationElement? Find(this AutomationControl parent, string? id = null, string? name = null, string? className = null, bool isRaw = false, ControlType? controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+    {
+        ArgumentNullException.ThrowIfNull(parent);
 
-            return parent.Element.Find<TElement>(id, name, className, isRaw, controlType, scope, numberOfWaits);
-        }
+        return parent.Element.Find(id, name, className, isRaw, controlType, scope, numberOfWaits);
+    }
+
+    public static TElement? Find<TElement>(this AutomationControl parent, string? id = null, string? name = null, string? className = null, bool isRaw = false, ControlType? controlType = null, TreeScope scope = TreeScope.Descendants, int numberOfWaits = SearchParameters.NumberOfWaits)
+        where TElement : AutomationControl
+    {
+        ArgumentNullException.ThrowIfNull(parent);
+
+        return parent.Element.Find<TElement>(id, name, className, isRaw, controlType, scope, numberOfWaits);
     }
 }

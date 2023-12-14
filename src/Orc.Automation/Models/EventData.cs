@@ -1,10 +1,14 @@
-﻿namespace Orc.Automation
-{
-    using System;
+﻿namespace Orc.Automation;
 
-    public class AutomationEventArgs : EventArgs
+using System;
+
+public class AutomationEventArgs : EventArgs
+{
+    public AutomationEventArgs()
     {
-        public string EventName { get; set; }
-        public object Data { get; set; }
+        EventName = string.Empty;
     }
+
+    public string EventName { get; set; }
+    public object? Data { get; set; }
 }

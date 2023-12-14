@@ -1,40 +1,39 @@
-﻿namespace Orc.Automation.Controls
+﻿namespace Orc.Automation.Controls;
+
+using System.Windows.Automation;
+
+//https://docs.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-support-for-the-slider-control-type
+[Control(ControlTypeName = nameof(ControlType.Slider))]
+public sealed class Slider : FrameworkElement<SliderModel>
 {
-    using System.Windows.Automation;
-
-    //https://docs.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-support-for-the-slider-control-type
-    [Control(ControlTypeName = nameof(ControlType.Slider))]
-    public sealed class Slider : FrameworkElement<SliderModel>
+    public Slider(AutomationElement element) 
+        : base(element, ControlType.Slider)
     {
-        public Slider(AutomationElement element) 
-            : base(element, ControlType.Slider)
-        {
-        }
+    }
 
-        public double SmallChange
-        {
-            get => Element.GetRangeSmallChange();
-        }
+    public double SmallChange
+    {
+        get => Element.GetRangeSmallChange();
+    }
 
-        public double LargeChange
-        {
-            get => Element.GetRangeLargeChange();
-        }
+    public double LargeChange
+    {
+        get => Element.GetRangeLargeChange();
+    }
 
-        public double Minimum
-        {
-            get => Element.GetRangeMinimum();
-        }
+    public double Minimum
+    {
+        get => Element.GetRangeMinimum();
+    }
 
-        public double Maximum
-        {
-            get => Element.GetRangeMaximum();
-        }
+    public double Maximum
+    {
+        get => Element.GetRangeMaximum();
+    }
 
-        public double Value
-        {
-            get => Element.GetValue<double>();
-            set => Element.SetValue(value);
-        }
+    public double Value
+    {
+        get => Element.GetValue<double>();
+        set => Element.SetValue(value);
     }
 }

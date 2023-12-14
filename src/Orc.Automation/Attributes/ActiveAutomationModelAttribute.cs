@@ -4,5 +4,5 @@ using System;
 
 public class ActiveAutomationModelAttribute : AutomationAttribute
 {
-    public Type DefaultOwnerType { get; set; }
+    public Type? DefaultOwnerType { get; set; }
 }
