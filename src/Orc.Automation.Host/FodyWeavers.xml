@@ -4,5 +4,4 @@
     <Catel />
     <LoadAssembliesOnStartup />
     <Costura UseRuntimeReferencePaths='true'/>
-    <MethodBoundaryAspect />
 </Weavers>
