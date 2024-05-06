@@ -2,7 +2,6 @@
 
 using System.Windows.Automation;
 using Controls;
-using NUnit.Framework;
 
 public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
     where TMainWindow : class
