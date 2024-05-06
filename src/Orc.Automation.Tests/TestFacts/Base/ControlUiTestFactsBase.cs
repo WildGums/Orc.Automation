@@ -1,79 +1,80 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Tests;
+
+using System.Threading;
+using Controls;
+using NUnit.Framework;
+using FrameworkElement = System.Windows.FrameworkElement;
+
+public abstract class ControlUiTestFactsBase<TControl> : UiTestFactsBase
+    where TControl : FrameworkElement
 {
-    using System.Threading;
-    using Controls;
-    using NUnit.Framework;
+    protected override string ExecutablePath =>
+        @$"{TestContext.CurrentContext.TestDirectory}\..\..\..\..\Tools\TestHost\Orc.Automation.Host.exe";
 
-    public abstract class ControlUiTestFactsBase<TControl> : UiTestFactsBase
-        where TControl : System.Windows.FrameworkElement
+    protected override string MainWindowAutomationId => "AutomationHost";
+
+    [SetUp]
+    public virtual void SetUpTest()
     {
-        protected override string ExecutablePath =>
-            @$"{TestContext.CurrentContext.TestDirectory}\..\..\..\..\Tools\TestHost\Orc.Automation.Host.exe";
+        var window = Setup.MainWindow;
 
-        protected override string MainWindowAutomationId => "AutomationHost";
-
-        [SetUp]
-        public virtual void SetUpTest()
+        var testHost = window.Find<TestHostAutomationControl>();
+        if (testHost is null)
         {
-            var window = Setup.MainWindow;
-
-            var testHost = window.Find<TestHostAutomationControl>();
-            if (testHost is null)
-            {
-                Assert.Fail("Can't find Test host");
-            }
-
-            BeforeLoadingControl(testHost);
-
-            Assert.That(TryLoadControl(testHost, out var testedControlAutomationId));
-
-            AfterLoadingControl(testHost);
-
-            Thread.Sleep(200);
-
-            InitializeTarget(testedControlAutomationId);
+            Assert.Fail("Can't find Test host");
         }
 
-        [TearDown]
-        public virtual void TearDownTest()
-        {
-            var testHost = Setup.MainWindow.Find<TestHostAutomationControl>();
+        BeforeLoadingControl(testHost);
 
-            testHost?.ClearControls();
+        Assert.That(TryLoadControl(testHost, out var testedControlAutomationId));
+
+        AfterLoadingControl(testHost);
+
+        Thread.Sleep(200);
+
+        InitializeTarget(testedControlAutomationId);
+    }
+
+    [TearDown]
+    public virtual void TearDownTest()
+    {
+        var testHost = Setup.MainWindow.Find<TestHostAutomationControl>();
+
+        testHost?.ClearControls();
+    }
+
+    protected virtual bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
+    {
+        var controlType = typeof(TControl);
+
+        return testHost.TryLoadControl(controlType, out testedControlAutomationId,
+            $"pack://application:,,,/{controlType.Assembly.GetName().Name};component/Themes/Generic.xaml");
+    }
+
+    protected virtual void BeforeLoadingControl(TestHostAutomationControl testHost)
+    {
+    }
+
+    protected virtual void AfterLoadingControl(TestHostAutomationControl testHost)
+    {
+    }
+
+    protected virtual void InitializeTarget(string id)
+    {
+        var window = Setup.MainWindow;
+
+        var testHost = window.Find<TestHostAutomationControl>();
+        if (testHost is null)
+        {
+            return;
         }
 
-        protected virtual bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
+        var target = testHost.Find(id);
+        if (target is null)
         {
-            var controlType = typeof(TControl);
-
-            return testHost.TryLoadControl(controlType, out testedControlAutomationId,  $"pack://application:,,,/{controlType.Assembly.GetName().Name};component/Themes/Generic.xaml");
+            Assert.Fail("Can't find target control");
         }
 
-        protected virtual void BeforeLoadingControl(TestHostAutomationControl testHost)
-        {
-        }
-
-        protected virtual void AfterLoadingControl(TestHostAutomationControl testHost)
-        {
-        }
-
-        protected virtual void InitializeTarget(string id)
-        {
-            var window = Setup.MainWindow;
-
-            var testHost = window.Find<TestHostAutomationControl>();
-            if (testHost is null)
-            {
-                return;
-            }
-
-            var target = testHost.Find(id: id);
-            if (target is null)
-            {
-                Assert.Fail("Can't find target control");
-            }
-
-            target.InitializeControlMap(this);
-        }
+        target.InitializeControlMap(this);
     }
 }

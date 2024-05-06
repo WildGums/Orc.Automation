@@ -3,5 +3,5 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Automation;component/Themes/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-   
+
 </ResourceDictionary>

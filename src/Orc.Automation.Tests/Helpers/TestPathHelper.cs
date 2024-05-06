@@ -25,7 +25,7 @@ public static class TestPathHelper
     public static string GetAutomationTestAssemblyPath()
         => GetTestDirectoryAbsolutePath("Orc.Automation.Tests.dll");
 
-    public static string GetAppTestAssemblyPath(string appName) 
+    public static string GetAppTestAssemblyPath(string appName)
         => GetTestDirectoryAbsolutePath($"{appName}.Tests.dll");
 
     public static string GetTestDirectoryAbsolutePath(string relativePath = "") =>

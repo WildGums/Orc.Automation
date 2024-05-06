@@ -1,9 +1,8 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Tests;
+
+public enum ColorType
 {
-    public enum ColorType
-    {
-        Border,
-        Background,
-        Foreground,
-    }
+    Border,
+    Background,
+    Foreground
 }

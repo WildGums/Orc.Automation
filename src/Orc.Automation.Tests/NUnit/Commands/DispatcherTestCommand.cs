@@ -15,10 +15,7 @@ public class DispatcherTestCommand : DelegatingTestCommand
     {
         var dispatcherService = new DispatcherService(new DispatcherProviderService());
 
-        dispatcherService.Invoke(() =>
-        {
-            context.CurrentResult = innerCommand.Execute(context);
-        });
+        dispatcherService.Invoke(() => { context.CurrentResult = innerCommand.Execute(context); });
 
         return context.CurrentResult;
     }

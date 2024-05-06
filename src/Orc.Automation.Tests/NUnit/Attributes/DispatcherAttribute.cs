@@ -8,8 +8,5 @@ using NUnit.Framework.Internal.Commands;
 [AttributeUsage(AttributeTargets.Method)]
 public class DispatcherAttribute : NUnitAttribute, IWrapSetUpTearDown
 {
-    public TestCommand Wrap(TestCommand command)
-    {
-        return new DispatcherTestCommand(command);
-    }
+    public TestCommand Wrap(TestCommand command) => new DispatcherTestCommand(command);
 }

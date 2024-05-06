@@ -1,6 +1,5 @@
 ﻿namespace Orc.Automation.Tests;
 
-using System.Threading.Channels;
 using System.Windows.Automation;
 using Controls;
 using NUnit.Framework;
@@ -9,6 +8,7 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestFactsBase
     where TMainWindow : class
 {
     #region Properties
+
     protected abstract string AppName { get; }
 
     protected virtual string NetVersion => "net8.0-windows";
@@ -24,7 +24,9 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestFactsBase
 
     protected override string Args => "-p";
     protected override string ExecutablePath => TestPathHelper.GetExecutablePath(AppName, NetVersion);
-    protected override Condition FindMainWindowCondition => new PropertyCondition(AutomationElement.AutomationIdProperty, ShellWindowId);
+
+    protected override Condition FindMainWindowCondition =>
+        new PropertyCondition(AutomationElement.AutomationIdProperty, ShellWindowId);
 
     protected TemporaryFileSystemContext TempTestFileSystemContext { get; private set; }
 
@@ -45,9 +47,11 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestFactsBase
             return Setup.MainWindow.As<TMainWindow>();
         }
     }
+
     #endregion
 
     #region Methods
+
     [OneTimeSetUp]
     public override void SetUp()
     {
@@ -57,10 +61,13 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestFactsBase
 
         TempTestFileSystemContext.CreateDirectory(moveDirectory, FileSystemContextEntryAction.Delete);
 
-        AbsoluteProjectPath = TempTestFileSystemContext.Copy(TestPathHelper.GetTestDirectoryAbsolutePath(RelativeProjectPath),
-            TestPathHelper.GetTempDirectoryAbsolutePath(AppName, GetType().Name + "_Project"), FileSystemContextEntryAction.Delete);
+        AbsoluteProjectPath = TempTestFileSystemContext.Copy(
+            TestPathHelper.GetTestDirectoryAbsolutePath(RelativeProjectPath),
+            TestPathHelper.GetTempDirectoryAbsolutePath(AppName, GetType().Name + "_Project"),
+            FileSystemContextEntryAction.Delete);
 
-        AbsoluteAppConfigurationFolderPathProjectPath = TempTestFileSystemContext.Copy(TestPathHelper.GetTestDirectoryAbsolutePath(RelativeAppConfigurationFolderPath),
+        AbsoluteAppConfigurationFolderPathProjectPath = TempTestFileSystemContext.Copy(
+            TestPathHelper.GetTestDirectoryAbsolutePath(RelativeAppConfigurationFolderPath),
             TestPathHelper.GetConfigurationFolderPath(AppName), FileSystemContextEntryAction.Move);
 
         base.SetUp();
@@ -95,5 +102,6 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestFactsBase
         var testHost = Setup?.MainWindow?.Find<TestHostAutomationControl>(TestHostId, numberOfWaits: 10);
         testHost?.TryLoadAssembly(assemblyPath);
     }
+
     #endregion
 }

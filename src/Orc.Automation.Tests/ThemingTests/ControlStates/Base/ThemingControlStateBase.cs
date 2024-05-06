@@ -1,21 +1,19 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Tests;
+
+using System.Windows.Media;
+
+public abstract class ThemingControlStateBase<TElement> : ControlStateBase<TElement>, IThemingControlState<TElement>
+    where TElement : AutomationControl
 {
-    using System.Windows.Media;
-    using Controls;
+    private string _stateName;
 
-    public abstract class ThemingControlStateBase<TElement> : ControlStateBase<TElement>, IThemingControlState<TElement>
-        where TElement : AutomationControl
+    public Color? GetColor(TElement element, ColorType colorType)
     {
-        private string _stateName;
+        //TODO: Vladimir, not clear
+        _stateName ??= GetType().Name.Replace("ThemingControlState`1", string.Empty);
 
-        public Color? GetColor(TElement element, ColorType colorType)
-        {
-            //TODO: Vladimir, not clear
-            _stateName ??= GetType().Name.Replace("ThemingControlState`1", string.Empty);
+        var resourceName = $"Orc.Brushes.Control.{_stateName}.{colorType}";
 
-            var resourceName = $"Orc.Brushes.Control.{_stateName}.{colorType}";
-
-            return (element.TryFindResource(resourceName) as SolidColorBrush)?.Color;
-        }
+        return (element.TryFindResource(resourceName) as SolidColorBrush)?.Color;
     }
 }

@@ -1,25 +1,16 @@
 ﻿#nullable enable
 namespace Orc.Automation.ScenarioManagement.Tests;
 
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
-using System.Windows;
 using Catel;
 using NUnit.Framework;
-using Orc.Automation;
 using Orc.Automation.Tests;
 
 public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
 {
-#pragma warning disable IDISP006 // Implement IDisposable
-    private readonly string _documentationRootDirectory;
-
-    private Bitmap? _bitmap;
-#pragma warning restore IDISP006 // Implement IDisposable
-
     public UserDocumentationBuilderLogger()
     {
         _documentationRootDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "GeneratedDocumentation");
@@ -46,7 +37,7 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
     public void LogStepFinish(AutomationScenarioStep step)
     {
         Wait.WhileProcessBusy(400);
-        
+
         var currentScenario = ScenarioManager.CurrentScenario;
         if (currentScenario is null)
         {
@@ -59,7 +50,7 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
         if (_bitmap is not null)
         {
             using (new DisposableToken<UserDocumentationBuilderLogger>(this,
-                       _ => {},
+                       _ => { },
                        _ =>
                        {
                            _bitmap.Dispose();
@@ -70,22 +61,26 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
                 {
                     var userInteraction = step.Interactions[index];
                     var area = userInteraction.InteractionArea;
-                    var actualRect = new Rectangle(new System.Drawing.Point((int)(area.X - interactionArea.X), (int)(area.Y - interactionArea.Y)),
-                        new System.Drawing.Size((int)area.Width, (int)area.Height));
+                    var actualRect = new Rectangle(
+                        new((int)(area.X - interactionArea.X), (int)(area.Y - interactionArea.Y)),
+                        new((int)area.Width, (int)area.Height));
 
                     using var graphics = Graphics.FromImage(_bitmap);
 #pragma warning disable IDISP004 // Don't ignore created IDisposable
-                    graphics.DrawRectangle(new Pen(Color.Red, 3f), actualRect);
+                    graphics.DrawRectangle(new(Color.Red, 3f), actualRect);
                     using var drawFont = new Font("Arial", 14);
                     using var drawBrush = new SolidBrush(Color.Red);
 
                     var userInteractionTitle = $"{index + 1}.{userInteraction.Name}";
                     var textSize = graphics.MeasureString(userInteractionTitle, drawFont);
-                    graphics.DrawString(userInteractionTitle, drawFont, drawBrush, new System.Drawing.Point(actualRect.X - (int)textSize.Width + actualRect.Width, actualRect.Y - (int)textSize.Height));
+                    graphics.DrawString(userInteractionTitle, drawFont, drawBrush,
+                        new Point(actualRect.X - (int)textSize.Width + actualRect.Width,
+                            actualRect.Y - (int)textSize.Height));
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
                 }
 
-                var beforeImagePath = Path.Combine(GetScenarioDirectory(currentScenario), $"before_{currentStepIndex}.jpg");
+                var beforeImagePath =
+                    Path.Combine(GetScenarioDirectory(currentScenario), $"before_{currentStepIndex}.jpg");
                 _bitmap.Save(beforeImagePath, ImageFormat.Jpeg);
             }
         }
@@ -108,7 +103,8 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
     {
         var htmlStringBuilder = new StringBuilder();
 
-        htmlStringBuilder.AppendLine("<!DOCTYPE html><html style=\"font-family:verdana\"><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+        htmlStringBuilder.AppendLine(
+            "<!DOCTYPE html><html style=\"font-family:verdana\"><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
         htmlStringBuilder.AppendLine("<style>");
         htmlStringBuilder.AppendLine("* {box-sizing: border-box;}");
         htmlStringBuilder.AppendLine(".column {  float: left;  width: 33.33%;  padding: 10px;}");
@@ -118,12 +114,14 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
         htmlStringBuilder.AppendLine("</head><body>");
         htmlStringBuilder.AppendLine($"<h1>{scenario.Name}</h1>");
         htmlStringBuilder.AppendLine($"<h2>{scenario.Description}</h2>");
-        htmlStringBuilder.AppendLine($"<div class=\"row\"><div class=\"column1\" style=\"background-color:#ccc;\"><h2>Step</h2></div><div class=\"column\" style=\"background-color:#ccc;\"><h2>Before</h2></div><div class=\"column\" style=\"background-color:#ccc;\"><h2>After</h2></div></div>");
+        htmlStringBuilder.AppendLine(
+            "<div class=\"row\"><div class=\"column1\" style=\"background-color:#ccc;\"><h2>Step</h2></div><div class=\"column\" style=\"background-color:#ccc;\"><h2>Before</h2></div><div class=\"column\" style=\"background-color:#ccc;\"><h2>After</h2></div></div>");
 
         for (var i = 0; i < scenario.StartedSteps.Count; i++)
         {
             var step = scenario.StartedSteps[i];
-            htmlStringBuilder.AppendLine($"<div class=\"row\"><div class=\"column1\"><h4>{step.Name}</h4></div><div class=\"column\"><img src=\"before_{i}.jpg\" style=\"object-fit:cover;width:100%;height:100%;border: solid 1px #CCC\"/></div><div class=\"column\"><img src=\"after_{i}.jpg\" style=\"object-fit:cover;width:100%;height:100%;border: solid 1px #CCC\"/></div></div>\r\n");
+            htmlStringBuilder.AppendLine(
+                $"<div class=\"row\"><div class=\"column1\"><h4>{step.Name}</h4></div><div class=\"column\"><img src=\"before_{i}.jpg\" style=\"object-fit:cover;width:100%;height:100%;border: solid 1px #CCC\"/></div><div class=\"column\"><img src=\"after_{i}.jpg\" style=\"object-fit:cover;width:100%;height:100%;border: solid 1px #CCC\"/></div></div>\r\n");
         }
 
         htmlStringBuilder.AppendLine("</body></html>");
@@ -148,4 +146,9 @@ public class UserDocumentationBuilderLogger : IAutomationScenarioLogger
 
         return scenarioDirectory;
     }
+#pragma warning disable IDISP006 // Implement IDisposable
+    private readonly string _documentationRootDirectory;
+
+    private Bitmap? _bitmap;
+#pragma warning restore IDISP006 // Implement IDisposable
 }

@@ -7,11 +7,12 @@ using Controls;
 
 public class ButtonThemeAssert : MappedThemeAssertBase<ButtonThemeAssert, Button, ButtonThemeMap>
 {
-    protected override IList<IThemingControlState<Button>> ThemingStates { get; } = new List<IThemingControlState<Button>>()
-    {
-        States.Default,
-        States.MouseOver
-    };
+    protected override IList<IThemingControlState<Button>> ThemingStates { get; } =
+        new List<IThemingControlState<Button>>
+        {
+            States.Default,
+            States.MouseOver
+        };
 
     protected override IList<ColorType> ColorTypes => new[]
     {

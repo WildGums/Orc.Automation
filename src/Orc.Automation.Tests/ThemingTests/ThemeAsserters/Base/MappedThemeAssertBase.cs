@@ -1,20 +1,19 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Tests;
+
+using Catel;
+
+public abstract class MappedThemeAssertBase<TAssert, TElement, TMap> : ThemeAssertBase<TAssert, TElement>
+    where TAssert : ThemeAssertBase<TAssert, TElement>, new()
+    where TElement : AutomationControl
+    where TMap : AutomationBase
 {
-    using Catel;
+    protected TMap _map;
 
-    public abstract class MappedThemeAssertBase<TAssert, TElement, TMap> : ThemeAssertBase<TAssert, TElement>
-        where TAssert : ThemeAssertBase<TAssert, TElement>, new()
-        where TElement : AutomationControl
-        where TMap : AutomationBase
+    protected override void VerifyThemeColors(TElement element)
     {
-        protected TMap _map;
-
-        protected override void VerifyThemeColors(TElement element)
+        using (new DisposableToken(this, _ => _map = element.Map<TMap>(), _ => _map = null))
         {
-            using (new DisposableToken(this, _ => _map = element.Map<TMap>(), _ => _map = null))
-            {
-                base.VerifyThemeColors(element);
-            }
+            base.VerifyThemeColors(element);
         }
     }
 }

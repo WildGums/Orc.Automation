@@ -17,6 +17,7 @@ public static class ModuleInitializer
         serviceLocator.RegisterType<ISetupAutomationService, SetupAutomationService>();
 
         var languageService = serviceLocator.ResolveType<ILanguageService>();
-        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Automation", "Orc.Automation.Properties", "Resources"));
+        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Automation", "Orc.Automation.Properties",
+            "Resources"));
     }
 }

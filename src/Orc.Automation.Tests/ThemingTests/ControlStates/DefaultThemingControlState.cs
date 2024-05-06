@@ -1,7 +1,5 @@
 ﻿namespace Orc.Automation.Tests;
 
-using Controls;
-
 public class DefaultThemingControlState<TElement> : ThemingControlStateBase<TElement>
     where TElement : AutomationControl
 {

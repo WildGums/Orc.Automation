@@ -60,7 +60,8 @@ public sealed class TemporaryFileSystemContext : IDisposable
         }
     }
 
-    public string CreateFile(string filePath, string contents, FileSystemContextEntryAction action = FileSystemContextEntryAction.None)
+    public string CreateFile(string filePath, string contents,
+        FileSystemContextEntryAction action = FileSystemContextEntryAction.None)
     {
         var entry = new BackupEntry
         {
@@ -76,7 +77,8 @@ public sealed class TemporaryFileSystemContext : IDisposable
         return filePath;
     }
 
-    public string CreateDirectory(string directory, FileSystemContextEntryAction action = FileSystemContextEntryAction.None)
+    public string CreateDirectory(string directory,
+        FileSystemContextEntryAction action = FileSystemContextEntryAction.None)
     {
         var entry = new BackupEntry
         {
@@ -92,7 +94,8 @@ public sealed class TemporaryFileSystemContext : IDisposable
         return directory;
     }
 
-    public string Copy(string source, string destination, FileSystemContextEntryAction action = FileSystemContextEntryAction.None)
+    public string Copy(string source, string destination,
+        FileSystemContextEntryAction action = FileSystemContextEntryAction.None)
     {
         if (File.Exists(source))
         {
@@ -112,7 +115,8 @@ public sealed class TemporaryFileSystemContext : IDisposable
             return destination;
         }
 
-        throw Log.ErrorAndCreateException<Exception>($"Can't copy because path: '{source}' doesn't exist in file system");
+        throw Log.ErrorAndCreateException<Exception>(
+            $"Can't copy because path: '{source}' doesn't exist in file system");
     }
 
     private string GenerateUniqueMovePath()
