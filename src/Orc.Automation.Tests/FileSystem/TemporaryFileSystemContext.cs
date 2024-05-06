@@ -213,6 +213,11 @@ public sealed class TemporaryFileSystemContext : IDisposable
 
     private static void CopyFilesRecursively(string sourcePath, string targetPath)
     {
+        if (!Directory.Exists(targetPath))
+        {
+            Directory.CreateDirectory(targetPath);
+        }
+
         foreach (var dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
         {
             Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
