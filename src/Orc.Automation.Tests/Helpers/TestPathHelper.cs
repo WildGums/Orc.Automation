@@ -9,8 +9,7 @@ public static class TestPathHelper
     public static string GetExecutablePath(string appName, string netVersion = "net8.0-windows") =>
         @$"{TestContext.CurrentContext.TestDirectory}\..\..\{appName}\{netVersion}\{appName}.exe";
 
-    public static string GetConfigurationFolderPath(string appName, string company = "Simply Effective Solutions",
-        string channel = "alpha")
+    public static string GetConfigurationFolderPath(string appName, string company, string channel = "alpha")
     {
         var configurationFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         configurationFolderPath = $"{configurationFolderPath}\\{company}\\{appName}";

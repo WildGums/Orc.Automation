@@ -60,7 +60,7 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
 
         AbsoluteAppConfigurationFolderPathProjectPath = TempTestFileSystemContext.Copy(
             TestPathHelper.GetTestDirectoryAbsolutePath(RelativeAppConfigurationFolderPath),
-            TestPathHelper.GetConfigurationFolderPath(AppName), FileSystemContextEntryAction.Move);
+            TestPathHelper.GetConfigurationFolderPath(AppName, Company), FileSystemContextEntryAction.Move);
 
         base.SetUp();
 
