@@ -21,7 +21,6 @@ public abstract class UiTestsBase
     protected ISetupAutomationService SetupAutomationService =>
         _setupAutomationService ??= CreateSetupAutomationService();
 
-    [OneTimeSetUp]
     public virtual void SetUp()
     {
 #pragma warning disable IDISP003 // Don't ignore created IDisposable.
@@ -31,8 +30,7 @@ public abstract class UiTestsBase
         Assert.That(Setup, Is.Not.Null);
     }
 
-    [OneTimeTearDown]
-    public void TearDown()
+    public virtual void TearDown()
     {
         Setup?.Dispose();
         Setup = null;

@@ -5,7 +5,6 @@
 
     public class BriefConsoleLogger : LogListenerBase
     {
-        #region Methods
         protected override void Write(ILog log, string message, LogEvent logEvent, object extraData, LogData logData, DateTime time)
         {
             if (string.Equals(log.Tag, "Orc.CommandLine.CommandLineParser"))
@@ -29,6 +28,5 @@
             }
             Console.WriteLine("{0}", message);
         }
-        #endregion
     }
 }

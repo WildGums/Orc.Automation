@@ -10,7 +10,6 @@
     {
         private static readonly string Token = @"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqaXJhOjdiYWE5ZmQ0LTM0NDctNDI1MC1hODQ0LTQ4MjIxZDZkNjFhYSIsImNvbnRleHQiOnsiYmFzZVVybCI6Imh0dHBzOlwvXC9zZXNvbHV0aW9ucy5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI1ZTY4YzM5MjEyMzhmNjBjZmU2NzA1MGMifX0sImlzcyI6ImNvbS5rYW5vYWgudGVzdC1tYW5hZ2VyIiwiZXhwIjoxNjg0OTkzOTUyLCJpYXQiOjE2NTM0NTc5NTJ9.voCGakZ7syqO7h8QcODDzYMOCVtUG3EhrFT4ao5mkjI";
 
-        #region Methods
         private static void Main(string[] args)
         {
             InitializeLogManager();
@@ -57,6 +56,5 @@
             LogManager.IgnoreCatelLogging = true;
             LogManager.AddListener(new BriefConsoleLogger());
         }
-        #endregion
     }
 }

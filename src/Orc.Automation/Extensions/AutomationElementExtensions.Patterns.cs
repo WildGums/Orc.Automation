@@ -8,7 +8,6 @@ using System.Windows.Automation.Text;
 
 public static partial class AutomationElementExtensions
 {
-    #region Get Value
     public static T GetValue<T>(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -61,9 +60,7 @@ public static partial class AutomationElementExtensions
 
         return false;
     }
-    #endregion
 
-    #region Set Value
     public static void SetValue(this AutomationElement element, double value)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -91,9 +88,7 @@ public static partial class AutomationElementExtensions
 
         return element.TryRunPatternFunc<ValuePattern>(x => x.SetValue(value));
     }
-    #endregion
 
-    #region Text
     public static IReadOnlyList<string> GetSelectedTextRanges(this AutomationElement element)
     {
         var textRanges = element.RunPatternFunc<TextPattern, TextPatternRange[]>(x => x.GetSelection());
@@ -101,9 +96,7 @@ public static partial class AutomationElementExtensions
         var result = textRanges?.Select(x => x.GetText(-1)).ToArray() ?? Array.Empty<string>();
         return result;
     }
-    #endregion
 
-    #region Range
     public static double GetRangeMinimum(this AutomationElement element)
     {
         return element.RunPatternFunc<RangeValuePattern, double>(x => x.Current.Minimum);
@@ -157,9 +150,6 @@ public static partial class AutomationElementExtensions
 
         return element.TryRunPatternFunc<RangeValuePattern, double>(x => x.Current.Maximum, out maximum);
     }
-    #endregion
-
-    #region Select
 
     public static void Select(this AutomationElement element)
     {
@@ -245,9 +235,7 @@ public static partial class AutomationElementExtensions
 
         return false;
     }
-    #endregion
 
-    #region Select Item
     public static AutomationElement[] GetSelection(this AutomationElement container)
     {
         ArgumentNullException.ThrowIfNull(container);
@@ -269,9 +257,7 @@ public static partial class AutomationElementExtensions
         selectItem = GetChild(containerElement, index);
         return selectItem?.TrySelect() == true;
     }
-    #endregion
 
-    #region Invoke 
     public static void Invoke(this AutomationElement element)
     {
         element.RunPatternFunc<InvokePattern>(x => x.Invoke());
@@ -281,9 +267,7 @@ public static partial class AutomationElementExtensions
     {
         return element.TryRunPatternFunc<InvokePattern>(x => x.Invoke());
     }
-    #endregion
 
-    #region Table
     public static AutomationElement[] GetColumnHeaders(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -318,9 +302,7 @@ public static partial class AutomationElementExtensions
 
         return element.RunPatternFunc<TablePattern, AutomationElement>(x => x.GetItem(row, column));
     }
-    #endregion
 
-    #region Transform
     public static void Resize(this AutomationElement element, double newWidth, double newHeight)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -359,9 +341,7 @@ public static partial class AutomationElementExtensions
             }
         });
     }
-    #endregion
 
-    #region Toggle
     /// <summary>
     /// Toggle element if TogglePattern is available
     /// </summary>
@@ -455,9 +435,7 @@ public static partial class AutomationElementExtensions
 
         return result;
     }
-    #endregion
 
-    #region Expand/Collapse
     /// <summary>
     /// 
     /// </summary>
@@ -508,9 +486,7 @@ public static partial class AutomationElementExtensions
     {
         return element.TryRunPatternFunc<ExpandCollapsePattern>(x => x.Collapse());
     }
-    #endregion
 
-    #region MultipleViewPattern
     public static void SelectView(this AutomationElement element, int viewIndex)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -539,10 +515,7 @@ public static partial class AutomationElementExtensions
 
         return func.Invoke();
     }
-    #endregion
 
-    #region Window
-  
     public static void CloseWindow(this AutomationElement element)
     {
         element.RunPatternFunc<WindowPattern>(x => x.Close());
@@ -552,25 +525,20 @@ public static partial class AutomationElementExtensions
     {
         return element.TryRunPatternFunc<WindowPattern>(x => x.Close());
     }
-    #endregion
 
-    #region Grid
     public static AutomationElement GetGridItem(this AutomationElement element, int row, int column)
     {
         ArgumentNullException.ThrowIfNull(element);
 
         return element.RunPatternFunc<GridPattern, AutomationElement>(x => x.GetItem(row, column));
     }
-    #endregion
 
-    #region Scroll
     public static void ScrollIntoView(this AutomationElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
 
         element.RunPatternFunc<ScrollItemPattern>(x => x.ScrollIntoView());
     }
-    #endregion
 
     /// <summary>
     /// Try to Invoke, Toggle, Select...if this patterns not implemented, depends on useMouse parameter use Mouse Input

@@ -7,8 +7,6 @@ using NUnit.Framework;
 public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
     where TMainWindow : class
 {
-    #region Properties
-
     protected abstract string AppName { get; }
 
     protected virtual string NetVersion => "net8.0-windows";
@@ -48,11 +46,6 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
         }
     }
 
-    #endregion
-
-    #region Methods
-
-    [OneTimeSetUp]
     public override void SetUp()
     {
         var moveDirectory = TestPathHelper.GetTempDirectoryAbsolutePath(AppName, "MoveFolder");
@@ -76,12 +69,11 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
         LoadAssembly(TestPathHelper.GetAppTestAssemblyPath(AppName));
     }
 
-    [OneTimeTearDown]
-    public void TearDownTestSession()
+    public override void TearDown()
     {
         try
         {
-            Setup?.Dispose();
+            base.TearDown();
 
             Wait.UntilInputProcessed(1000);
 
@@ -102,6 +94,4 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
         var testHost = Setup?.MainWindow?.Find<TestHostAutomationControl>(TestHostId, numberOfWaits: 10);
         testHost?.TryLoadAssembly(assemblyPath);
     }
-
-    #endregion
 }
