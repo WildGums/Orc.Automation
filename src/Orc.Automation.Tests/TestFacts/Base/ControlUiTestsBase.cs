@@ -5,7 +5,7 @@ using Controls;
 using NUnit.Framework;
 using FrameworkElement = System.Windows.FrameworkElement;
 
-public abstract class ControlUiTestsBase<TControl> : UiTestFactsBase
+public abstract class ControlUiTestsBase<TControl> : UiTestsBase
     where TControl : FrameworkElement
 {
     protected override string ExecutablePath =>
@@ -14,8 +14,10 @@ public abstract class ControlUiTestsBase<TControl> : UiTestFactsBase
     protected override string MainWindowAutomationId => "AutomationHost";
 
     [SetUp]
-    public virtual void SetUpTest()
+    public override void SetUp()
     {
+        base.SetUp();
+
         var window = Setup.MainWindow;
 
         var testHost = window.Find<TestHostAutomationControl>();
@@ -36,11 +38,13 @@ public abstract class ControlUiTestsBase<TControl> : UiTestFactsBase
     }
 
     [TearDown]
-    public virtual void TearDownTest()
+    public override void TearDown()
     {
         var testHost = Setup.MainWindow.Find<TestHostAutomationControl>();
 
         testHost?.ClearControls();
+
+        base.TearDown();
     }
 
     protected virtual bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
