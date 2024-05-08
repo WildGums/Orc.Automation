@@ -361,7 +361,7 @@ public static partial class AutomationElementExtensions
         throw new AutomationException("Can't toggle, pattern not available");
     }
 
-    public static bool TrySetToggleState(this AutomationElement element, bool? newState)
+    public static bool TrySetToggleState(this AutomationElement element, bool? newState, int stateChangeDelay = 500)
     {
         if (!TryGetToggleState(element, out var toggleState))
         {
@@ -377,6 +377,8 @@ public static partial class AutomationElementExtensions
         {
             return false;
         }
+
+        Wait.UntilInputProcessed(stateChangeDelay);
             
         if (toggleState == newState)
         {
@@ -387,6 +389,8 @@ public static partial class AutomationElementExtensions
         {
             return false;
         }
+
+        Wait.UntilInputProcessed(stateChangeDelay);
 
         if (toggleState == newState)
         {
