@@ -1,14 +1,15 @@
 ﻿#nullable enable
 namespace Orc.Automation.Tests;
 
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal.Builders;
-using NUnit.Framework.Internal;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
+using NUnit.Framework.Internal.Builders;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public class TestCaseGenericAttribute : NUnit.Framework.TestCaseAttribute, ITestBuilder
+public class TestCaseGenericAttribute : TestCaseAttribute, ITestBuilder
 {
     public TestCaseGenericAttribute(params object[] arguments)
         : base(arguments)
@@ -30,7 +31,8 @@ public class TestCaseGenericAttribute : NUnit.Framework.TestCaseAttribute, ITest
             {
                 RunState = RunState.NotRunnable
             };
-            parameters.Properties.Set(PropertyNames.SkipReason, $"{nameof(TypeArguments)} should have {method.GetGenericArguments().Length} elements");
+            parameters.Properties.Set(PropertyNames.SkipReason,
+                $"{nameof(TypeArguments)} should have {method.GetGenericArguments().Length} elements");
             return new[]
             {
                 new NUnitTestCaseBuilder().BuildTestMethod(method, suite, parameters)

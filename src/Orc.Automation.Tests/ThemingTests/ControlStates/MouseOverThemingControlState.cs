@@ -1,7 +1,5 @@
 ﻿namespace Orc.Automation.Tests;
 
-using Controls;
-
 public class MouseOverThemingControlState<TElement> : ThemingControlStateBase<TElement>
     where TElement : AutomationControl
 {

@@ -26,7 +26,7 @@ public class TextAutomationScenarioLogger : IAutomationScenarioLogger
         {
             File.Delete(logFilePath);
         }
-            
+
         File.WriteAllText(logFilePath, $"START: {scenario.Name}\r\n");
     }
 
@@ -56,7 +56,6 @@ public class TextAutomationScenarioLogger : IAutomationScenarioLogger
 
     public void LogBeforeUserInteraction(UserInteraction userInteraction)
     {
-        
     }
 
     public void LogAfterUserInteraction(UserInteraction userInteraction)

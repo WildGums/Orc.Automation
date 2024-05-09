@@ -16,7 +16,7 @@ public class ListBoxItemThemeAssert : MappedThemeAssertBase<ListBoxItemThemeAsse
         {
             States.Default,
             States.MouseOver,
-            States.SelectionActive,
+            States.SelectionActive
         };
 
     protected override Color? GetColor(ListItem element, ColorType colorType)

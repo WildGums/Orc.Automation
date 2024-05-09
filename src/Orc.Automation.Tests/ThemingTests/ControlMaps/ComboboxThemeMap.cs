@@ -1,15 +1,14 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Tests;
+
+using System.Windows.Automation;
+using Controls;
+
+public class ComboboxThemeMap : AutomationBase
 {
-    using System.Windows.Automation;
-    using Controls;
-
-    public class ComboboxThemeMap : AutomationBase
+    public ComboboxThemeMap(AutomationElement combobox)
+        : base(combobox)
     {
-        public ComboboxThemeMap(AutomationElement combobox)
-            : base(combobox)
-        {
-        }
-
-        public Border Chrome => By.Name().Part<Border>();
     }
+
+    public Border Chrome => By.Name().Part<Border>();
 }
