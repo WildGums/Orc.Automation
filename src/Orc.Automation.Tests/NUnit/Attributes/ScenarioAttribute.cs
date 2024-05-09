@@ -3,10 +3,10 @@ namespace Orc.Automation.Tests;
 
 using System;
 using System.Linq;
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal.Commands;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using NUnit.Framework.Internal.Commands;
 using ScenarioManagement;
 
 [AttributeUsage(AttributeTargets.Method)]
@@ -15,10 +15,8 @@ public class ScenarioTestCaseAttribute : TestCaseAttribute, IWrapTestMethod
     private readonly string _scenarioName;
 
     public ScenarioTestCaseAttribute(string scenarioName, params object[] arguments)
-        : base(arguments)
-    {
+        : base(arguments) =>
         _scenarioName = scenarioName;
-    }
 
     public string? ScenarioSuite { get; set; }
 

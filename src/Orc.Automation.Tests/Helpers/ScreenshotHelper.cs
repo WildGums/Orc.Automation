@@ -2,8 +2,8 @@
 namespace Orc.Automation.Tests;
 
 using System.Drawing;
-using System.Windows;
 using System.Drawing.Imaging;
+using System.Windows;
 
 public static class ScreenshotHelper
 {
@@ -13,7 +13,8 @@ public static class ScreenshotHelper
         {
             var captureBitmap = new Bitmap((int)bounds.Width, (int)bounds.Height, PixelFormat.Format32bppArgb);
             var captureGraphics = Graphics.FromImage(captureBitmap);
-            captureGraphics.CopyFromScreen((int)bounds.X, (int)bounds.Y, 0, 0, new System.Drawing.Size((int)bounds.Width, (int)bounds.Height));
+            captureGraphics.CopyFromScreen((int)bounds.X, (int)bounds.Y, 0, 0,
+                new((int)bounds.Width, (int)bounds.Height));
 
             captureGraphics.Dispose();
 
