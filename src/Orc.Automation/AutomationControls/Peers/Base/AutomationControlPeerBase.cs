@@ -308,8 +308,7 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
 
     private bool HasAccess()
     {
-
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
+        #pragma warning disable IDISP004 // Don't ignore created IDisposable
         var automationTestAccessService = this.GetServiceLocator().ResolveType<IAutomationTestAccessService>();
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
 
