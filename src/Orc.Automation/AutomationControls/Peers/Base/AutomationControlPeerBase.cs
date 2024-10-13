@@ -43,8 +43,6 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
 
     private IList<IAutomationMethodRun> _automationMethods;
 
-    private IAutomationTestAccessService? _automationTestAccessService;
-
     public AutomationControlPeerBase(FrameworkElement owner)
         : base(owner)
     {
@@ -310,13 +308,10 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
 
     private bool HasAccess()
     {
-        if (_automationTestAccessService is null)
-        {
 #pragma warning disable IDISP004 // Don't ignore created IDisposable
-            _automationTestAccessService = this.GetServiceLocator().ResolveType<IAutomationTestAccessService>();
+        var automationTestAccessService = this.GetServiceLocator().ResolveType<IAutomationTestAccessService>();
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
-        }
 
-        return _automationTestAccessService?.HasAccess() ?? false;
+        return automationTestAccessService?.HasAccess() ?? true;
     }
 }
