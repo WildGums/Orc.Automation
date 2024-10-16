@@ -60,13 +60,15 @@ public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
 
         AbsoluteAppConfigurationFolderPathProjectPath = TempTestFileSystemContext.Copy(
             TestPathHelper.GetTestDirectoryAbsolutePath(RelativeAppConfigurationFolderPath),
-            TestPathHelper.GetConfigurationFolderPath(AppName, Company), FileSystemContextEntryAction.Move);
+            GetConfigurationFolderPath(), FileSystemContextEntryAction.Move);
 
         base.SetUp();
 
         LoadAssembly(TestPathHelper.GetAutomationTestAssemblyPath());
         LoadAssembly(TestPathHelper.GetAppTestAssemblyPath(AppName));
     }
+
+    protected virtual string GetConfigurationFolderPath() => TestPathHelper.GetConfigurationFolderPath(AppName, Company);
 
     public override void TearDown()
     {
