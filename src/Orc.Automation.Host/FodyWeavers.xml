@@ -3,5 +3,4 @@
     <ModuleInit />
     <Catel />
     <LoadAssembliesOnStartup />
-    <Costura UseRuntimeReferencePaths='true'/>
 </Weavers>
