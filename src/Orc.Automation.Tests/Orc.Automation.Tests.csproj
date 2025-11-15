@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0-windows;net9.0-windows</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <AssemblyName>Orc.Automation.Tests</AssemblyName>
     <RootNamespace>Orc.Automation.Tests</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <PackageReference Include="Catel.Fody" Version="4.10.0" PrivateAssets="all" />
-    <PackageReference Include="Catel.MVVM" Version="6.1.4" />
     <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.7.0" PrivateAssets="all" />
     <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
@@ -33,7 +32,11 @@
     <PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
+  </ItemGroup>
+  
   <!-- Theming -->
   <ItemGroup>
     <Page Remove="**/*.Template.xaml" />
@@ -44,12 +47,6 @@
     <None Remove="**/GeneratorParameters.json" />
     <None Remove="StyleAsserters\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
