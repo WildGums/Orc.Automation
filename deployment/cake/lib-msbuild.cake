@@ -348,8 +348,8 @@ private static string GetVisualStudioDirectory(BuildContext buildContext, bool? 
     var programFilesx86 = Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%");
 
     var prereleasePaths = new List<KeyValuePair<string, string>>(new [] 
-    { 
-        new KeyValuePair<string, string>("Visual Studio 2026 Preview", $@"{programFilesx64}\Microsoft Visual Studio\18\Insiders\"),
+    {
+        new KeyValuePair<string, string>("Visual Studio 2026 Insiders", $@"{programFilesx64}\Microsoft Visual Studio\18\Insiders\"),
         new KeyValuePair<string, string>("Visual Studio 2026 Preview", $@"{programFilesx64}\Microsoft Visual Studio\18\Preview\"),
         new KeyValuePair<string, string>("Visual Studio 2022 Preview", $@"{programFilesx64}\Microsoft Visual Studio\2022\Preview\"),
         new KeyValuePair<string, string>("Visual Studio 2019 Preview", $@"{programFilesx86}\Microsoft Visual Studio\2019\Preview\"),
