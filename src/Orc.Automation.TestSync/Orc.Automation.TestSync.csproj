@@ -28,7 +28,6 @@
     <PackageReference Include="Catel.Fody" Version="4.10.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
 	  <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
-    <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
     <PackageReference Include="Orc.CommandLine" Version="5.0.0" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
