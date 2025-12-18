@@ -108,14 +108,14 @@ public static class KeyboardInput
     /// <param name="modifierKeys">Set of keys to hold down with key is typed.</param>
     private static void Type(Key key, Key[] modifierKeys)
     {
-        foreach (var modiferKey in modifierKeys)
+        foreach (var modifierKey in modifierKeys)
         {
-            Press(modiferKey);
+            Press(modifierKey);
         }
 
         Type(key);
 
-        foreach (var modifierKey in modifierKeys.Reverse())
+        foreach (var modifierKey in Enumerable.Reverse(modifierKeys))
         {
             Release(modifierKey);
         }

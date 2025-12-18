@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/misc/">
+    <File Path="Directory.build.project.props" />
+    <File Path="Directory.build.props" />
+    <File Path="Directory.build.shared.explicit.props" />
+    <File Path="Directory.build.shared.implicit.props" />
+    <File Path="Directory.build.shared.mat.props" />
+    <File Path="Directory.build.targets" />
+    <File Path="GlobalSuppressions.cs" />
+    <File Path="MethodTimeLogger.cs" />
+    <File Path="Orc.Controls.sln.DotSettings" />
+    <File Path="SolutionAssemblyInfo.cs" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="Orc.Automation.Host/Orc.Automation.Host.csproj" />
+    <Project Path="Orc.Automation.Recorder/Orc.Automation.Recorder.csproj" />
+    <Project Path="Orc.Automation.Tests/Orc.Automation.Tests.csproj" />
+    <Project Path="Orc.Automation.TestSync/Orc.Automation.TestSync.csproj" />
+    <Project Path="Orc.Automation/Orc.Automation.csproj" />
+  </Folder>
+</Solution>
