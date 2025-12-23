@@ -1,4 +1,4 @@
-namespace Orc.Automation;
+﻿namespace Orc.Automation;
 
 using System;
 using System.Windows;
@@ -6,6 +6,7 @@ using System.Windows.Automation;
 using Catel.Caching;
 using Catel.IoC;
 using Catel.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xaml.Behaviors;
 
 public class AutomationControl<TControlModel, TMap> : AutomationControl<TControlModel>
@@ -159,9 +160,9 @@ public class AutomationControl : AutomationBase
 
     protected virtual TControlModel CreateModel<TControlModel>()
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        return this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TControlModel>(Access);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var serviceProvider = IoCContainer.ServiceProvider;
+
+        return ActivatorUtilities.CreateInstance<TControlModel>(serviceProvider, Access);
     }
 
 #pragma warning disable CS0067
