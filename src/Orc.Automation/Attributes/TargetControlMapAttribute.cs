@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Windows.Automation;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class TargetControlMapAttribute : AutomationAttribute
@@ -20,9 +21,9 @@ public class TargetControlMapAttribute : AutomationAttribute
             return;
         }
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        var elementMap = element.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(targetElementMapProperty.PropertyType);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var serviceProvider = IoCContainer.ServiceProvider;
+
+        var elementMap = ActivatorUtilities.CreateInstance(serviceProvider, targetElementMapProperty.PropertyType);
         if (elementMap is null)
         {
             return;

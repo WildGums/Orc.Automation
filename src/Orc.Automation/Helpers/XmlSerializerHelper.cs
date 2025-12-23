@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Catel.IoC;
-using Catel.Runtime.Serialization;
 
 public static class XmlSerializerHelper
 {

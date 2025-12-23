@@ -6,8 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
+using System.Xml.Linq;
 using Catel.IoC;
 using Catel.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
 
 public abstract class AutomationControlPeerBase<TControl> : AutomationControlPeerBase
@@ -308,10 +310,7 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
 
     private bool HasAccess()
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        var automationTestAccessService = this.GetServiceLocator().ResolveType<IAutomationTestAccessService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
-
+        var automationTestAccessService = IoCContainer.ServiceProvider.GetService<IAutomationTestAccessService>();
         return automationTestAccessService?.HasAccess() ?? true;
     }
 }

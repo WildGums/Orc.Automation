@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Media;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class SerializableColor
 {
@@ -11,13 +12,16 @@ public class SerializableColor
 
 public class ColorSerializationConverter : SerializationValueConverterBase<Color, SerializableColor>
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ColorSerializationConverter));
+
     private const char ArgbSeparator = ';';
 
     public override object? ConvertFrom(Color value)
     {
-        return new SerializableColor { Color = $"{value.A}{ArgbSeparator}{value.R}{ArgbSeparator}{value.G}{ArgbSeparator}{value.B}" };
+        return new SerializableColor
+        {
+            Color = $"{value.A}{ArgbSeparator}{value.R}{ArgbSeparator}{value.G}{ArgbSeparator}{value.B}"
+        };
     }
 
     public override object? ConvertTo(SerializableColor value)
@@ -36,7 +40,7 @@ public class ColorSerializationConverter : SerializationValueConverterBase<Color
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Cannot modify '{0}' to a color", color);
+            Logger.LogError(ex, "Cannot modify '{0}' to a color", color);
         }
 
         return default(Color);

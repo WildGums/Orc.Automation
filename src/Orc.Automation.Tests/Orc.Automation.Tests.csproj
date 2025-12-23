@@ -23,7 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Catel.Fody" Version="4.11.0" PrivateAssets="all" />
+    <PackageReference Include="Catel.Fody" Version="4.12.0-alpha0118" PrivateAssets="all" />
+    <PackageReference Include="Catel.SourceGenerators" Version="1.0.0-alpha0027" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.7.0" PrivateAssets="all" />
     <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows.Automation;
 using Catel.IoC;
 using Catel.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 public static class AutomationHelper
 {
@@ -101,13 +102,11 @@ public static class AutomationHelper
             return value;
         }
 
-#pragma warning disable IDISP001 // Dispose created
-        var typeFactory = value.GetTypeFactory();
-#pragma warning restore IDISP001 // Dispose created
+        var serviceProvider = IoCContainer.ServiceProvider;
 
         if (typeof(AutomationBase).IsAssignableFrom(type))
         {
-            return typeFactory.CreateInstanceWithParametersAndAutoCompletion(type, value);
+            return ActivatorUtilities.CreateInstance(serviceProvider, type, value);
         }
 
         if (type == typeof(AutomationElement))
@@ -126,7 +125,7 @@ public static class AutomationHelper
             return null;
         }
 
-        if (typeFactory.CreateInstanceWithParametersAndAutoCompletion(type) is not IList elementCollection)
+        if (ActivatorUtilities.CreateInstance(serviceProvider, type) is not IList elementCollection)
         {
             return null;
         }
@@ -135,7 +134,7 @@ public static class AutomationHelper
         {
             foreach (var automationElement in valueElements)
             {
-                elementCollection.Add(typeFactory.CreateInstanceWithParametersAndAutoCompletion(collectionElementType, automationElement));
+                elementCollection.Add(ActivatorUtilities.CreateInstance(serviceProvider, collectionElementType, automationElement));
             }
 
             return elementCollection;

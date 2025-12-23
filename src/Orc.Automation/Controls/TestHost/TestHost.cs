@@ -10,12 +10,13 @@ using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 using Win32;
 
 [TemplatePart(Name = "PART_HostGrid", Type = typeof(Grid))]
-public class TestHost : Control
+public partial class TestHost : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(TestHost));
 
     private readonly HashSet<string> _loadedAssemblyNames = new ();
 
@@ -26,7 +27,7 @@ public class TestHost : Control
         _hostGrid = GetTemplateChild("PART_HostGrid") as Grid;
         if (_hostGrid is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HostGrid'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HostGrid'");
         }
     }
 
