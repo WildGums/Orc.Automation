@@ -10,7 +10,7 @@
     /// </summary>
     public static class OrcAutomationModule
     {
-        public static IServiceCollection AddOrcFileSystemServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddOrcAutomationServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.TryAddSingleton<ISetupAutomationService, SetupAutomationService>();
             serviceCollection.TryAddSingleton<IAutomationTestAccessService, AutomationTestAccessService>();
