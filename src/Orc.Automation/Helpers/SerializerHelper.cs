@@ -6,8 +6,10 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
+using Orc.Serialization.Json;
 
-public static class XmlSerializerHelper
+public static class SerializerHelper
 {
     private static readonly Dictionary<Type, ISerializationValueConverter> SerializationConverters = new();
     private static readonly Dictionary<Type, ISerializationValueConverter> DeserializationConverters = new();
@@ -24,15 +26,14 @@ public static class XmlSerializerHelper
         var converter = GetValueConverter(SerializationConverters, valueType);
         value = converter?.ConvertFrom(value) ?? value;
 
-        throw new NotImplementedException();
+        var serializerFactory = IoCContainer.ServiceProvider.GetRequiredService<IJsonSerializerFactory>();
+        var serializer = serializerFactory.CreateSerializer();
 
-        //var xmlSerializer = SerializationFactory.GetXmlSerializer();
+        using var stream = new MemoryStream();
+        serializer.Serialize(stream, value);
+        var strResult = Encoding.Default.GetString(stream.ToArray());
 
-        //using var stream = new MemoryStream();
-        //xmlSerializer.Serialize(value, stream);
-        //var strResult = Encoding.Default.GetString(stream.ToArray());
-            
-        //return strResult;
+        return strResult;
     }
 
     public static object? DeserializeValue(string text, Type type)
@@ -44,19 +45,18 @@ public static class XmlSerializerHelper
 
         type = converter?.ToType ?? type;
 
-        throw new NotImplementedException();
+        var serializerFactory = IoCContainer.ServiceProvider.GetRequiredService<IJsonSerializerFactory>();
+        var serializer = serializerFactory.CreateSerializer();
 
-//        var xmlSerializer = SerializationFactory.GetXmlSerializer();
+#pragma warning disable IDISP001 // Dispose created.
+        var stream = text.ToStream();
+#pragma warning restore IDISP001 // Dispose created.
 
-//#pragma warning disable IDISP001 // Dispose created.
-//        var stream = text.ToStream();
-//#pragma warning restore IDISP001 // Dispose created.
+        var result = serializer.Deserialize(stream, type);
 
-//        var result = xmlSerializer.Deserialize(type, stream);
+        result = converter?.ConvertTo(result) ?? result;
 
-//        result = converter?.ConvertTo(result) ?? result;
-
-//        return result;
+        return result;
     }
 
     private static ISerializationValueConverter GetValueConverter(IDictionary<Type, ISerializationValueConverter> converters, Type type)

@@ -35,6 +35,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\..\Catel\src\Catel.MVVM\Catel.MVVM.csproj" />
+    <ProjectReference Include="..\..\..\Orc.Serialization\src\Orc.Serialization.Json\Orc.Serialization.Json.csproj" />
   </ItemGroup>
 
   <!-- Theming -->
