@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using Catel.Services;
+    using Catel.ThirdPartyNotices;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Orc.Automation.Services;
@@ -16,6 +17,8 @@
             serviceCollection.TryAddSingleton<IAutomationTestAccessService, AutomationTestAccessService>();
 
             serviceCollection.AddSingleton<ILanguageSource>(new LanguageResourceSource("Orc.Automation", "Orc.Automation.Properties", "Resources"));
+
+            serviceCollection.AddSingleton<IThirdPartyNotice>((x) => new LibraryThirdPartyNotice("Orc.Automation", "https://github.com/wildgums/orc.automation"));
 
             return serviceCollection;
         }
