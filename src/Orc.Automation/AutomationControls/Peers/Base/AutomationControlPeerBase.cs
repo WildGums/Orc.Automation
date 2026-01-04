@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
-using System.Xml.Linq;
 using Catel.IoC;
 using Catel.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -124,6 +123,7 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
             return true;
         }
 
+        // TODO: This service provider should be passed along
         var serviceProvider = IoCContainer.ServiceProvider;
         if (ActivatorUtilities.CreateInstance(serviceProvider, automationMethodType) is not IAutomationMethodRun automationMethod)
         {
