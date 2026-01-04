@@ -1,11 +1,18 @@
 ﻿namespace Orc.Automation.Tests;
 
 using System.Windows.Automation;
+using Catel;
 using Controls;
+using Microsoft.Extensions.DependencyInjection;
 
 public abstract class AppUiTestsBase<TMainWindow> : UiTestsBase
     where TMainWindow : class
 {
+    public AppUiTestsBase()
+    {
+
+    }
+
     protected abstract string AppName { get; }
 
     protected virtual string NetVersion => "net8.0-windows";

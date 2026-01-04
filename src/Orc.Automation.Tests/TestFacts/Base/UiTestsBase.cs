@@ -1,16 +1,25 @@
 ﻿namespace Orc.Automation.Tests;
 
+using System;
 using System.Windows.Automation;
-using Catel.IoC;
+using Catel;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using Orc.Serialization.Json;
 using Services;
 
-public abstract class UiTestsBase
+public abstract class UiTestsBase : IDisposable
 {
+    private ServiceProvider? _serviceProvider;
     private ISetupAutomationService _setupAutomationService;
-#pragma warning disable IDISP006 // Don't ignore created IDisposable.
+    private bool _disposed;
+
+    protected UiTestsBase()
+    {
+    }
+
     protected AutomationSetup Setup { get; private set; }
-#pragma warning disable IDISP006 // Don't ignore created IDisposable.
+
     protected virtual string ExecutablePath => string.Empty;
     protected virtual string Args => null;
     protected virtual string MainWindowAutomationId => string.Empty;
@@ -32,14 +41,61 @@ public abstract class UiTestsBase
 
     public virtual void TearDown()
     {
+        Dispose();
+    }
+
+    public virtual void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
         Setup?.Dispose();
         Setup = null;
+
+        _serviceProvider?.Dispose();
+        _serviceProvider = null;
+
+        _disposed = true;
+    }
+
+    protected virtual IServiceProvider GetServiceProvider()
+    {
+        var serviceProvider = _serviceProvider;
+        if (serviceProvider is null)
+        {
+            var serviceCollection = new ServiceCollection();
+
+            ConfigureServiceCollection(serviceCollection);
+
+            serviceProvider = _serviceProvider = serviceCollection.BuildServiceProvider();
+
+            serviceProvider.CreateTypesThatMustBeConstructedAtStartup();
+        }
+
+        return serviceProvider;
+    }
+
+    protected virtual void ConfigureServiceCollection(IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddCatelCore();
+        serviceCollection.AddCatelMvvm();
+        serviceCollection.AddOrcAutomation();
+        serviceCollection.AddOrcAutomationTests();
+        serviceCollection.AddOrcSerializationJson();
     }
 
     protected virtual ISetupAutomationService CreateSetupAutomationService()
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-        return this.GetServiceLocator().ResolveType<ISetupAutomationService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
+        return GetServiceProvider().GetRequiredService<ISetupAutomationService>();
+    }
+
+    protected virtual void ThrowIfDisposed()
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(GetType().FullName);
+        }
     }
 }
