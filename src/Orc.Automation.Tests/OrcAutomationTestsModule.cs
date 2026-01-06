@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation
+﻿namespace Orc
 {
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;

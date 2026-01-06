@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation
+﻿namespace Orc
 {
     using Catel.Services;
     using Catel.ThirdPartyNotices;
