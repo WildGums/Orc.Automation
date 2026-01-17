@@ -32,11 +32,6 @@
     <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Catel\src\Catel.MVVM\Catel.MVVM.csproj" />
-    <ProjectReference Include="..\..\..\Orc.Serialization\src\Orc.Serialization.Json\Orc.Serialization.Json.csproj" />
-  </ItemGroup>
 
   <!-- Theming -->
   <ItemGroup>
@@ -48,6 +43,10 @@
     <None Remove="**/GeneratorParameters.json" />
     <None Remove="Tests\Extensions\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Catel\src\Catel.MVVM\Catel.MVVM.csproj" />
+    <ProjectReference Include="..\..\..\Orc.Serialization\src\Orc.Serialization.Json\Orc.Serialization.Json.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
