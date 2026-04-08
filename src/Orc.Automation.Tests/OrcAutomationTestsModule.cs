@@ -1,19 +1,18 @@
-﻿namespace Orc
+﻿namespace Orc;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Orc.Automation.Services;
+
+/// <summary>
+/// Core module which allows the registration of default services in the service collection.
+/// </summary>
+public static class OrcAutomationTestsModule
 {
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.DependencyInjection.Extensions;
-    using Orc.Automation.Services;
-
-    /// <summary>
-    /// Core module which allows the registration of default services in the service collection.
-    /// </summary>
-    public static class OrcAutomationTestsModule
+    public static IServiceCollection AddOrcAutomationTests(this IServiceCollection serviceCollection)
     {
-        public static IServiceCollection AddOrcAutomationTests(this IServiceCollection serviceCollection)
-        {
-            serviceCollection.TryAddSingleton<ISetupAutomationService, SetupAutomationService>();
+        serviceCollection.TryAddSingleton<ISetupAutomationService, SetupAutomationService>();
 
-            return serviceCollection;
-        }
+        return serviceCollection;
     }
 }
