@@ -32,10 +32,6 @@
     <PackageReference Include="NUnit" Version="4.5.1" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
-  </ItemGroup>
   
   <!-- Theming -->
   <ItemGroup>
@@ -47,6 +43,9 @@
     <None Remove="**/GeneratorParameters.json" />
     <None Remove="StyleAsserters\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
