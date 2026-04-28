@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Automation;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 public static partial class AutomationElementExtensions
 {
@@ -10,9 +11,9 @@ public static partial class AutomationElementExtensions
     {
         ArgumentNullException.ThrowIfNull(element);
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        return element.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TAutomationControl>(element);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var serviceProvider = IoCContainer.ServiceProvider;
+
+        return ActivatorUtilities.CreateInstance<TAutomationControl>(serviceProvider, element);
     }
 
     public static bool IsVisible(this AutomationElement element)

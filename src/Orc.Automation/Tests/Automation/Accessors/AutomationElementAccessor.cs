@@ -241,7 +241,7 @@ public static class AutomationMethodsList
 
     public static void Save()
     {
-        var automationMethodsXml = XmlSerializerHelper.SerializeValue(Instance);
+        var automationMethodsXml = SerializerHelper.SerializeValue(Instance);
         File.WriteAllText("C:\\Temps\\AMs.xml", automationMethodsXml);
     }
 
@@ -249,7 +249,7 @@ public static class AutomationMethodsList
     {
         var automationMethodsXml = File.ReadAllText(filePath);
 
-        var newResult = XmlSerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
+        var newResult = SerializerHelper.DeserializeValue(automationMethodsXml, typeof(AML)) as AML;
         if (newResult is not null)
         {
             Instance = newResult;

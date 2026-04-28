@@ -59,7 +59,7 @@ public class AutomationMethod
 
         try
         {
-            return XmlSerializerHelper.DeserializeValue(methodText, typeof(AutomationMethod)) as AutomationMethod ?? Empty;
+            return SerializerHelper.DeserializeValue(methodText, typeof(AutomationMethod)) as AutomationMethod ?? Empty;
         }
         catch (Exception)
         {
@@ -72,6 +72,6 @@ public class AutomationMethod
 
     public override string ToString()
     {
-        return XmlSerializerHelper.SerializeValue(this);
+        return SerializerHelper.SerializeValue(this);
     }
 }

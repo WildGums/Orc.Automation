@@ -8,6 +8,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using Catel.IoC;
 using Catel.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
 
 public abstract class AutomationControlPeerBase<TControl> : AutomationControlPeerBase
@@ -122,12 +123,12 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
             return true;
         }
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        if (this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(automationMethodType) is not IAutomationMethodRun automationMethod)
+        // TODO: This service provider should be passed along
+        var serviceProvider = IoCContainer.ServiceProvider;
+        if (ActivatorUtilities.CreateInstance(serviceProvider, automationMethodType) is not IAutomationMethodRun automationMethod)
         {
             return false;
         }
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
 
         _automationMethods.Add(automationMethod);
         return true;
@@ -308,10 +309,7 @@ public abstract class AutomationControlPeerBase : FrameworkElementAutomationPeer
 
     private bool HasAccess()
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        var automationTestAccessService = this.GetServiceLocator().ResolveType<IAutomationTestAccessService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
-
+        var automationTestAccessService = IoCContainer.ServiceProvider.GetService<IAutomationTestAccessService>();
         return automationTestAccessService?.HasAccess() ?? true;
     }
 }

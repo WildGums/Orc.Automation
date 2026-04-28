@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Catel.IoC;
 using Catel.Services;
 using Orc.Automation.Services;
@@ -14,13 +14,5 @@ public static class ModuleInitializer
     [ModuleInitializer]
     public static void Initialize()
     {
-        var serviceLocator = ServiceLocator.Default;
-
-        serviceLocator.RegisterType<ISetupAutomationService, SetupAutomationService>();
-
-        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
-        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Automation", "Orc.Automation.Properties", "Resources"));
-
-        serviceLocator.RegisterType<IAutomationTestAccessService, AutomationTestAccessService>();
     }
 }

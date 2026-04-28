@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public sealed class TemporaryFileSystemContext : IDisposable
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(TemporaryFileSystemContext));
 
     private readonly string _moveDirectory;
     private readonly List<BackupEntry> _registeredEntries = [];
@@ -56,7 +57,7 @@ public sealed class TemporaryFileSystemContext : IDisposable
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to delete temporary files");
+            Logger.LogError(ex, "Failed to delete temporary files");
         }
     }
 
@@ -115,7 +116,7 @@ public sealed class TemporaryFileSystemContext : IDisposable
             return destination;
         }
 
-        throw Log.ErrorAndCreateException<Exception>(
+        throw Logger.LogErrorAndCreateException<Exception>(
             $"Can't copy because path: '{source}' doesn't exist in file system");
     }
 
@@ -123,7 +124,7 @@ public sealed class TemporaryFileSystemContext : IDisposable
     {
         if (_moveDirectory is null)
         {
-            throw Log.ErrorAndCreateException<Exception>("Move directory wasn't specified");
+            throw Logger.LogErrorAndCreateException<Exception>("Move directory wasn't specified");
         }
 
         return Path.Combine(_moveDirectory, Guid.NewGuid().ToString());
@@ -144,7 +145,7 @@ public sealed class TemporaryFileSystemContext : IDisposable
         switch (action)
         {
             case FileSystemContextEntryAction.None:
-                throw Log.ErrorAndCreateException<Exception>($"File: '{filePath}' already exists");
+                throw Logger.LogErrorAndCreateException<Exception>($"File: '{filePath}' already exists");
 
             case FileSystemContextEntryAction.Delete:
                 File.Delete(filePath);
@@ -155,7 +156,7 @@ public sealed class TemporaryFileSystemContext : IDisposable
                 break;
 
             case FileSystemContextEntryAction.Move when _moveDirectory is null:
-                throw Log.ErrorAndCreateException<Exception>("Move directory wasn't specified");
+                throw Logger.LogErrorAndCreateException<Exception>("Move directory wasn't specified");
 
             case FileSystemContextEntryAction.Move:
                 var newPath = GenerateUniqueMovePath();
@@ -187,14 +188,14 @@ public sealed class TemporaryFileSystemContext : IDisposable
         switch (action)
         {
             case FileSystemContextEntryAction.None:
-                throw Log.ErrorAndCreateException<Exception>($"Directory: '{directory}' already exists");
+                throw Logger.LogErrorAndCreateException<Exception>($"Directory: '{directory}' already exists");
 
             case FileSystemContextEntryAction.Delete:
                 Directory.Delete(directory, true);
                 break;
 
             case FileSystemContextEntryAction.Move when _moveDirectory is null:
-                throw Log.ErrorAndCreateException<Exception>("Move directory wasn't specified");
+                throw Logger.LogErrorAndCreateException<Exception>("Move directory wasn't specified");
 
             case FileSystemContextEntryAction.Move:
                 var newPath = GenerateUniqueMovePath();

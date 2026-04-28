@@ -6,9 +6,10 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Catel.IoC;
-using Catel.Runtime.Serialization;
+using Microsoft.Extensions.DependencyInjection;
+using Orc.Serialization.Json;
 
-public static class XmlSerializerHelper
+public static class SerializerHelper
 {
     private static readonly Dictionary<Type, ISerializationValueConverter> SerializationConverters = new();
     private static readonly Dictionary<Type, ISerializationValueConverter> DeserializationConverters = new();
@@ -25,12 +26,13 @@ public static class XmlSerializerHelper
         var converter = GetValueConverter(SerializationConverters, valueType);
         value = converter?.ConvertFrom(value) ?? value;
 
-        var xmlSerializer = SerializationFactory.GetXmlSerializer();
+        var serializerFactory = IoCContainer.ServiceProvider.GetRequiredService<IJsonSerializerFactory>();
+        var serializer = serializerFactory.CreateSerializer();
 
         using var stream = new MemoryStream();
-        xmlSerializer.Serialize(value, stream);
+        serializer.Serialize(stream, value);
         var strResult = Encoding.Default.GetString(stream.ToArray());
-            
+
         return strResult;
     }
 
@@ -43,13 +45,14 @@ public static class XmlSerializerHelper
 
         type = converter?.ToType ?? type;
 
-        var xmlSerializer = SerializationFactory.GetXmlSerializer();
+        var serializerFactory = IoCContainer.ServiceProvider.GetRequiredService<IJsonSerializerFactory>();
+        var serializer = serializerFactory.CreateSerializer();
 
 #pragma warning disable IDISP001 // Dispose created.
         var stream = text.ToStream();
 #pragma warning restore IDISP001 // Dispose created.
 
-        var result = xmlSerializer.Deserialize(type, stream);
+        var result = serializer.Deserialize(stream, type);
 
         result = converter?.ConvertTo(result) ?? result;
 
@@ -91,9 +94,9 @@ public static class XmlSerializerHelper
             return converter;
         }
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        converter = converterType.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(converterType) as ISerializationValueConverter;
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+//#pragma warning disable IDISP004 // Don't ignore created IDisposable
+//        converter = converterType.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(converterType) as ISerializationValueConverter;
+//#pragma warning restore IDISP004 // Don't ignore created IDisposable
         converters.Add(type, converter);
 
         return converter;

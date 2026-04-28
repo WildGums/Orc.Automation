@@ -17,7 +17,7 @@ public class AutomationResultContainer
             return Empty;
         }
 
-        return XmlSerializerHelper.DeserializeValue(resultText, typeof(AutomationResultContainer)) as AutomationResultContainer ?? Empty;
+        return SerializerHelper.DeserializeValue(resultText, typeof(AutomationResultContainer)) as AutomationResultContainer ?? Empty;
     }
         
     public string? LastEventName { get; set; }
@@ -27,6 +27,6 @@ public class AutomationResultContainer
 
     public override string ToString()
     {
-        return XmlSerializerHelper.SerializeValue(this);
+        return SerializerHelper.SerializeValue(this);
     }
 }

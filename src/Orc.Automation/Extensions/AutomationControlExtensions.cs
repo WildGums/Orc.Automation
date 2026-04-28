@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 public static class AutomationControlExtensions
 {
@@ -50,9 +51,8 @@ public static class AutomationControlExtensions
     {
         ArgumentNullException.ThrowIfNull(control);
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        return control.GetTypeFactory().CreateRequiredInstanceWithParametersAndAutoCompletion<TAutomationControl>(control.Element);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var serviceProvider = IoCContainer.ServiceProvider;
+        return ActivatorUtilities.CreateInstance<TAutomationControl>(serviceProvider, control.Element);
     }
 
     public static void MouseHover(this AutomationControl control)

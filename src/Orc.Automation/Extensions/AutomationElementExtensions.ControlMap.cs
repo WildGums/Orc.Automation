@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Automation;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 public static partial class AutomationElementExtensions
 {
@@ -17,9 +18,9 @@ public static partial class AutomationElementExtensions
     {
         ArgumentNullException.ThrowIfNull(element);
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        var template = element.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(controlMapType);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var serviceProvider = IoCContainer.ServiceProvider;
+
+        var template = ActivatorUtilities.CreateInstance(serviceProvider, controlMapType);
 
         InitializeControlMap(element, template);
 

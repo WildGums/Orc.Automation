@@ -3,6 +3,7 @@
 using System;
 using System.Threading;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
 using Win32;
 
@@ -10,7 +11,7 @@ public static class Wait
 {
     public static bool WhileProcessBusy(int waitTime = 100)
     {
-        var process = ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup?.Process;
+        var process = IoCContainer.ServiceProvider.GetService<ISetupAutomationService>()?.CurrentSetup?.Process;
         return process?.WaitForInputIdle(waitTime) == true;
     }
 
@@ -32,8 +33,7 @@ public static class Wait
             return;
         }
 
-        var mainWindow = ServiceLocator.Default.ResolveType<ISetupAutomationService>()?.CurrentSetup
-            ?.MainWindow;
+        var mainWindow = IoCContainer.ServiceProvider.GetService<ISetupAutomationService>()?.CurrentSetup?.MainWindow;
 
         if (mainWindow is null)
         {

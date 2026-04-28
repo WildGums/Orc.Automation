@@ -18,7 +18,7 @@ public class AutomationValue
             return null;
         }
 
-        var dataSourceXml = XmlSerializerHelper.SerializeValue(value);
+        var dataSourceXml = SerializerHelper.SerializeValue(value);
 
         return new AutomationValue(valueType ?? value.GetType())
         {
@@ -53,6 +53,6 @@ public class AutomationValue
                    ?? Catel.Reflection.TypeCache.GetType(dataTypeFullName)
                    ?? TypeHelper.GetTypeByName(dataTypeFullName);
 
-        return XmlSerializerHelper.DeserializeValue(Data, type);
+        return SerializerHelper.DeserializeValue(Data, type);
     }
 }
