@@ -14,8 +14,6 @@
   <PropertyGroup>
     <UseWpf>true</UseWpf>
     <UseWindowsForms>true</UseWindowsForms>
-    <ExtrasEnableImplicitWpfReferences>true</ExtrasEnableImplicitWpfReferences>
-    <ExtrasEnableImplicitWinFormsReferences>true</ExtrasEnableImplicitWinFormsReferences>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -27,10 +25,13 @@
     <PackageReference Include="Catel.Fody" Version="7.0.0" PrivateAssets="all" />
     <PackageReference Include="Catel.SourceGenerators" Version="7.0.1" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
-    <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.7.0" PrivateAssets="all" />
     <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
     <PackageReference Include="NUnit" Version="4.6.0" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
   </ItemGroup>
 
   <!-- Theming -->
@@ -44,7 +45,7 @@
     <None Remove="StyleAsserters\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
-  
+
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props')" />
 </Project>
