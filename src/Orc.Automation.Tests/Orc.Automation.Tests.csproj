@@ -32,10 +32,6 @@
     <PackageReference Include="NUnit" Version="4.6.0" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
-  </ItemGroup>
 
   <!-- Theming -->
   <ItemGroup>
